@@ -823,6 +823,9 @@
     </div>
 
     <p class="mosaic-note reveal">More identity and campaign work joins this section as new projects wrap.</p>
+    <div style="text-align:center; margin-top:20px;">
+      <a href="branding-work.html" class="btn btn-ghost magnetic sound-click">View all branding work</a>
+    </div>
   </div>
 </section>
 
@@ -1006,6 +1009,7 @@
   var heroSection = document.getElementById('heroSection');
   var gridColor = document.getElementById('heroGridColor');
   var glow = document.getElementById('heroGlow');
+  if(heroSection && gridColor && glow){
   function setSpot(xPct, yPct){
     gridColor.style.setProperty('--mx', xPct+'%');
     gridColor.style.setProperty('--my', yPct+'%');
@@ -1030,6 +1034,7 @@
     }
   } else {
     setSpot(50,30);
+  }
   }
 
   /* ---------- magnetic buttons ---------- */
