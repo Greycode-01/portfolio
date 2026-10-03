@@ -579,10 +579,52 @@
   /* reveal-on-scroll for generic blocks */
   .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease;}
   .reveal.in-view{opacity:1; transform:translateY(0);}
+
+  /* ---------- scroll progress ---------- */
+  .scroll-progress{position:fixed; top:0; left:0; height:2px; width:0%; background:var(--blue); z-index:300;}
+
+  /* ---------- scroll to top ---------- */
+  .scroll-top{
+    position:fixed; right:26px; bottom:92px; z-index:199;
+    width:44px; height:44px; border-radius:50%;
+    background:#fff; border:1px solid var(--line); color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; box-shadow:0 12px 30px -16px rgba(17,17,17,0.35);
+    opacity:0; visibility:hidden; transform:translateY(10px);
+    transition:opacity .3s ease, transform .3s ease, visibility .3s, background .25s, color .25s, border-color .25s;
+  }
+  .scroll-top.visible{opacity:1; visibility:visible; transform:translateY(0);}
+  .scroll-top:hover{background:var(--ink); color:#fff; border-color:var(--ink);}
+
+  /* ---------- nav active state ---------- */
+  nav.links a.nav-link.active:not(.nav-cta), nav.links a.nav-link.active-link:not(.nav-cta){color:var(--ink); font-weight:600;}
+  nav.links a.nav-link.active:not(.nav-cta)::after, nav.links a.nav-link.active-link:not(.nav-cta)::after{right:0;}
+  .footer-nav a.active, .footer-nav a.active-link{color:var(--ink); font-weight:600;}
+
+  /* ---------- button sheen ---------- */
+  .btn-primary::before, .btn-whatsapp::before{
+    content:''; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform:skewX(-20deg); transition:left .65s ease;
+  }
+  .btn-primary:hover::before, .btn-whatsapp:hover::before{left:120%;}
+
+  /* ---------- hero depth accent ---------- */
+  .hero-aurora{
+    position:absolute; top:-18%; right:-8%; width:560px; height:560px;
+    background:radial-gradient(circle at 30% 30%, rgba(59,91,219,0.13), transparent 62%);
+    filter:blur(34px); pointer-events:none;
+  }
+
+  /* ---------- small interaction polish ---------- */
+  .capability-item h3{transition:color .25s ease;}
+  .capability-item:hover h3{color:var(--blue);}
+  .tile{will-change:transform;}
 </style>
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress"></div>
 <div class="grain"></div>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -594,6 +636,7 @@
     <a href="/branding-work" class="nav-link">Branding</a>
     <a href="#process" class="nav-link">Process</a>
     <a href="#about" class="nav-link">About</a>
+    <a href="/reviews" class="nav-link">Reviews</a>
     <a href="#contact" class="nav-cta nav-link">Start a project</a>
   </nav>
   <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -601,6 +644,7 @@
 
 <section class="hero" id="heroSection">
   <div class="hero-field">
+    <div class="hero-aurora"></div>
     <div class="hero-grid"></div>
     <div class="hero-grid-color" id="heroGridColor"></div>
     <div class="hero-glow" id="heroGlow"></div>
@@ -916,6 +960,9 @@
         </div>
       </div>
     </div>
+    <div class="reveal" style="margin-top:40px;">
+      <a href="/reviews" class="btn btn-ghost view-all-btn magnetic sound-click">View all reviews</a>
+    </div>
   </div>
 </section>
 
@@ -944,6 +991,7 @@
         <a href="/branding-work" class="nav-link">Branding</a>
         <a href="#process" class="nav-link">Process</a>
         <a href="#about" class="nav-link">About</a>
+        <a href="/reviews" class="nav-link">Reviews</a>
         <a href="mailto:gr3ycreatives@gmail.com" class="nav-link">Contact</a>
       </div>
     </div>
@@ -953,6 +1001,10 @@
     </div>
   </div>
 </footer>
+
+<button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</button>
 
 <button class="sound-toggle" id="soundToggle" aria-pressed="true">
   <span class="bars"><i></i><i></i><i></i></span>
@@ -974,6 +1026,24 @@
   document.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
+  /* ---------- scroll progress + scroll-to-top ---------- */
+  var scrollProgress = document.getElementById('scrollProgress');
+  var scrollTopBtn = document.getElementById('scrollTopBtn');
+  function onScrollProgress(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var scrolled = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    if(scrollProgress) scrollProgress.style.width = scrolled + '%';
+    if(scrollTopBtn){ scrollTopBtn.classList.toggle('visible', h.scrollTop > 600); }
+  }
+  document.addEventListener('scroll', onScrollProgress, {passive:true});
+  onScrollProgress();
+  if(scrollTopBtn){
+    scrollTopBtn.addEventListener('click', function(){
+      window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'});
+    });
+  }
+
   /* ---------- mobile nav ---------- */
   var navToggle = document.getElementById('navToggle');
   var navLinks = document.getElementById('navLinks');
@@ -983,6 +1053,23 @@
   navLinks.querySelectorAll('a').forEach(function(a){
     a.addEventListener('click', function(){ navLinks.classList.remove('open'); });
   });
+
+  /* ---------- scrollspy ---------- */
+  var spySections = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+  var spyLinks = navLinks.querySelectorAll('a.nav-link[href^="#"]');
+  if(spySections.length && spyLinks.length){
+    var spyIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var link = navLinks.querySelector('a.nav-link[href="#'+entry.target.id+'"]');
+        if(!link) return;
+        if(entry.isIntersecting){
+          spyLinks.forEach(function(l){ l.classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px'});
+    spySections.forEach(function(s){ spyIO.observe(s); });
+  }
 
   /* ---------- custom cursor ---------- */
   if(!isTouch && !reduceMotion){
