@@ -18,7 +18,7 @@
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --off-white:#FAFAF8;
@@ -33,6 +33,7 @@
     --blue-dim:rgba(59,91,219,0.10);
     --ff-display:'Bricolage Grotesque', sans-serif;
     --ff-body:'Inter', sans-serif;
+    --ff-mono:'JetBrains Mono', monospace;
     --container:1180px;
     --edge:6vw;
   }
@@ -174,11 +175,18 @@
   }
   .hero-inner{position:relative; z-index:1; max-width:920px;}
   .hero-eyebrow{
-    display:inline-flex; align-items:center; gap:8px;
-    font-size:0.85rem; color:var(--grey-700); margin-bottom:26px;
-    border:1px solid var(--line); padding:7px 14px 7px 10px; border-radius:100px;
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:var(--ff-mono); font-size:0.82rem; color:var(--grey-700); margin-bottom:26px;
+    border:1px solid var(--line); padding:7px 16px 7px 10px; border-radius:100px;
     background:rgba(255,255,255,0.5);
   }
+  .hero-eyebrow .prompt{color:var(--blue); font-weight:600;}
+  .hero-eyebrow .caret{
+    display:inline-block; width:7px; height:1.1em; background:var(--blue);
+    margin-left:1px; vertical-align:text-bottom;
+    animation:caretBlink 1s step-end infinite;
+  }
+  @keyframes caretBlink{0%,100%{opacity:1;} 50%{opacity:0;}}
   .hero-eyebrow .pulse{width:7px; height:7px; border-radius:50%; background:var(--blue); position:relative;}
   .hero-eyebrow .pulse::after{
     content:''; position:absolute; inset:-5px; border-radius:50%; border:1px solid var(--blue);
@@ -620,10 +628,95 @@
   .capability-item h3{transition:color .25s ease;}
   .capability-item:hover h3{color:var(--blue);}
   .tile{will-change:transform;}
+
+  /* ---------- custom scrollbar ---------- */
+  ::-webkit-scrollbar{width:10px; height:10px;}
+  ::-webkit-scrollbar-track{background:var(--off-white);}
+  ::-webkit-scrollbar-thumb{background:var(--grey-300); border-radius:10px; border:2px solid var(--off-white);}
+  ::-webkit-scrollbar-thumb:hover{background:var(--blue);}
+  html{scrollbar-color:var(--grey-300) var(--off-white); scrollbar-width:thin;}
+
+  /* ---------- loading screen ---------- */
+  body.loading{overflow:hidden;}
+  .loader{
+    position:fixed; inset:0; z-index:9999;
+    background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  .loader.hide{opacity:0; visibility:hidden; pointer-events:none;}
+  .loader-inner{display:flex; flex-direction:column; align-items:center; gap:20px;}
+  .loader-mark{
+    width:13px; height:13px; border-radius:50%; background:var(--blue);
+    animation:loaderPulse 1.1s ease-in-out infinite;
+  }
+  @keyframes loaderPulse{0%,100%{transform:scale(1); opacity:1;} 50%{transform:scale(1.7); opacity:.55;}}
+  .loader-bar{width:180px; height:2px; background:rgba(255,255,255,0.14); border-radius:2px; overflow:hidden;}
+  .loader-fill{width:0%; height:100%; background:var(--blue); transition:width .2s ease;}
+  .loader-pct{
+    font-family:var(--ff-mono); font-size:0.78rem; color:rgba(255,255,255,0.5);
+    letter-spacing:0.03em;
+  }
+  .loader-label{
+    font-family:var(--ff-mono); font-size:0.72rem; color:rgba(255,255,255,0.32);
+    letter-spacing:0.02em;
+  }
 </style>
 </head>
 <body>
 
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-mark"></div>
+    <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+    <div class="loader-pct" id="loaderPct">0%</div>
+    <div class="loader-label">Grey Creatives loading</div>
+  </div>
+</div>
+<script>
+(function(){
+  "use strict";
+  var loader = document.getElementById('loader');
+  if(!loader){ return; }
+  var fill = document.getElementById('loaderFill');
+  var pct = document.getElementById('loaderPct');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.body.classList.add('loading');
+
+  if(reduceMotion){
+    loader.classList.add('hide');
+    document.body.classList.remove('loading');
+    return;
+  }
+
+  var p = 0;
+  var done = false;
+
+  function frame(){
+    if(done) return;
+    p += (85 - p) * 0.06 + 0.15;
+    if(p > 85) p = 85;
+    fill.style.width = p + '%';
+    pct.textContent = Math.round(p) + '%';
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  function finish(){
+    if(done) return;
+    done = true;
+    fill.style.width = '100%';
+    pct.textContent = '100%';
+    setTimeout(function(){
+      loader.classList.add('hide');
+      document.body.classList.remove('loading');
+    }, 320);
+  }
+
+  window.addEventListener('load', function(){ setTimeout(finish, 280); });
+  setTimeout(finish, 4500); // safety fallback
+})();
+</script>
 <div class="scroll-progress" id="scrollProgress"></div>
 <div class="grain"></div>
 <div class="cursor-dot" id="cursorDot"></div>
@@ -650,7 +743,7 @@
     <div class="hero-glow" id="heroGlow"></div>
   </div>
   <div class="hero-inner">
-    <div class="hero-eyebrow"><span class="pulse"></span>Currently accepting Projects</div>
+    <div class="hero-eyebrow"><span class="pulse"></span><span class="prompt">$</span> currently accepting projects<span class="caret"></span></div>
     <h1>Your vision.<br><span class="soft">Our creative expertise.</span></h1>
     <p class="lede">Grey Creatives designs and builds web experiences for teams who've outgrown template thinking — from investment platforms to brands operating across a continent.</p>
     <div class="hero-actions">
