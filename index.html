@@ -15,6 +15,18 @@
 <meta name="twitter:title" content="Grey Creatives — Web Design & Development Studio">
 <meta name="twitter:description" content="Grey Creatives designs and builds web experiences for brands that refuse to blend in.">
 <meta name="twitter:image" content="/og-image.png">
+<link rel="canonical" href="https://greycreatives.vercel.app/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Grey Creatives",
+  "url": "https://greycreatives.vercel.app/",
+  "email": "gr3ycreatives@gmail.com",
+  "description": "Grey Creatives designs and builds web experiences and brand identities for businesses ready to stand out, earn trust, and grow.",
+  "sameAs": []
+}
+</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,7 +207,7 @@
   @keyframes pulse{0%{transform:scale(0.6); opacity:0.9;} 100%{transform:scale(2.1); opacity:0;}}
 
   .hero h1{
-    font-size:clamp(2.6rem, 6.2vw, 5.1rem);
+    font-size:clamp(2.4rem, 5.2vw, 4.4rem);
     line-height:1.03;
     font-weight:700;
     color:var(--ink);
@@ -220,18 +232,16 @@
   .btn-ghost:hover{border-color:var(--ink);}
   .magnetic{transition:transform .18s ease;}
 
-  .hero-stats{
-    position:relative; z-index:1;
-    margin:70px auto 0; display:grid; grid-template-columns:repeat(3,auto); gap:56px;
-    border-top:1px solid var(--line); padding-top:28px; max-width:700px; width:100%;
-    justify-content:center; text-align:center;
+  .hero-services{display:flex; gap:12px; flex-wrap:wrap; margin-top:26px;}
+  .hero-service-chip{
+    font-family:var(--ff-mono); font-size:0.76rem; font-weight:600; color:var(--grey-700);
+    border:1px solid var(--line); background:var(--off-white);
+    padding:8px 14px; border-radius:6px; letter-spacing:-0.01em;
   }
-  .hero-stats .num{font-family:var(--ff-display); font-size:1.8rem; font-weight:700; color:var(--blue);}
-  .hero-stats .label{font-size:0.85rem; color:var(--grey-500); margin-top:4px;}
+  .hero-service-chip::before{content:'◆ '; color:var(--blue); font-size:0.6rem;}
 
   @media (max-width:640px){
     .hero{padding-top:120px;}
-    .hero-stats{grid-template-columns:repeat(2,auto); row-gap:24px;}
   }
 
   /* ---------- marquee ---------- */
@@ -270,8 +280,15 @@
   .capability-item:first-child{padding-left:0; border-left:none;}
   .capability-item h3{font-size:1.2rem; margin-bottom:14px;}
   .capability-item p{color:var(--grey-700); font-size:0.98rem;}
+  .service-list{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .service-list li{
+    font-size:0.92rem; color:var(--grey-700); padding-left:20px; position:relative;
+  }
+  .service-list li::before{
+    content:''; position:absolute; left:0; top:0.55em; width:9px; height:1px; background:var(--blue);
+  }
   .cap-link{
-    display:inline-block; margin-top:18px; font-size:0.88rem; font-weight:600;
+    display:inline-block; margin-top:26px; font-size:0.88rem; font-weight:600;
     border-bottom:1px solid var(--ink); padding-bottom:2px;
   }
 
@@ -467,51 +484,6 @@
     .brand-mosaic{grid-template-columns:1fr;}
   }
 
-  /* ---------- video reel ---------- */
-  .reel-section{background:var(--ink); color:var(--off-white);}
-  .reel-section .kicker{color:var(--blue-bright);}
-  .reel-section h2{color:#fff;}
-  .reel-section p{color:#B9B8AF;}
-  .reel-frame{
-    margin-top:30px; border:1px solid rgba(255,255,255,0.14); border-radius:20px;
-    padding:56px 40px 30px; position:relative; overflow:hidden;
-    background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0));
-  }
-  .reel-frame::before, .reel-frame::after{
-    content:''; position:absolute; left:0; right:0; height:14px;
-    background-image:radial-gradient(circle, rgba(255,255,255,0.16) 3px, transparent 3px);
-    background-size:22px 14px; background-repeat:repeat-x;
-  }
-  .reel-frame::before{top:12px;}
-  .reel-frame::after{bottom:12px;}
-  .reel-stage{display:flex; align-items:center; justify-content:center; padding:36px 0 56px;}
-  .play-btn{
-    position:relative; width:88px; height:88px; border-radius:50%; background:var(--blue);
-    display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .25s;
-  }
-  .play-btn:hover{transform:scale(1.07);}
-  .play-btn svg{margin-left:4px;}
-  .ring{position:absolute; inset:0; border-radius:50%; border:1px solid rgba(91,124,250,0.55);}
-  .ring.r1{animation:ringPulse 2.4s ease-out infinite;}
-  .ring.r2{animation:ringPulse 2.4s ease-out infinite 1.2s;}
-  @keyframes ringPulse{0%{transform:scale(1); opacity:0.85;} 100%{transform:scale(1.9); opacity:0;}}
-  .reel-timeline{display:flex; gap:6px; height:34px; align-items:center; position:relative;}
-  .clip{height:100%; border-radius:6px; background:rgba(91,124,250,0.38);}
-  .clip.alt{background:rgba(255,255,255,0.14);}
-  .playhead{position:absolute; top:-8px; bottom:-8px; width:2px; background:#fff; left:0; animation:scrub 6s linear infinite;}
-  @keyframes scrub{0%{left:0%;} 100%{left:98%;}}
-  .reel-wave{display:flex; align-items:flex-end; gap:3px; height:30px; margin-top:20px;}
-  .reel-wave i{flex:1; background:rgba(255,255,255,0.28); border-radius:2px; height:6px; animation:waveMove 1.4s ease-in-out infinite;}
-  .reel-wave i:nth-child(3n){animation-delay:0.15s;}
-  .reel-wave i:nth-child(3n+1){animation-delay:0.3s;}
-  .reel-wave i:nth-child(3n+2){animation-delay:0.45s;}
-  @keyframes waveMove{0%,100%{height:6px;} 50%{height:26px;}}
-  .reel-caption{margin-top:24px; font-size:0.85rem; color:#8C8B82; text-align:center;}
-
-  @media (max-width:640px){
-    .reel-frame{padding:46px 20px 24px;}
-  }
-
   /* ---------- process ---------- */
   .process-list{border-top:1px solid var(--line);}
   .process-row{
@@ -564,6 +536,78 @@
   .cta-section .email-link{
     font-family:var(--ff-display); font-size:clamp(1.1rem,2vw,1.4rem); font-weight:600;
     border-bottom:1px solid var(--ink); padding-bottom:4px;
+  }
+  .cta-section .lede-sub{margin-top:18px; max-width:560px; color:var(--grey-700); font-size:1.05rem;}
+
+  /* ---------- enquiry form ---------- */
+  .enquiry-layout{
+    display:grid; grid-template-columns:1.5fr 1fr; gap:60px;
+    margin-top:56px; align-items:start;
+  }
+  .enquiry-form{
+    display:flex; flex-direction:column; gap:30px;
+    background:#fff; border:1px solid var(--line); border-radius:20px;
+    padding:40px; box-shadow:0 30px 60px -40px rgba(17,17,17,0.2);
+  }
+  .field-group{border:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px;}
+  .field-group legend, .field-group > label{
+    font-size:0.86rem; font-weight:600; color:var(--ink); padding:0;
+  }
+  .field-group .optional{font-weight:400; color:var(--grey-500);}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+
+  .segmented{display:flex; flex-wrap:wrap; gap:9px;}
+  .seg-opt{position:relative; cursor:pointer;}
+  .seg-opt input{position:absolute; opacity:0; width:1px; height:1px; pointer-events:none;}
+  .seg-opt span{
+    display:inline-block; font-family:var(--ff-mono); font-size:0.8rem; font-weight:500;
+    color:var(--grey-700); border:1px solid var(--line); border-radius:8px;
+    padding:9px 14px; transition:border-color .2s, background .2s, color .2s;
+  }
+  .seg-opt input:hover + span{border-color:var(--grey-300);}
+  .seg-opt input:checked + span{
+    background:var(--ink); border-color:var(--ink); color:#fff;
+  }
+  .seg-opt input:focus-visible + span{outline:2px solid var(--blue); outline-offset:2px;}
+
+  .field-group input[type="text"], .field-group input[type="email"], .field-group textarea{
+    font-family:var(--ff-body); font-size:0.98rem; color:var(--ink);
+    border:1px solid var(--line); border-radius:10px; padding:13px 15px;
+    background:var(--off-white); resize:vertical; width:100%;
+  }
+  .field-group input:focus-visible, .field-group textarea:focus-visible{
+    outline:none; border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-dim);
+  }
+  .field-group input.invalid, .field-group textarea.invalid, .segmented.invalid span{
+    border-color:#C0392B;
+  }
+  .field-error{font-size:0.8rem; color:#C0392B; display:none;}
+  .field-error.show{display:block;}
+
+  .form-status{
+    font-size:0.9rem; padding:0; min-height:0; display:none;
+    border-radius:10px; padding:14px 16px;
+  }
+  .form-status.show{display:block;}
+  .form-status.success{background:rgba(40,200,64,0.1); color:#1E8E3E;}
+  .form-status.error{background:rgba(192,57,43,0.08); color:#C0392B;}
+
+  .enquiry-form button[type="submit"]{align-self:flex-start;}
+  .enquiry-form button[type="submit"]:disabled{opacity:0.6; cursor:not-allowed;}
+
+  .enquiry-aside{
+    display:flex; flex-direction:column; gap:18px; align-items:flex-start;
+    position:sticky; top:120px;
+  }
+  .enquiry-note{font-size:0.9rem; color:var(--grey-500); max-width:280px;}
+
+  @media (max-width:900px){
+    .enquiry-layout{grid-template-columns:1fr; gap:40px;}
+    .enquiry-aside{position:static;}
+    .field-row{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    .enquiry-form{padding:26px;}
   }
 
   /* ---------- footer ---------- */
@@ -850,8 +894,8 @@
   <a href="/" class="logo"><span class="dot"></span>Grey Creatives</a>
   <nav class="links" id="navLinks">
     <a href="#work" class="nav-link">Work</a>
+    <a href="#services" class="nav-link">Services</a>
     <a href="/branding-work" class="nav-link">Branding</a>
-    <a href="#process" class="nav-link">Process</a>
     <a href="#about" class="nav-link">About</a>
     <a href="/reviews" class="nav-link">Reviews</a>
     <a href="#contact" class="nav-cta nav-link">Start a project</a>
@@ -868,17 +912,16 @@
   </div>
   <div class="hero-inner">
     <div class="hero-eyebrow"><span class="pulse"></span><span class="prompt">$</span> currently accepting projects<span class="caret"></span></div>
-    <h1>Your vision.<br><span class="soft">Our creative expertise.</span></h1>
-    <p class="lede">Grey Creatives designs and builds web experiences for teams who've outgrown template thinking — from investment platforms to brands operating across a continent.</p>
-    <div class="hero-actions">
-      <a href="#contact" class="btn btn-primary magnetic sound-click">Start a project</a>
-      <a href="#work" class="btn btn-ghost magnetic sound-click">See the work</a>
+    <h1>We build digital experiences and <span class="soft">brand identities</span> that move businesses forward.</h1>
+    <p class="lede">We design and develop high-quality websites and distinctive brand identities for businesses ready to stand out, earn trust, and grow.</p>
+    <div class="hero-services">
+      <span class="hero-service-chip">Website Design &amp; Development</span>
+      <span class="hero-service-chip">Brand Identity &amp; Design</span>
     </div>
-  </div>
-  <div class="hero-stats">
-    <div><div class="num">Multiple</div><div class="label">Platforms shipped this year</div></div>
-    <div><div class="num">3</div><div class="label">Countries a single build has run in</div></div>
-    <div><div class="num">100%</div><div class="label">Built and handed over, code included</div></div>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary magnetic sound-click">Start a Project</a>
+      <a href="#work" class="btn btn-ghost magnetic sound-click">Explore Our Work</a>
+    </div>
   </div>
 </section>
 
@@ -887,42 +930,49 @@
     <span>Brand Websites <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>Investment Platforms <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>Brand Identity <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Video Editing <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>Design Systems <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>Product UI <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>E-Commerce <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>Brand Websites <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>Investment Platforms <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>Brand Identity <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Video Editing <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>Design Systems <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>Product UI <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
     <span>E-Commerce <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
   </div>
 </div>
 
-<section class="section-pad" id="capabilities" style="padding-bottom:0;">
+<section class="section-pad" id="services" style="padding-bottom:0;">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="kicker">What we do</span>
-      <h2>One studio, <span style="color:var(--blue);">three disciplines.</span></h2>
-      <p>Web design and development is the core of the work — brand identity and video sit alongside it, built to work together rather than as separate add-ons.</p>
+      <h2>Two disciplines, <span style="color:var(--blue);">one studio.</span></h2>
+      <p>Web design and development is the core of the work — brand identity is built alongside it, so every project reads as one consistent system rather than two separate vendors.</p>
     </div>
-    <div class="capability-grid reveal">
+    <div class="capability-grid reveal" style="grid-template-columns:repeat(2,1fr);">
       <div class="capability-item">
-        <h3>Web Design &amp; Development</h3>
-        <p>Landing pages, platforms, and product interfaces designed and built end to end, from first sketch to shipped code.</p>
-        <a href="#work" class="cap-link sound-click">See the work</a>
+        <h3>Website Design &amp; Development</h3>
+        <p>Professional digital experiences for businesses and organisations — designed and built end to end, from first sketch to shipped code.</p>
+        <ul class="service-list">
+          <li>Business &amp; corporate websites</li>
+          <li>Landing pages</li>
+          <li>Website redesigns</li>
+          <li>Custom web platforms</li>
+          <li>Responsive web development</li>
+        </ul>
+        <a href="#contact" class="cap-link sound-click" data-service="Website Design &amp; Development">Discuss Your Website</a>
       </div>
       <div class="capability-item">
-        <h3>Graphic &amp; Brand Design</h3>
-        <p>Logos, identity systems, and brand guidelines that hold up across a website, a deck, and everything printed in between.</p>
-        <a href="#brand" class="cap-link sound-click">See the work</a>
-      </div>
-      <div class="capability-item">
-        <h3>Video Editing</h3>
-        <p>Promotional and social edits that turn raw footage into something a brand is proud to post.</p>
-        <a href="#video" class="cap-link sound-click">See the work</a>
+        <h3>Brand Identity &amp; Design</h3>
+        <p>Coherent identity systems — not just a logo — built to hold up across a website, a deck, and everything printed in between.</p>
+        <ul class="service-list">
+          <li>Logo design</li>
+          <li>Brand identity systems</li>
+          <li>Typography &amp; colour systems</li>
+          <li>Brand guidelines</li>
+          <li>Business stationery &amp; digital assets</li>
+        </ul>
+        <a href="#contact" class="cap-link sound-click" data-service="Brand Identity">Build Your Brand</a>
       </div>
     </div>
   </div>
@@ -1092,39 +1142,6 @@
   </div>
 </section>
 
-<section class="section-pad reel-section" id="video">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="kicker">Video Editing</span>
-      <h2>Footage that earns a full watch, <span style="color:var(--blue-bright);">not just a skip-through.</span></h2>
-      <p>Promo cuts, social edits, and brand films — paced, captioned, and graded to match the same identity as everything else, from the thumbnail to the outro.</p>
-    </div>
-
-    <div class="reel-frame reveal">
-      <div class="reel-stage">
-        <div class="play-btn sound-click">
-          <span class="ring r1"></span>
-          <span class="ring r2"></span>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-      </div>
-      <div class="reel-timeline">
-        <div class="playhead"></div>
-        <div class="clip" style="width:16%"></div>
-        <div class="clip alt" style="width:26%"></div>
-        <div class="clip" style="width:13%"></div>
-        <div class="clip alt" style="width:22%"></div>
-        <div class="clip" style="width:20%"></div>
-      </div>
-      <div class="reel-wave">
-        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-      </div>
-      <div class="reel-caption">Showreel in production — client cuts land here soon.</div>
-    </div>
-  </div>
-</section>
-
 <section class="section-pad" id="process" style="background:var(--paper);">
   <div class="wrap">
     <div class="section-head reveal">
@@ -1186,14 +1203,78 @@
 <section class="cta-section" id="contact">
   <div class="wrap">
     <h2 class="reveal">Have a project <span style="color:var(--blue);">worth doing properly?</span></h2>
-    <div class="row reveal">
-      <a href="mailto:gr3ycreatives@gmail.com" class="email-link sound-click">gr3ycreatives@gmail.com</a>
-      <div class="cta-buttons">
-        <a href="https://wa.me/2349167815551" target="_blank" rel="noopener" class="btn btn-whatsapp magnetic sound-click">
+    <p class="lede-sub reveal">Let's discuss what you're building, what you want to achieve, and how Grey Creatives can help bring it to life.</p>
+
+    <div class="enquiry-layout reveal">
+      <form class="enquiry-form" id="enquiryForm" novalidate>
+        <fieldset class="field-group">
+          <legend>What do you need?</legend>
+          <div class="segmented" id="segService" role="radiogroup" aria-label="What do you need?">
+            <label class="seg-opt"><input type="radio" name="service" value="Website Design &amp; Development" required><span>Website Design &amp; Development</span></label>
+            <label class="seg-opt"><input type="radio" name="service" value="Brand Identity"><span>Brand Identity</span></label>
+            <label class="seg-opt"><input type="radio" name="service" value="Website and Brand Identity"><span>Website and Brand Identity</span></label>
+            <label class="seg-opt"><input type="radio" name="service" value="Other Creative Service"><span>Other Creative Service</span></label>
+          </div>
+          <div class="field-error" id="errService">Please select what you need.</div>
+        </fieldset>
+
+        <fieldset class="field-group">
+          <legend>Estimated budget</legend>
+          <div class="segmented" id="segBudget" role="radiogroup" aria-label="Estimated budget">
+            <label class="seg-opt"><input type="radio" name="budget" value="Below ₦200,000" required><span>Below ₦200,000</span></label>
+            <label class="seg-opt"><input type="radio" name="budget" value="₦200,000–₦500,000"><span>₦200,000–₦500,000</span></label>
+            <label class="seg-opt"><input type="radio" name="budget" value="₦500,000–₦1,000,000"><span>₦500,000–₦1,000,000</span></label>
+            <label class="seg-opt"><input type="radio" name="budget" value="Above ₦1,000,000"><span>Above ₦1,000,000</span></label>
+            <label class="seg-opt"><input type="radio" name="budget" value="Not Sure Yet"><span>Not Sure Yet</span></label>
+          </div>
+          <div class="field-error" id="errBudget">Please select an estimated budget.</div>
+        </fieldset>
+
+        <fieldset class="field-group">
+          <legend>When do you want to start?</legend>
+          <div class="segmented" id="segTimeline" role="radiogroup" aria-label="When do you want to start?">
+            <label class="seg-opt"><input type="radio" name="timeline" value="As Soon as Possible" required><span>As Soon as Possible</span></label>
+            <label class="seg-opt"><input type="radio" name="timeline" value="Within a Month"><span>Within a Month</span></label>
+            <label class="seg-opt"><input type="radio" name="timeline" value="Within 1–3 Months"><span>Within 1–3 Months</span></label>
+            <label class="seg-opt"><input type="radio" name="timeline" value="Still Planning"><span>Still Planning</span></label>
+          </div>
+          <div class="field-error" id="errTimeline">Please select a timeline.</div>
+        </fieldset>
+
+        <div class="field-group">
+          <label for="enqMessage">Tell us about your project <span class="optional">(optional)</span></label>
+          <textarea id="enqMessage" name="message" rows="4" placeholder="Briefly describe your project, what you want to achieve, and any important requirements."></textarea>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="enqName">Name</label>
+            <input type="text" id="enqName" name="name" required autocomplete="name">
+            <div class="field-error" id="errName">Please enter your name.</div>
+          </div>
+          <div class="field-group">
+            <label for="enqEmail">Email</label>
+            <input type="email" id="enqEmail" name="email" required autocomplete="email">
+            <div class="field-error" id="errEmail">Please enter a valid email address.</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="enqCompany">Company / brand name <span class="optional">(optional)</span></label>
+          <input type="text" id="enqCompany" name="company" autocomplete="organization">
+        </div>
+
+        <div class="form-status" id="enqStatus" role="status" aria-live="polite"></div>
+
+        <button type="submit" class="btn btn-primary magnetic sound-click" id="enqSubmit">Send Enquiry</button>
+      </form>
+
+      <div class="enquiry-aside">
+        <a href="mailto:gr3ycreatives@gmail.com" class="email-link sound-click">gr3ycreatives@gmail.com</a>
+        <a href="https://wa.me/2349167815551" target="_blank" rel="noopener" class="btn btn-whatsapp magnetic sound-click" id="whatsappCta">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7A9.82 9.82 0 0 0 12.04 2zm5.8 14.13c-.24.68-1.4 1.3-1.93 1.37-.5.08-1.13.11-1.82-.11a16.7 16.7 0 0 1-1.65-.61c-2.9-1.25-4.79-4.17-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.29.58-.36.78-.36l.55.01c.18.01.42-.07.65.5.24.58.81 2 .88 2.15.07.14.12.31.02.5-.09.2-.14.31-.28.48-.14.16-.29.36-.42.49-.14.14-.28.29-.12.57.16.29.71 1.18 1.53 1.92 1.05.95 1.94 1.24 2.22 1.38.29.14.46.12.63-.07.17-.2.72-.85.91-1.14.19-.29.38-.24.64-.14.26.09 1.66.79 1.94.93.29.14.48.21.55.33.07.12.07.7-.17 1.38z"/></svg>
           Chat on WhatsApp
         </a>
-        <a href="mailto:gr3ycreatives@gmail.com" class="btn btn-primary magnetic sound-click">Start a project</a>
+        <p class="enquiry-note">Prefer to talk first? WhatsApp or email work too — your selections above carry over into the message automatically.</p>
       </div>
     </div>
   </div>
@@ -1205,6 +1286,7 @@
       <a href="/" class="logo"><span class="dot"></span>Grey Creatives</a>
       <div class="footer-nav">
         <a href="#work" class="nav-link">Work</a>
+        <a href="#services" class="nav-link">Services</a>
         <a href="/branding-work" class="nav-link">Branding</a>
         <a href="#process" class="nav-link">Process</a>
         <a href="#about" class="nav-link">About</a>
@@ -1434,6 +1516,137 @@
 
   if(reduceMotion){
     document.querySelectorAll('.marquee-track').forEach(function(t){ t.style.animation='none'; });
+  }
+
+  /* ---------- enquiry form ---------- */
+  var enquiryForm = document.getElementById('enquiryForm');
+  if(enquiryForm){
+    var ENQUIRY_ENDPOINT = 'https://formspree.io/f/mrpbndwj';
+    var statusEl = document.getElementById('enqStatus');
+    var submitBtn = document.getElementById('enqSubmit');
+    var whatsappCta = document.getElementById('whatsappCta');
+    var waBase = whatsappCta ? whatsappCta.getAttribute('href') : '';
+    var submitting = false;
+
+    function fieldVal(name){
+      var checked = enquiryForm.querySelector('input[name="'+name+'"]:checked');
+      return checked ? checked.value : '';
+    }
+
+    function updateWhatsapp(){
+      if(!whatsappCta) return;
+      var parts = [];
+      var service = fieldVal('service');
+      var budget = fieldVal('budget');
+      var timeline = fieldVal('timeline');
+      var message = document.getElementById('enqMessage').value.trim();
+      var name = document.getElementById('enqName').value.trim();
+      parts.push('Hi Grey Creatives, I\'d like to start a project.');
+      if(service) parts.push('Service: ' + service);
+      if(budget) parts.push('Budget: ' + budget);
+      if(timeline) parts.push('Timeline: ' + timeline);
+      if(message) parts.push('Details: ' + message);
+      if(name) parts.push('— ' + name);
+      whatsappCta.setAttribute('href', waBase + '?text=' + encodeURIComponent(parts.join('\n')));
+    }
+    enquiryForm.addEventListener('input', updateWhatsapp);
+    enquiryForm.addEventListener('change', updateWhatsapp);
+    updateWhatsapp();
+
+    // pre-select service when arriving from a "Discuss Your Website" / "Build Your Brand" link
+    document.querySelectorAll('[data-service]').forEach(function(link){
+      link.addEventListener('click', function(){
+        var val = link.getAttribute('data-service');
+        var radios = enquiryForm.querySelectorAll('input[name="service"]');
+        radios.forEach(function(r){
+          if(r.value.replace(/&amp;/g,'&') === val){ r.checked = true; }
+        });
+        updateWhatsapp();
+      });
+    });
+
+    function setGroupError(groupId, errId, show){
+      var group = document.getElementById(groupId);
+      var err = document.getElementById(errId);
+      if(group) group.classList.toggle('invalid', show);
+      if(err) err.classList.toggle('show', show);
+    }
+    function setFieldError(input, errId, show){
+      var err = document.getElementById(errId);
+      if(input) input.classList.toggle('invalid', show);
+      if(err) err.classList.toggle('show', show);
+    }
+
+    function showStatus(type, text){
+      statusEl.className = 'form-status show ' + type;
+      statusEl.textContent = text;
+    }
+
+    enquiryForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(submitting) return;
+
+      var service = fieldVal('service');
+      var budget = fieldVal('budget');
+      var timeline = fieldVal('timeline');
+      var nameInput = document.getElementById('enqName');
+      var emailInput = document.getElementById('enqEmail');
+      var name = nameInput.value.trim();
+      var email = emailInput.value.trim();
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      var valid = true;
+      setGroupError('segService', 'errService', !service); if(!service) valid = false;
+      setGroupError('segBudget', 'errBudget', !budget); if(!budget) valid = false;
+      setGroupError('segTimeline', 'errTimeline', !timeline); if(!timeline) valid = false;
+      setFieldError(nameInput, 'errName', !name); if(!name) valid = false;
+      setFieldError(emailInput, 'errEmail', !emailOk); if(!emailOk) valid = false;
+
+      if(!valid){
+        showStatus('error', 'Please fill in the required fields above before sending.');
+        var firstInvalid = enquiryForm.querySelector('.invalid');
+        if(firstInvalid){ firstInvalid.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'center'}); }
+        return;
+      }
+
+      submitting = true;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      statusEl.className = 'form-status';
+
+      var payload = {
+        service: service,
+        budget: budget,
+        timeline: timeline,
+        message: document.getElementById('enqMessage').value.trim(),
+        name: name,
+        email: email,
+        company: document.getElementById('enqCompany').value.trim(),
+        _subject: 'New project enquiry — ' + service
+      };
+
+      fetch(ENQUIRY_ENDPOINT, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json', 'Accept':'application/json'},
+        body: JSON.stringify(payload)
+      }).then(function(res){
+        if(res.ok){
+          showStatus('success', 'Thanks — your enquiry has been sent. We\'ll get back to you shortly.');
+          enquiryForm.reset();
+          updateWhatsapp();
+        } else {
+          return res.json().then(function(data){
+            throw new Error((data && data.error) || 'Submission failed');
+          });
+        }
+      }).catch(function(){
+        showStatus('error', 'Something went wrong sending your enquiry. Please try again, or reach us directly by email or WhatsApp below.');
+      }).finally(function(){
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Enquiry';
+      });
+    });
   }
 })();
 </script>
