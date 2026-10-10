@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grey Creatives — Web Design & Development Studio</title>
 <meta name="description" content="Grey Creatives designs and builds web experiences for brands that refuse to blend in.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111111'/><circle cx='50' cy='50' r='19' fill='%233B5BDB'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111111'/><circle cx='50' cy='50' r='19' fill='%23E8AA14'/></svg>">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Grey Creatives — Web Design & Development Studio">
 <meta property="og:description" content="Grey Creatives designs and builds web experiences for brands that refuse to blend in.">
@@ -40,9 +40,10 @@
     --grey-500:#7A7A72;
     --grey-300:#B8B7AE;
     --line:#DEDDD3;
-    --blue:#3B5BDB;
-    --blue-bright:#5B7CFA;
-    --blue-dim:rgba(59,91,219,0.10);
+    --blue:#E8AA14;
+    --blue-bright:#F2C230;
+    --blue-dim:rgba(232,170,20,0.12);
+    --blue-text:#8C6106;
     --ff-display:'Bricolage Grotesque', sans-serif;
     --ff-body:'Inter', sans-serif;
     --ff-mono:'JetBrains Mono', monospace;
@@ -79,7 +80,7 @@
   img{max-width:100%;display:block;}
   button{font-family:inherit;}
 
-  ::selection{background:var(--blue); color:#fff;}
+  ::selection{background:var(--blue); color:#171717;}
 
   /* grain texture, subtle, over whole page */
   .grain{
@@ -98,7 +99,7 @@
     will-change:transform;
   }
   .cursor-dot{width:6px; height:6px; background:var(--blue); transition:opacity .2s;}
-  .cursor-ring{width:34px; height:34px; border:1px solid rgba(59,91,219,0.55); transition:width .25s, height .25s, border-color .25s, opacity .2s;}
+  .cursor-ring{width:34px; height:34px; border:1px solid rgba(232,170,20,0.55); transition:width .25s, height .25s, border-color .25s, opacity .2s;}
   body.cursor-active .cursor-ring.big{width:64px; height:64px; border-color:var(--blue);}
   @media (pointer:coarse){
     .cursor-dot, .cursor-ring{display:none;}
@@ -134,11 +135,12 @@
   }
   nav.links a:not(.nav-cta):hover::after{right:0;}
   .nav-cta{
-    background:var(--ink); color:#fff; padding:10px 20px; border-radius:100px;
-    font-size:0.92rem; font-weight:500; border:1px solid var(--ink);
-    transition:background .25s, color .25s, transform .2s;
+    background:var(--blue); color:#171717; padding:10px 20px; border-radius:100px;
+    font-size:0.92rem; font-weight:600; border:1px solid var(--blue);
+    transition:background .25s, color .25s, transform .2s, border-color .25s;
   }
-  .nav-cta:hover{background:var(--blue); border-color:var(--blue); transform:translateY(-1px);}
+  .nav-cta:hover{background:var(--blue-bright); border-color:var(--blue-bright); transform:translateY(-1px);}
+  .nav-cta:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
   .nav-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
   .nav-toggle span{width:22px; height:2px; background:var(--ink); display:block;}
 
@@ -174,7 +176,7 @@
   }
   .hero-grid{ --grid-color:rgba(17,17,17,0.07); }
   .hero-grid-color{
-    --grid-color:rgba(59,91,219,0.55);
+    --grid-color:rgba(232,170,20,0.55);
     -webkit-mask-image:radial-gradient(circle 220px at var(--mx,50%) var(--my,30%), black 0%, transparent 72%);
     mask-image:radial-gradient(circle 220px at var(--mx,50%) var(--my,30%), black 0%, transparent 72%);
     transition:-webkit-mask-image .05s linear;
@@ -182,7 +184,7 @@
   .hero-glow{
     position:absolute; width:420px; height:420px; border-radius:50%;
     left:var(--mx,50%); top:var(--my,30%); transform:translate(-50%,-50%);
-    background:radial-gradient(circle, rgba(59,91,219,0.16), transparent 70%);
+    background:radial-gradient(circle, rgba(232,170,20,0.16), transparent 70%);
     filter:blur(6px);
   }
   .hero-inner{position:relative; z-index:1; max-width:920px;}
@@ -192,7 +194,7 @@
     border:1px solid var(--line); padding:7px 16px 7px 10px; border-radius:100px;
     background:rgba(255,255,255,0.5);
   }
-  .hero-eyebrow .prompt{color:var(--blue); font-weight:600;}
+  .hero-eyebrow .prompt{color:var(--blue-text); font-weight:600;}
   .hero-eyebrow .caret{
     display:inline-block; width:7px; height:1.1em; background:var(--blue);
     margin-left:1px; vertical-align:text-bottom;
@@ -212,7 +214,7 @@
     font-weight:700;
     color:var(--ink);
   }
-  .hero h1 .soft{color:var(--blue); font-weight:600;}
+  .hero h1 .soft{color:var(--blue-text); font-weight:600;}
   .hero p.lede{
     margin-top:28px; max-width:540px; font-size:1.13rem; color:var(--grey-700);
   }
@@ -223,12 +225,14 @@
     padding:15px 28px; border-radius:100px; font-size:0.98rem; font-weight:600;
     cursor:pointer; border:1px solid transparent; position:relative; overflow:hidden;
   }
-  .btn-primary{background:var(--ink); color:#fff;}
-  .btn-primary:hover{background:var(--blue);}
+  .btn-primary{background:var(--blue); color:#171717; font-weight:700;}
+  .btn-primary:hover{background:var(--blue-bright); color:#171717;}
+  .btn-primary:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+  .btn-primary:disabled{background:var(--grey-300); color:var(--grey-700); cursor:not-allowed;}
   .btn-ghost{background:transparent; color:var(--ink); border-color:var(--line);}
   .btn-whatsapp{background:#25D366; color:#fff; border-color:#25D366;}
   .btn-whatsapp:hover{background:#1DA851; border-color:#1DA851;}
-  .view-all-btn:hover, .view-all-btn:active{color:var(--blue); border-color:var(--blue);}
+  .view-all-btn:hover, .view-all-btn:active{color:var(--blue-text); border-color:var(--blue);}
   .btn-ghost:hover{border-color:var(--ink);}
   .magnetic{transition:transform .18s ease;}
 
@@ -238,7 +242,7 @@
     border:1px solid var(--line); background:var(--off-white);
     padding:8px 14px; border-radius:6px; letter-spacing:-0.01em;
   }
-  .hero-service-chip::before{content:'◆ '; color:var(--blue); font-size:0.6rem;}
+  .hero-service-chip::before{content:'◆ '; color:var(--blue-text); font-size:0.6rem;}
 
   @media (max-width:640px){
     .hero{padding-top:120px;}
@@ -262,7 +266,7 @@
   .section-pad{padding:120px var(--edge);}
   .section-head{max-width:640px; margin-bottom:74px;}
   .section-head .kicker{
-    font-size:0.82rem; color:var(--blue); font-weight:600; margin-bottom:14px; display:block;
+    font-size:0.82rem; color:var(--blue-text); font-weight:600; margin-bottom:14px; display:block;
     font-family:var(--ff-mono); letter-spacing:0.01em;
   }
   .section-head .kicker::before{content:'// '; color:var(--grey-300); font-weight:500;}
@@ -404,7 +408,7 @@
   .blob{
     position:absolute; width:320px; height:320px;
     border-radius:42% 58% 65% 35% / 45% 40% 60% 55%;
-    background:linear-gradient(135deg, var(--blue), #5B7CFA 45%, #C7511F 100%);
+    background:linear-gradient(135deg, var(--blue), #F2C230 45%, #C7511F 100%);
     opacity:0.92;
     animation:blobMorph 9s ease-in-out infinite, blobSpin 24s linear infinite;
   }
@@ -434,7 +438,7 @@
 
   .subhead-divider{
     margin-top:64px; padding-top:36px; border-top:1px solid var(--line);
-    font-size:0.9rem; font-weight:600; color:var(--blue);
+    font-size:0.9rem; font-weight:600; color:var(--blue-text);
   }
 
   .identity-case{margin-top:32px;}
@@ -485,18 +489,6 @@
   }
 
   /* ---------- process ---------- */
-  .process-list{border-top:1px solid var(--line);}
-  .process-row{
-    display:grid; grid-template-columns:90px 1fr; gap:36px;
-    padding:38px 0; border-bottom:1px solid var(--line);
-    align-items:start;
-  }
-  .process-row .idx{
-    font-family:var(--ff-display); font-size:1rem; color:var(--blue); font-weight:700; padding-top:4px;
-  }
-  .process-row h3{font-size:1.35rem; margin-bottom:10px;}
-  .process-row p{color:var(--grey-700); max-width:560px;}
-
   /* ---------- about strip ---------- */
   .about-strip{
     background:var(--ink); color:var(--off-white);
@@ -568,7 +560,7 @@
   .seg-opt input:checked + span{
     background:var(--ink); border-color:var(--ink); color:#fff;
   }
-  .seg-opt input:focus-visible + span{outline:2px solid var(--blue); outline-offset:2px;}
+  .seg-opt input:focus-visible + span{outline:2px solid var(--ink); outline-offset:2px;}
 
   .field-group input[type="text"], .field-group input[type="email"], .field-group textarea{
     font-family:var(--ff-body); font-size:0.98rem; color:var(--ink);
@@ -576,7 +568,7 @@
     background:var(--off-white); resize:vertical; width:100%;
   }
   .field-group input:focus-visible, .field-group textarea:focus-visible{
-    outline:none; border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-dim);
+    outline:none; border-color:var(--ink); box-shadow:0 0 0 3px var(--blue-dim);
   }
   .field-group input.invalid, .field-group textarea.invalid, .segmented.invalid span{
     border-color:#C0392B;
@@ -626,7 +618,8 @@
     box-shadow:0 12px 30px -12px rgba(17,17,17,0.5);
     transition:background .25s, transform .2s;
   }
-  .sound-toggle:hover{background:var(--blue); transform:translateY(-2px);}
+  .sound-toggle:hover{background:var(--blue); color:#171717; transform:translateY(-2px);}
+  .sound-toggle:hover .bars i{background:#171717;}
   .sound-toggle .bars{display:flex; align-items:flex-end; gap:2px; height:12px;}
   .sound-toggle .bars i{width:2.5px; background:#fff; display:block; border-radius:1px;}
   body.sound-off .sound-toggle .bars i{animation:none !important; height:3px !important;}
@@ -671,13 +664,13 @@
   /* ---------- hero depth accent ---------- */
   .hero-aurora{
     position:absolute; top:-18%; right:-8%; width:560px; height:560px;
-    background:radial-gradient(circle at 30% 30%, rgba(59,91,219,0.13), transparent 62%);
+    background:radial-gradient(circle at 30% 30%, rgba(232,170,20,0.13), transparent 62%);
     filter:blur(34px); pointer-events:none;
   }
 
   /* ---------- small interaction polish ---------- */
   .capability-item h3{transition:color .25s ease;}
-  .capability-item:hover h3{color:var(--blue);}
+  .capability-item:hover h3{color:var(--blue-text);}
   .tile{will-change:transform;}
 
   /* ---------- custom scrollbar ---------- */
@@ -912,7 +905,7 @@
   </div>
   <div class="hero-inner">
     <div class="hero-eyebrow"><span class="pulse"></span><span class="prompt">$</span> currently accepting projects<span class="caret"></span></div>
-    <h1>We build digital experiences and <span class="soft">brand identities</span> that move businesses forward.</h1>
+    <h1>We build. <span class="soft">We brand.</span> We create.</h1>
     <p class="lede">We design and develop high-quality websites and distinctive brand identities for businesses ready to stand out, earn trust, and grow.</p>
     <div class="hero-services">
       <span class="hero-service-chip">Website Design &amp; Development</span>
@@ -927,18 +920,18 @@
 
 <div class="marquee-band">
   <div class="marquee-track" id="marqueeTrack">
-    <span>Brand Websites <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Investment Platforms <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Brand Identity <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Design Systems <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Product UI <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>E-Commerce <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Brand Websites <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Investment Platforms <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Brand Identity <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Design Systems <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>Product UI <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
-    <span>E-Commerce <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#3B5BDB"/></svg></span>
+    <span>Brand Websites <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Investment Platforms <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Brand Identity <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Design Systems <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Product UI <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>E-Commerce <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Brand Websites <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Investment Platforms <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Brand Identity <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Design Systems <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Product UI <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>E-Commerce <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
   </div>
 </div>
 
@@ -946,7 +939,7 @@
   <div class="wrap">
     <div class="section-head reveal">
       <span class="kicker">What we do</span>
-      <h2>Two disciplines, <span style="color:var(--blue);">one studio.</span></h2>
+      <h2>Two disciplines, <span style="color:var(--blue-text);">one studio.</span></h2>
       <p>Web design and development is the core of the work — brand identity is built alongside it, so every project reads as one consistent system rather than two separate vendors.</p>
     </div>
     <div class="capability-grid reveal" style="grid-template-columns:repeat(2,1fr);">
@@ -982,7 +975,7 @@
   <div class="wrap">
     <div class="section-head reveal">
       <span class="kicker">Selected work</span>
-      <h2>A few briefs, <span style="color:var(--blue);">a few very different worlds.</span></h2>
+      <h2>A few briefs, <span style="color:var(--blue-text);">a few very different worlds.</span></h2>
       <p>A look at the thinking behind recent builds — from a live investment platform to a healthcare practice to a brand spanning three countries.</p>
     </div>
 
@@ -1046,7 +1039,7 @@
   <div class="wrap">
     <div class="section-head reveal">
       <span class="kicker">Brand &amp; Graphic Design</span>
-      <h2>A brand people would <span style="color:var(--blue);">recognize with the logo covered.</span></h2>
+      <h2>A brand people would <span style="color:var(--blue-text);">recognize with the logo covered.</span></h2>
       <p>Identity systems, print, and social graphics built around one visual language — the same voice from the logo down to the layout of an invoice, not a font pack with a moodboard attached.</p>
     </div>
 
@@ -1054,7 +1047,7 @@
       <div class="tile tile-palette">
         <div class="swatch-row">
           <span style="background:#111111"></span>
-          <span style="background:#3B5BDB"></span>
+          <span style="background:#E8AA14"></span>
           <span style="background:#FAFAF8;border:1px solid var(--line)"></span>
           <span style="background:#C7511F"></span>
           <span style="background:#7A8B69"></span>
@@ -1068,7 +1061,7 @@
       <div class="tile tile-mark">
         <svg viewBox="0 0 56 56" width="56" height="56" fill="none">
           <rect x="8" y="8" width="30" height="30" rx="8" transform="rotate(15 23 23)" fill="#111111"/>
-          <circle cx="40" cy="40" r="12" fill="#3B5BDB"/>
+          <circle cx="40" cy="40" r="12" fill="#E8AA14"/>
         </svg>
         <div class="tile-label">Marks &amp; Monograms</div>
       </div>
@@ -1100,10 +1093,10 @@
 
     <div class="sticker-strip reveal">
       <span class="sticker circle" style="background:#111111;"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="#fff"/></svg></span>
-      <span class="sticker squircle" style="background:#3B5BDB;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M9 6l8 6-8 6V6z" fill="#fff"/></svg></span>
+      <span class="sticker squircle" style="background:#E8AA14;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M9 6l8 6-8 6V6z" fill="#fff"/></svg></span>
       <span class="sticker circle" style="background:#C7511F;"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2" fill="#fff"/></svg></span>
       <span class="sticker squircle" style="background:#7A8B69;"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="2"/></svg></span>
-      <span class="sticker circle" style="background:#3B5BDB;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="sticker circle" style="background:#E8AA14;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>
       <span class="sticker squircle" style="background:#111111;"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2" fill="#fff" transform="rotate(45 12 12)"/></svg></span>
     </div>
     <p class="sticker-caption reveal">Marks built to hold up anywhere a brand shows up — packaging, merch, social, motion.</p>
@@ -1142,34 +1135,6 @@
   </div>
 </section>
 
-<section class="section-pad" id="process" style="background:var(--paper);">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="kicker">How it works</span>
-      <h2>Four stages. <span style="color:var(--blue);">No surprises in between.</span></h2>
-      <p>Every project runs the same disciplined process, whether it's a five-page brand site or a full platform rebuild.</p>
-    </div>
-    <div class="process-list reveal">
-      <div class="process-row">
-        <div class="idx">01</div>
-        <div><h3>Discover</h3><p>We start with your business, not your homepage — goals, audience, competitors, and what's already working today.</p></div>
-      </div>
-      <div class="process-row">
-        <div class="idx">02</div>
-        <div><h3>Design</h3><p>Concepts built around your actual content and brand, not a layout with your logo dropped in afterward.</p></div>
-      </div>
-      <div class="process-row">
-        <div class="idx">03</div>
-        <div><h3>Build</h3><p>Production-ready code, fast load times, and details that hold up on every screen, from a phone to a boardroom projector.</p></div>
-      </div>
-      <div class="process-row">
-        <div class="idx">04</div>
-        <div><h3>Launch</h3><p>You leave with a site you can maintain, plus direct support for the weeks after it goes live.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="about-strip" id="about">
   <div class="wrap-inner reveal">
     <span class="kicker">About Grey Creatives</span>
@@ -1182,7 +1147,7 @@
   <div class="wrap">
     <div class="section-head reveal">
       <span class="kicker">Client feedback</span>
-      <h2>Don't just take <span style="color:var(--blue);">our word for it.</span></h2>
+      <h2>Don't just take <span style="color:var(--blue-text);">our word for it.</span></h2>
     </div>
     <div class="testimonial-grid reveal">
       <div class="testimonial-card">
@@ -1202,7 +1167,7 @@
 
 <section class="cta-section" id="contact">
   <div class="wrap">
-    <h2 class="reveal">Have a project <span style="color:var(--blue);">worth doing properly?</span></h2>
+    <h2 class="reveal">Have a project <span style="color:var(--blue-text);">worth doing properly?</span></h2>
     <p class="lede-sub reveal">Let's discuss what you're building, what you want to achieve, and how Grey Creatives can help bring it to life.</p>
 
     <div class="enquiry-layout reveal">
@@ -1288,7 +1253,6 @@
         <a href="#work" class="nav-link">Work</a>
         <a href="#services" class="nav-link">Services</a>
         <a href="/branding-work" class="nav-link">Branding</a>
-        <a href="#process" class="nav-link">Process</a>
         <a href="#about" class="nav-link">About</a>
         <a href="/reviews" class="nav-link">Reviews</a>
         <a href="mailto:gr3ycreatives@gmail.com" class="nav-link">Contact</a>
