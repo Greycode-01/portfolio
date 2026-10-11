@@ -489,6 +489,51 @@
   }
 
   /* ---------- process ---------- */
+  /* ---------- video reel ---------- */
+  .reel-section{background:var(--ink); color:var(--off-white);}
+  .reel-section .kicker{color:var(--blue-bright);}
+  .reel-section h2{color:#fff;}
+  .reel-section p{color:#B9B8AF;}
+  .reel-frame{
+    margin-top:30px; border:1px solid rgba(255,255,255,0.14); border-radius:20px;
+    padding:56px 40px 30px; position:relative; overflow:hidden;
+    background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0));
+  }
+  .reel-frame::before, .reel-frame::after{
+    content:''; position:absolute; left:0; right:0; height:14px;
+    background-image:radial-gradient(circle, rgba(255,255,255,0.16) 3px, transparent 3px);
+    background-size:22px 14px; background-repeat:repeat-x;
+  }
+  .reel-frame::before{top:12px;}
+  .reel-frame::after{bottom:12px;}
+  .reel-stage{display:flex; align-items:center; justify-content:center; padding:36px 0 56px;}
+  .play-btn{
+    position:relative; width:88px; height:88px; border-radius:50%; background:var(--blue);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .25s, background .25s;
+  }
+  .play-btn:hover{transform:scale(1.07); background:var(--blue-bright);}
+  .play-btn svg{margin-left:4px;}
+  .ring{position:absolute; inset:0; border-radius:50%; border:1px solid rgba(242,194,48,0.55);}
+  .ring.r1{animation:ringPulse 2.4s ease-out infinite;}
+  .ring.r2{animation:ringPulse 2.4s ease-out infinite 1.2s;}
+  @keyframes ringPulse{0%{transform:scale(1); opacity:0.85;} 100%{transform:scale(1.9); opacity:0;}}
+  .reel-timeline{display:flex; gap:6px; height:34px; align-items:center; position:relative;}
+  .clip{height:100%; border-radius:6px; background:rgba(242,194,48,0.38);}
+  .clip.alt{background:rgba(255,255,255,0.14);}
+  .playhead{position:absolute; top:-8px; bottom:-8px; width:2px; background:#fff; left:0; animation:scrub 6s linear infinite;}
+  @keyframes scrub{0%{left:0%;} 100%{left:98%;}}
+  .reel-wave{display:flex; align-items:flex-end; gap:3px; height:30px; margin-top:20px;}
+  .reel-wave i{flex:1; background:rgba(255,255,255,0.28); border-radius:2px; height:6px; animation:waveMove 1.4s ease-in-out infinite;}
+  .reel-wave i:nth-child(3n){animation-delay:0.15s;}
+  .reel-wave i:nth-child(3n+1){animation-delay:0.3s;}
+  .reel-wave i:nth-child(3n+2){animation-delay:0.45s;}
+  @keyframes waveMove{0%,100%{height:6px;} 50%{height:26px;}}
+  .reel-caption{margin-top:24px; font-size:0.85rem; color:#8C8B82; text-align:center;}
+
+  @media (max-width:640px){
+    .reel-frame{padding:46px 20px 24px;}
+  }
+
   /* ---------- about strip ---------- */
   .about-strip{
     background:var(--ink); color:var(--off-white);
@@ -923,12 +968,14 @@
     <span>Brand Websites <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>Investment Platforms <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>Brand Identity <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Video Editing <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>Design Systems <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>Product UI <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>E-Commerce <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>Brand Websites <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>Investment Platforms <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>Brand Identity <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
+    <span>Video Editing <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>Design Systems <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>Product UI <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
     <span>E-Commerce <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
@@ -939,10 +986,10 @@
   <div class="wrap">
     <div class="section-head reveal">
       <span class="kicker">What we do</span>
-      <h2>Two disciplines, <span style="color:var(--blue-text);">one studio.</span></h2>
-      <p>Web design and development is the core of the work — brand identity is built alongside it, so every project reads as one consistent system rather than two separate vendors.</p>
+      <h2>Three disciplines, <span style="color:var(--blue-text);">one studio.</span></h2>
+      <p>Web design and development is the core of the work — brand identity and video sit alongside it, built to work together rather than as separate add-ons.</p>
     </div>
-    <div class="capability-grid reveal" style="grid-template-columns:repeat(2,1fr);">
+    <div class="capability-grid reveal">
       <div class="capability-item">
         <h3>Website Design &amp; Development</h3>
         <p>Professional digital experiences for businesses and organisations — designed and built end to end, from first sketch to shipped code.</p>
@@ -966,6 +1013,11 @@
           <li>Business stationery &amp; digital assets</li>
         </ul>
         <a href="#contact" class="cap-link sound-click" data-service="Brand Identity">Build Your Brand</a>
+      </div>
+      <div class="capability-item">
+        <h3>Video Editing</h3>
+        <p>Promotional and social edits that turn raw footage into something a brand is proud to post.</p>
+        <a href="#video" class="cap-link sound-click">See the work</a>
       </div>
     </div>
   </div>
@@ -1131,6 +1183,39 @@
     <p class="mosaic-note reveal">More identity and campaign work joins this section as new projects wrap.</p>
     <div style="text-align:center; margin-top:20px;">
       <a href="/branding-work" class="btn btn-ghost view-all-btn magnetic sound-click">View all branding work</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad reel-section" id="video">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="kicker">Video Editing</span>
+      <h2>Footage that earns a full watch, <span style="color:var(--blue-bright);">not just a skip-through.</span></h2>
+      <p>Promo cuts, social edits, and brand films — paced, captioned, and graded to match the same identity as everything else, from the thumbnail to the outro.</p>
+    </div>
+
+    <div class="reel-frame reveal">
+      <div class="reel-stage">
+        <div class="play-btn sound-click">
+          <span class="ring r1"></span>
+          <span class="ring r2"></span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#171717"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </div>
+      <div class="reel-timeline">
+        <div class="playhead"></div>
+        <div class="clip" style="width:16%"></div>
+        <div class="clip alt" style="width:26%"></div>
+        <div class="clip" style="width:13%"></div>
+        <div class="clip alt" style="width:22%"></div>
+        <div class="clip" style="width:20%"></div>
+      </div>
+      <div class="reel-wave">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="reel-caption">Showreel in production — client cuts land here soon.</div>
     </div>
   </div>
 </section>
