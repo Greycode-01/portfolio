@@ -44,6 +44,9 @@
     --blue-bright:#F2C230;
     --blue-dim:rgba(232,170,20,0.12);
     --blue-text:#8C6106;
+    --green:#39FF8A;
+    --green-dim:rgba(57,255,138,0.12);
+    --green-text:#0F7A42;
     --ff-display:'Bricolage Grotesque', sans-serif;
     --ff-body:'Inter', sans-serif;
     --ff-mono:'JetBrains Mono', monospace;
@@ -725,6 +728,121 @@
   ::-webkit-scrollbar-thumb:hover{background:var(--blue);}
   html{scrollbar-color:var(--grey-300) var(--off-white); scrollbar-width:thin;}
 
+  /* ---------- crt scanlines ---------- */
+  .scanlines{
+    position:fixed; inset:0; z-index:3; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, rgba(17,17,17,0.045) 0px, rgba(17,17,17,0.045) 1px, transparent 1px, transparent 3px);
+    opacity:0.5;
+    mix-blend-mode:multiply;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .scanlines{animation:scanFlicker 7.5s infinite;}
+  }
+  @keyframes scanFlicker{
+    0%,100%{opacity:0.5;}
+    92%{opacity:0.5;}
+    93%{opacity:0.2;}
+    94%{opacity:0.5;}
+    96%{opacity:0.35;}
+    97%{opacity:0.5;}
+  }
+  @media (max-width:640px){ .scanlines{display:none;} }
+
+  /* ---------- glitch text ---------- */
+  .glitch{position:relative; display:inline-block;}
+  .glitch:hover, .glitch.glitching{animation:textGlitch 0.34s steps(2,end) 2;}
+  @keyframes textGlitch{
+    0%{text-shadow:-2px 0 var(--green), 2px 0 var(--blue-bright); transform:translate(0,0);}
+    20%{text-shadow:2px 0 var(--green), -2px 0 var(--blue-bright); transform:translate(-1px,0);}
+    40%{text-shadow:-1px 0 var(--green), 1px 0 var(--blue-bright); transform:translate(1px,0);}
+    60%{text-shadow:1px 0 var(--green), -1px 0 var(--blue-bright); transform:translate(-1px,0);}
+    80%{text-shadow:-2px 0 var(--green), 2px 0 var(--blue-bright); transform:translate(0,0);}
+    100%{text-shadow:none; transform:translate(0,0);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .glitch:hover, .glitch.glitching{animation:none;}
+  }
+
+  /* ---------- file-tag (section source comments) ---------- */
+  .file-tag{
+    display:flex; align-items:center; gap:8px;
+    font-family:var(--ff-mono); font-size:0.74rem; color:var(--grey-500);
+    margin-bottom:12px; letter-spacing:0.01em;
+  }
+  .file-tag::before{content:'>'; color:var(--green-text); font-weight:700;}
+  .file-tag .ft-cursor{
+    display:inline-block; width:6px; height:12px; background:var(--green-text);
+    animation:caretBlink 1s step-end infinite;
+  }
+  .reel-section .file-tag, .about-strip .file-tag{color:#9C9B92;}
+  .reel-section .file-tag::before, .about-strip .file-tag::before,
+  .reel-section .file-tag .ft-cursor, .about-strip .file-tag .ft-cursor{color:var(--green); background:var(--green);}
+
+  /* ---------- dev-log commit ticker ---------- */
+  .devlog-band{
+    background:var(--ink); border-bottom:1px solid rgba(255,255,255,0.08);
+    padding:12px 0; overflow:hidden;
+  }
+  .devlog-track{display:flex; width:max-content; animation:scroll-right 42s linear infinite;}
+  .devlog-track span{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--ff-mono); font-size:0.8rem; color:#8C8B82;
+    padding:0 28px; white-space:nowrap; border-right:1px solid rgba(255,255,255,0.08);
+  }
+  .devlog-track span .hash{color:var(--green);}
+  .devlog-track span .kind{color:var(--blue-bright); font-weight:600;}
+  @keyframes scroll-right{from{transform:translateX(-50%);} to{transform:translateX(0);}}
+  @media (prefers-reduced-motion: reduce){ .devlog-track{animation:none;} }
+
+  /* ---------- hero status bar ---------- */
+  .hero-status{
+    display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap;
+    font-family:var(--ff-mono); font-size:0.78rem; color:var(--grey-500);
+    margin-top:22px; padding:9px 16px; border:1px solid var(--line); border-radius:8px;
+    background:rgba(255,255,255,0.5);
+  }
+  .hero-status .hs-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--green-text); flex-shrink:0;
+    box-shadow:0 0 0 3px var(--green-dim);
+  }
+  .hero-status .hs-sep{color:var(--grey-300);}
+  .hero-status .hs-flag{color:var(--blue-text); font-weight:600;}
+  @media (max-width:640px){ .hero-status{font-size:0.72rem; gap:7px; padding:8px 12px;} }
+
+  /* ---------- hero code window (decorative) ---------- */
+  .code-window{
+    position:absolute; right:0; top:52%; transform:translateY(-50%) rotate(2deg);
+    width:340px; z-index:1;
+    background:#15161A; border-radius:12px; overflow:hidden;
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 40px 90px -30px rgba(17,17,17,0.45);
+  }
+  .code-window .cw-bar{
+    display:flex; align-items:center; gap:6px; padding:10px 12px;
+    background:rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .code-window .cw-bar i{width:9px; height:9px; border-radius:50%; display:block;}
+  .code-window .cw-bar i:nth-child(1){background:#ff5f57;}
+  .code-window .cw-bar i:nth-child(2){background:#febc2e;}
+  .code-window .cw-bar i:nth-child(3){background:#28c840;}
+  .code-window .cw-title{
+    flex:1; text-align:center; margin-right:27px;
+    font-family:var(--ff-mono); font-size:0.68rem; color:rgba(255,255,255,0.3);
+  }
+  .code-window pre{
+    margin:0; padding:18px 18px 20px; font-family:var(--ff-mono); font-size:0.74rem; line-height:1.85;
+    color:#B9B8AF; overflow:hidden;
+  }
+  .code-window .c-kw{color:var(--blue-bright);}
+  .code-window .c-fn{color:#7AD1FF;}
+  .code-window .c-str{color:var(--green);}
+  .code-window .c-com{color:#6B6A63;}
+  .code-window .c-cursor{
+    display:inline-block; width:6px; height:12px; background:var(--green);
+    animation:caretBlink 0.9s step-end infinite; vertical-align:-2px;
+  }
+  @media (max-width:1180px){ .code-window{display:none;} }
+
   /* ---------- loading screen (terminal boot) ---------- */
   body.loading{overflow:hidden;}
   .loader{
@@ -925,6 +1043,7 @@
 </script>
 <div class="scroll-progress" id="scrollProgress"></div>
 <div class="grain"></div>
+<div class="scanlines"></div>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -950,7 +1069,7 @@
   </div>
   <div class="hero-inner">
     <div class="hero-eyebrow"><span class="pulse"></span><span class="prompt">$</span> currently accepting projects<span class="caret"></span></div>
-    <h1>We build. <span class="soft">We brand.</span> We create.</h1>
+    <h1 class="glitch" id="heroHeadline">We build. <span class="soft">We brand.</span> We create.</h1>
     <p class="lede">We design and develop high-quality websites and distinctive brand identities for businesses ready to stand out, earn trust, and grow.</p>
     <div class="hero-services">
       <span class="hero-service-chip">Website Design &amp; Development</span>
@@ -960,8 +1079,46 @@
       <a href="#contact" class="btn btn-primary magnetic sound-click">Start a Project</a>
       <a href="#work" class="btn btn-ghost magnetic sound-click">Explore Our Work</a>
     </div>
+    <div class="hero-status" id="heroStatus">
+      <span class="hs-dot"></span>
+      <span id="hsUptime">session 00:00:00</span>
+      <span class="hs-sep">·</span>
+      <span id="hsClock">--:--:--</span>
+      <span class="hs-sep">·</span>
+      <span class="hs-flag">status: shipping</span>
+    </div>
+  </div>
+  <div class="code-window" aria-hidden="true">
+    <div class="cw-bar"><i></i><i></i><i></i><span class="cw-title">studio.js</span></div>
+    <pre><span class="c-com">// grey creatives, build loop</span>
+<span class="c-kw">while</span> (idea.<span class="c-fn">isGood</span>()) {
+  design();
+  code();
+  obsess(<span class="c-str">'2px'</span>);
+  ship();
+}
+<span class="c-kw">export default</span> <span class="c-fn">refuseToBlendIn</span>()<span class="c-cursor"></span></pre>
   </div>
 </section>
+
+<div class="devlog-band" aria-hidden="true">
+  <div class="devlog-track" id="devlogTrack">
+    <span><span class="hash">a3f9c2</span> <span class="kind">feat:</span> shipped the hero section</span>
+    <span><span class="hash">e71b0d</span> <span class="kind">fix:</span> obsessed over 2px alignment again</span>
+    <span><span class="hash">9c44aa</span> <span class="kind">chore:</span> three coffees deep, no regrets</span>
+    <span><span class="hash">b812e4</span> <span class="kind">perf:</span> shaved 40kb off the hero</span>
+    <span><span class="hash">f0091c</span> <span class="kind">style:</span> swapped blue for amber</span>
+    <span><span class="hash">7d2a19</span> <span class="kind">fix:</span> centered a div (finally)</span>
+    <span><span class="hash">1cd7aa</span> <span class="kind">docs:</span> wrote this commit at 1am</span>
+    <span><span class="hash">a3f9c2</span> <span class="kind">feat:</span> shipped the hero section</span>
+    <span><span class="hash">e71b0d</span> <span class="kind">fix:</span> obsessed over 2px alignment again</span>
+    <span><span class="hash">9c44aa</span> <span class="kind">chore:</span> three coffees deep, no regrets</span>
+    <span><span class="hash">b812e4</span> <span class="kind">perf:</span> shaved 40kb off the hero</span>
+    <span><span class="hash">f0091c</span> <span class="kind">style:</span> swapped blue for amber</span>
+    <span><span class="hash">7d2a19</span> <span class="kind">fix:</span> centered a div (finally)</span>
+    <span><span class="hash">1cd7aa</span> <span class="kind">docs:</span> wrote this commit at 1am</span>
+  </div>
+</div>
 
 <div class="marquee-band">
   <div class="marquee-track" id="marqueeTrack">
@@ -985,6 +1142,7 @@
 <section class="section-pad" id="services" style="padding-bottom:0;">
   <div class="wrap">
     <div class="section-head reveal">
+      <span class="file-tag">services.jsx<span class="ft-cursor"></span></span>
       <span class="kicker">What we do</span>
       <h2>Three disciplines, <span style="color:var(--blue-text);">one studio.</span></h2>
       <p>Web design and development is the core of the work — brand identity and video sit alongside it, built to work together rather than as separate add-ons.</p>
@@ -1026,6 +1184,7 @@
 <section class="section-pad" id="work">
   <div class="wrap">
     <div class="section-head reveal">
+      <span class="file-tag">work.tsx<span class="ft-cursor"></span></span>
       <span class="kicker">Selected work</span>
       <h2>A few briefs, <span style="color:var(--blue-text);">a few very different worlds.</span></h2>
       <p>A look at the thinking behind recent builds — from a live investment platform to a healthcare practice to a brand spanning three countries.</p>
@@ -1090,6 +1249,7 @@
 <section class="section-pad" id="brand" style="background:var(--paper);">
   <div class="wrap">
     <div class="section-head reveal">
+      <span class="file-tag">brand.css<span class="ft-cursor"></span></span>
       <span class="kicker">Brand &amp; Graphic Design</span>
       <h2>A brand people would <span style="color:var(--blue-text);">recognize with the logo covered.</span></h2>
       <p>Identity systems, print, and social graphics built around one visual language — the same voice from the logo down to the layout of an invoice, not a font pack with a moodboard attached.</p>
@@ -1190,6 +1350,7 @@
 <section class="section-pad reel-section" id="video">
   <div class="wrap">
     <div class="section-head reveal">
+      <span class="file-tag">reel.mp4<span class="ft-cursor"></span></span>
       <span class="kicker">Video Editing</span>
       <h2>Footage that earns a full watch, <span style="color:var(--blue-bright);">not just a skip-through.</span></h2>
       <p>Promo cuts, social edits, and brand films — paced, captioned, and graded to match the same identity as everything else, from the thumbnail to the outro.</p>
@@ -1222,6 +1383,7 @@
 
 <section class="about-strip" id="about">
   <div class="wrap-inner reveal">
+    <span class="file-tag">about.md<span class="ft-cursor"></span></span>
     <span class="kicker">About Grey Creatives</span>
     <p class="big">Most brands settle — a website that exists, a logo that's just a logo, edits nobody rewatches. <span class="accent">Grey Creatives builds the alternative</span>: web, brand, and video work that carries real weight in investor decks, sales calls, and boardrooms.</p>
     <p class="signoff">Grey Creatives is a design and production studio — web, brand identity, and video working from the same brief, so every touchpoint feels like it came from the same place.</p>
@@ -1231,6 +1393,7 @@
 <section class="section-pad" id="testimonials" style="background:var(--paper);">
   <div class="wrap">
     <div class="section-head reveal">
+      <span class="file-tag">reviews.json<span class="ft-cursor"></span></span>
       <span class="kicker">Client feedback</span>
       <h2>Don't just take <span style="color:var(--blue-text);">our word for it.</span></h2>
     </div>
@@ -1252,6 +1415,7 @@
 
 <section class="cta-section" id="contact">
   <div class="wrap">
+    <span class="file-tag reveal">contact.json<span class="ft-cursor"></span></span>
     <h2 class="reveal">Have a project <span style="color:var(--blue-text);">worth doing properly?</span></h2>
     <p class="lede-sub reveal">Let's discuss what you're building, what you want to achieve, and how Grey Creatives can help bring it to life.</p>
 
@@ -1564,7 +1728,38 @@
   });
 
   if(reduceMotion){
-    document.querySelectorAll('.marquee-track').forEach(function(t){ t.style.animation='none'; });
+    document.querySelectorAll('.marquee-track, .devlog-track').forEach(function(t){ t.style.animation='none'; });
+  }
+
+  /* ---------- hero status: live session clock ---------- */
+  (function(){
+    var uptimeEl = document.getElementById('hsUptime');
+    var clockEl = document.getElementById('hsClock');
+    if(!uptimeEl || !clockEl) return;
+    var start = Date.now();
+    function pad(n){ return (n < 10 ? '0' : '') + n; }
+    function tick(){
+      var elapsed = Math.floor((Date.now() - start) / 1000);
+      var h = Math.floor(elapsed / 3600);
+      var m = Math.floor((elapsed % 3600) / 60);
+      var s = elapsed % 60;
+      uptimeEl.textContent = 'session ' + pad(h) + ':' + pad(m) + ':' + pad(s);
+      var now = new Date();
+      clockEl.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  /* ---------- periodic headline glitch ---------- */
+  if(!reduceMotion){
+    var heroHeadline = document.getElementById('heroHeadline');
+    if(heroHeadline){
+      setInterval(function(){
+        heroHeadline.classList.add('glitching');
+        setTimeout(function(){ heroHeadline.classList.remove('glitching'); }, 380);
+      }, 6500 + Math.random() * 3000);
+    }
   }
 
   /* ---------- enquiry form ---------- */
