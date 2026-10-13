@@ -4,6 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem('gc-theme');
+    if(t === 'light'){ document.documentElement.setAttribute('data-theme','light'); }
+  }catch(e){}
+})();
+</script>
 <title>Grey Creatives — Web Design & Development Studio</title>
 <meta name="description" content="Grey Creatives designs and builds web experiences for brands that refuse to blend in.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111111'/><circle cx='50' cy='50' r='19' fill='%23E8AA14'/></svg>">
@@ -47,11 +55,43 @@
     --green:#39FF8A;
     --green-dim:rgba(57,255,138,0.16);
     --green-text:#39FF8A;
+    --header-glass:rgba(11,12,15,0.82);
+    --grid-line:rgba(255,255,255,0.065);
+    --grain-color:rgba(255,255,255,0.055);
+    --grain-blend:overlay;
+    --scanline-color:rgba(255,255,255,0.035);
+    --scanline-blend:overlay;
+    --glass-fill:rgba(255,255,255,0.04);
+    --status-ok:#3DDC84;
+    --status-err:#FF6B5B;
     --ff-display:'Bricolage Grotesque', sans-serif;
     --ff-body:'Inter', sans-serif;
     --ff-mono:'JetBrains Mono', monospace;
     --container:1180px;
     --edge:6vw;
+  }
+
+  :root[data-theme="light"]{
+    --off-white:#FAFAF8;
+    --paper:#F1F0EB;
+    --ink:#111111;
+    --grey-700:#48473F;
+    --grey-500:#7A7A72;
+    --grey-300:#B8B7AE;
+    --line:#DEDDD3;
+    --blue-dim:rgba(232,170,20,0.12);
+    --blue-text:#8C6106;
+    --green-dim:rgba(57,255,138,0.12);
+    --green-text:#0F7A42;
+    --header-glass:rgba(250,250,248,0.82);
+    --grid-line:rgba(17,17,17,0.07);
+    --grain-color:rgba(17,17,17,0.05);
+    --grain-blend:multiply;
+    --scanline-color:rgba(17,17,17,0.045);
+    --scanline-blend:multiply;
+    --glass-fill:rgba(255,255,255,0.5);
+    --status-ok:#1E8E3E;
+    --status-err:#C0392B;
   }
 
   *{box-sizing:border-box;}
@@ -88,10 +128,10 @@
   /* grain texture, subtle, over whole page */
   .grain{
     position:fixed; inset:0; pointer-events:none; z-index:2;
-    background-image:radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px);
+    background-image:radial-gradient(var(--grain-color) 1px, transparent 1px);
     background-size:3px 3px;
     opacity:0.55;
-    mix-blend-mode:overlay;
+    mix-blend-mode:var(--grain-blend);
   }
 
   /* ---------- custom cursor ---------- */
@@ -120,7 +160,7 @@
     transition:background .3s ease, backdrop-filter .3s ease, box-shadow .3s ease, padding .3s ease;
   }
   header.scrolled{
-    background:rgba(11,12,15,0.82);
+    background:var(--header-glass);
     backdrop-filter:blur(10px);
     box-shadow:0 1px 0 var(--line);
     padding-top:14px; padding-bottom:14px;
@@ -146,6 +186,21 @@
   .nav-cta:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
   .nav-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
   .nav-toggle span{width:22px; height:2px; background:var(--ink); display:block;}
+
+  /* ---------- theme toggle ---------- */
+  .theme-toggle{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:38px; height:38px; border-radius:50%; flex-shrink:0;
+    border:1px solid var(--line); background:transparent; color:var(--ink);
+    cursor:pointer; transition:background .2s, border-color .2s, color .2s, transform .2s;
+  }
+  .theme-toggle:hover{border-color:var(--blue); color:var(--blue-text); transform:translateY(-1px);}
+  .theme-toggle:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+  .theme-toggle .icon-sun{display:none;}
+  .theme-toggle .icon-moon{display:block;}
+  :root[data-theme="light"] .theme-toggle .icon-moon{display:none;}
+  :root[data-theme="light"] .theme-toggle .icon-sun{display:block;}
+  .header-right{display:flex; align-items:center; gap:16px;}
 
   @media (max-width:860px){
     nav.links{
@@ -177,7 +232,7 @@
       linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
     background-size:56px 56px;
   }
-  .hero-grid{ --grid-color:rgba(255,255,255,0.065); }
+  .hero-grid{ --grid-color:var(--grid-line); }
   .hero-grid-color{
     --grid-color:rgba(232,170,20,0.55);
     -webkit-mask-image:radial-gradient(circle 220px at var(--mx,50%) var(--my,30%), black 0%, transparent 72%);
@@ -195,7 +250,7 @@
     display:inline-flex; align-items:center; gap:9px;
     font-family:var(--ff-mono); font-size:0.82rem; color:var(--grey-700); margin-bottom:26px;
     border:1px solid var(--line); padding:7px 16px 7px 10px; border-radius:100px;
-    background:rgba(255,255,255,0.04);
+    background:var(--glass-fill);
   }
   .hero-eyebrow .prompt{color:var(--blue-text); font-weight:600;}
   .hero-eyebrow .caret{
@@ -493,7 +548,7 @@
 
   /* ---------- process ---------- */
   /* ---------- video reel ---------- */
-  .reel-section{background:var(--paper); color:var(--ink);}
+  .reel-section{background:#111111; color:#F3F2EC;}
   .reel-section .kicker{color:var(--blue-bright);}
   .reel-section h2{color:#fff;}
   .reel-section p{color:#B9B8AF;}
@@ -539,7 +594,7 @@
 
   /* ---------- about strip ---------- */
   .about-strip{
-    background:var(--paper); color:var(--ink);
+    background:#111111; color:#F3F2EC;
     padding:120px var(--edge);
   }
   .about-strip .wrap-inner{max-width:760px;}
@@ -619,9 +674,9 @@
     outline:none; border-color:var(--ink); box-shadow:0 0 0 3px var(--blue-dim);
   }
   .field-group input.invalid, .field-group textarea.invalid, .segmented.invalid span{
-    border-color:#FF6B5B;
+    border-color:var(--status-err);
   }
-  .field-error{font-size:0.8rem; color:#FF6B5B; display:none;}
+  .field-error{font-size:0.8rem; color:var(--status-err); display:none;}
   .field-error.show{display:block;}
 
   .form-status{
@@ -629,8 +684,8 @@
     border-radius:10px; padding:14px 16px;
   }
   .form-status.show{display:block;}
-  .form-status.success{background:rgba(40,200,64,0.14); color:#3DDC84;}
-  .form-status.error{background:rgba(192,57,43,0.14); color:#FF6B5B;}
+  .form-status.success{background:rgba(40,200,64,0.14); color:var(--status-ok);}
+  .form-status.error{background:rgba(192,57,43,0.14); color:var(--status-err);}
 
   .enquiry-form button[type="submit"]{align-self:flex-start;}
   .enquiry-form button[type="submit"]:disabled{opacity:0.6; cursor:not-allowed;}
@@ -731,9 +786,9 @@
   /* ---------- crt scanlines ---------- */
   .scanlines{
     position:fixed; inset:0; z-index:3; pointer-events:none;
-    background:repeating-linear-gradient(to bottom, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 3px);
+    background:repeating-linear-gradient(to bottom, var(--scanline-color) 0px, var(--scanline-color) 1px, transparent 1px, transparent 3px);
     opacity:0.5;
-    mix-blend-mode:overlay;
+    mix-blend-mode:var(--scanline-blend);
   }
   @media (prefers-reduced-motion:no-preference){
     .scanlines{animation:scanFlicker 7.5s infinite;}
@@ -799,7 +854,7 @@
     display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap;
     font-family:var(--ff-mono); font-size:0.78rem; color:var(--grey-500);
     margin-top:22px; padding:9px 16px; border:1px solid var(--line); border-radius:8px;
-    background:rgba(255,255,255,0.04);
+    background:var(--glass-fill);
   }
   .hero-status .hs-dot{
     width:7px; height:7px; border-radius:50%; background:var(--green-text); flex-shrink:0;
@@ -847,7 +902,7 @@
   body.loading{overflow:hidden;}
   .loader{
     position:fixed; inset:0; z-index:9999;
-    background:#0B0C0F;
+    background:#111111;
     display:flex; align-items:center; justify-content:center;
     padding:24px;
     transition:opacity .5s ease, visibility .5s ease;
@@ -1049,15 +1104,21 @@
 
 <header id="siteHeader">
   <a href="/" class="logo"><span class="dot"></span>Grey Creatives</a>
-  <nav class="links" id="navLinks">
-    <a href="#work" class="nav-link">Work</a>
-    <a href="#services" class="nav-link">Services</a>
-    <a href="/branding-work" class="nav-link">Branding</a>
-    <a href="#about" class="nav-link">About</a>
-    <a href="/reviews" class="nav-link">Reviews</a>
-    <a href="#contact" class="nav-cta nav-link">Start a project</a>
-  </nav>
-  <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <div class="header-right">
+    <nav class="links" id="navLinks">
+      <a href="#work" class="nav-link">Work</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="/branding-work" class="nav-link">Branding</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="/reviews" class="nav-link">Reviews</a>
+      <a href="#contact" class="nav-cta nav-link">Start a project</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to light mode" aria-pressed="false">
+      <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
 </header>
 
 <section class="hero" id="heroSection">
@@ -1565,6 +1626,25 @@
   navLinks.querySelectorAll('a').forEach(function(a){
     a.addEventListener('click', function(){ navLinks.classList.remove('open'); });
   });
+
+  /* ---------- theme toggle (dark default, light optional) ---------- */
+  var themeToggle = document.getElementById('themeToggle');
+  if(themeToggle){
+    function currentTheme(){
+      return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    }
+    function applyTheme(t){
+      if(t === 'light'){ document.documentElement.setAttribute('data-theme', 'light'); }
+      else{ document.documentElement.removeAttribute('data-theme'); }
+      themeToggle.setAttribute('aria-pressed', t === 'light' ? 'true' : 'false');
+      themeToggle.setAttribute('aria-label', t === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+      try{ localStorage.setItem('gc-theme', t); }catch(e){}
+    }
+    applyTheme(currentTheme());
+    themeToggle.addEventListener('click', function(){
+      applyTheme(currentTheme() === 'light' ? 'dark' : 'light');
+    });
+  }
 
   /* ---------- scrollspy ---------- */
   var spySections = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
