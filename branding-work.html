@@ -7,7 +7,7 @@
 (function(){
   try{
     var t = localStorage.getItem('gc-theme');
-    if(t === 'light'){ document.documentElement.setAttribute('data-theme','light'); }
+    if(t === 'dark'){ document.documentElement.setAttribute('data-theme','dark'); }
   }catch(e){}
 })();
 </script>
@@ -28,29 +28,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --off-white:#0B0C0F;
-    --paper:#16171C;
-    --ink:#F3F2EC;
-    --grey-700:#C9C8BE;
-    --grey-500:#9B9A90;
-    --grey-300:#45443F;
-    --line:rgba(255,255,255,0.12);
-    --blue:#E8AA14;
-    --blue-bright:#F2C230;
-    --blue-dim:rgba(232,170,20,0.16);
-    --blue-text:#F2C230;
-    --header-glass:rgba(11,12,15,0.82);
-    --grid-line:rgba(255,255,255,0.065);
-    --grain-color:rgba(255,255,255,0.055);
-    --grain-blend:overlay;
-    --ff-display:'Bricolage Grotesque', sans-serif;
-    --ff-body:'Inter', sans-serif;
-    --ff-mono:'JetBrains Mono', monospace;
-    --container:1180px;
-    --edge:6vw;
-  }
-
-  :root[data-theme="light"]{
     --off-white:#FAFAF8;
     --paper:#F1F0EB;
     --ink:#111111;
@@ -58,12 +35,35 @@
     --grey-500:#7A7A72;
     --grey-300:#B8B7AE;
     --line:#DEDDD3;
+    --blue:#E8AA14;
+    --blue-bright:#F2C230;
     --blue-dim:rgba(232,170,20,0.12);
     --blue-text:#8C6106;
     --header-glass:rgba(250,250,248,0.82);
     --grid-line:rgba(17,17,17,0.07);
     --grain-color:rgba(17,17,17,0.05);
     --grain-blend:multiply;
+    --ff-display:'Bricolage Grotesque', sans-serif;
+    --ff-body:'Inter', sans-serif;
+    --ff-mono:'JetBrains Mono', monospace;
+    --container:1180px;
+    --edge:6vw;
+  }
+
+  :root[data-theme="dark"]{
+    --off-white:#0B0C0F;
+    --paper:#16171C;
+    --ink:#F3F2EC;
+    --grey-700:#C9C8BE;
+    --grey-500:#9B9A90;
+    --grey-300:#45443F;
+    --line:rgba(255,255,255,0.12);
+    --blue-dim:rgba(232,170,20,0.16);
+    --blue-text:#F2C230;
+    --header-glass:rgba(11,12,15,0.82);
+    --grid-line:rgba(255,255,255,0.065);
+    --grain-color:rgba(255,255,255,0.055);
+    --grain-blend:overlay;
   }
 
   *{box-sizing:border-box;}
@@ -169,10 +169,9 @@
   }
   .theme-toggle:hover{border-color:var(--blue); color:var(--blue-text); transform:translateY(-1px);}
   .theme-toggle:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
-  .theme-toggle .icon-sun{display:none;}
-  .theme-toggle .icon-moon{display:block;}
-  :root[data-theme="light"] .theme-toggle .icon-moon{display:none;}
-  :root[data-theme="light"] .theme-toggle .icon-sun{display:block;}
+  .theme-toggle .icon-moon{display:none;}
+  :root[data-theme="dark"] .theme-toggle .icon-sun{display:none;}
+  :root[data-theme="dark"] .theme-toggle .icon-moon{display:block;}
 
   @media (max-width:860px){
     nav.links{
@@ -627,7 +626,7 @@
       <a href="/reviews" class="nav-link">Reviews</a>
       <a href="/#contact" class="nav-cta nav-link">Start a project</a>
     </nav>
-    <button class="theme-toggle" id="themeToggle" aria-label="Switch to light mode" aria-pressed="false">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" aria-pressed="false">
       <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
     </button>
@@ -809,18 +808,18 @@
   var themeToggle = document.getElementById('themeToggle');
   if(themeToggle){
     function currentTheme(){
-      return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
     }
     function applyTheme(t){
-      if(t === 'light'){ document.documentElement.setAttribute('data-theme', 'light'); }
+      if(t === 'dark'){ document.documentElement.setAttribute('data-theme', 'dark'); }
       else{ document.documentElement.removeAttribute('data-theme'); }
-      themeToggle.setAttribute('aria-pressed', t === 'light' ? 'true' : 'false');
-      themeToggle.setAttribute('aria-label', t === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+      themeToggle.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+      themeToggle.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
       try{ localStorage.setItem('gc-theme', t); }catch(e){}
     }
     applyTheme(currentTheme());
     themeToggle.addEventListener('click', function(){
-      applyTheme(currentTheme() === 'light' ? 'dark' : 'light');
+      applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
     });
   }
 
