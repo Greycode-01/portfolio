@@ -1,0 +1,129 @@
+/* Grey Creatives — shared styles for nav blend, sound player, runner, toast, keys, easter egg.
+   Loaded after each page's inline <style>, so these rules intentionally win. */
+
+:root{ color-scheme:light; }
+:root[data-theme="dark"]{ color-scheme:dark; }
+
+/* ---------- performance: no full-screen blend layers ---------- */
+.grain{ mix-blend-mode:normal !important; }
+.scanlines{ mix-blend-mode:normal !important; animation:none !important; }
+@media (hover:none), (max-width:860px){ .scanlines{ display:none !important; } }
+img{ height:auto; }
+.g-item img, .shot-wrap img{ height:auto; }
+.identity-gallery .g-item img{ height:100%; }
+
+/* ---------- top nav: blends with whatever is under it (desktop) ---------- */
+#siteHeader{ transition:transform .45s cubic-bezier(.7,0,.2,1), padding .3s ease, background .3s ease; }
+#siteHeader.gc-hide{ transform:translateY(-110%); }
+@media (min-width:861px){
+  #siteHeader{
+    mix-blend-mode:difference; color:#fff;
+    background:none !important; backdrop-filter:none !important; -webkit-backdrop-filter:none !important; box-shadow:none !important;
+  }
+  #siteHeader .logo, #siteHeader nav.links a:not(.nav-cta){ color:#fff; }
+  #siteHeader .logo .dot{ background:#fff; }
+  #siteHeader nav.links a:not(.nav-cta)::after{ background:#fff; }
+  #siteHeader nav.links a.active:not(.nav-cta), #siteHeader nav.links a.active-link:not(.nav-cta){ color:#fff; }
+  #siteHeader .nav-cta{ background:transparent; color:#fff; border:1px solid #fff; }
+  #siteHeader .nav-cta:hover{ background:#fff; color:#000; border-color:#fff; transform:translateY(-1px); }
+  #siteHeader .theme-toggle{ background:transparent; color:#fff; border:1px solid #fff; }
+  #siteHeader .theme-toggle:hover{ background:#fff; color:#000; border-color:#fff; }
+}
+/* letter-roll hover */
+.roll-link{ display:inline-block; height:1.45em; overflow:hidden; vertical-align:middle; padding:0 !important; }
+.roll-link .rl{ display:block; line-height:1.45em; transition:transform .45s cubic-bezier(.7,0,.2,1); }
+.roll-link:hover .rl, .roll-link:focus-visible .rl{ transform:translateY(-100%); }
+.roll-link::after{ display:none !important; }
+nav.links a.roll-link.active .rl, nav.links a.roll-link.active-link .rl{ font-weight:600; }
+@media (max-width:860px){ .roll-link{ height:auto; overflow:visible; } .roll-link .rl2{ display:none; } }
+
+/* ---------- sound / music player ---------- */
+.sound-toggle{ display:none !important; }
+.gc-player{
+  position:fixed; right:22px; bottom:20px; z-index:210; display:flex; gap:8px; align-items:stretch;
+}
+.gc-player button{
+  font:inherit; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:100px;
+  display:flex; align-items:center; gap:10px; padding:9px 14px; cursor:pointer;
+  box-shadow:0 12px 30px -14px rgba(0,0,0,.5); transition:background .25s, color .25s, border-color .25s, transform .2s;
+}
+.gc-player button:hover{ background:var(--blue); color:#171717; border-color:var(--blue); transform:translateY(-2px); }
+.gcp-meta{ display:flex; flex-direction:column; line-height:1.15; text-align:left; }
+.gcp-meta b{ font-family:var(--ff-mono); font-size:.72rem; font-weight:600; letter-spacing:.01em; }
+.gcp-meta small{ font-family:var(--ff-mono); font-size:.64rem; opacity:.65; }
+.gcp-sfx{ font-family:var(--ff-mono); font-size:.72rem; font-weight:600; letter-spacing:.06em; }
+.gcp-dot{ width:8px; height:8px; border-radius:50%; background:var(--green, #39FF8A); box-shadow:0 0 0 2px rgba(57,255,138,.25); display:inline-block; }
+.gcp-sfx[aria-pressed="false"] .gcp-dot{ background:var(--grey-500); box-shadow:none; }
+.gcp-eq{ display:flex; align-items:flex-end; gap:2px; height:14px; width:16px; }
+.gcp-eq i{ width:3px; height:3px; background:currentColor; border-radius:1px; display:block; }
+.gc-music-on .gcp-eq i:nth-child(1){ animation:gcEq .9s ease-in-out infinite; }
+.gc-music-on .gcp-eq i:nth-child(2){ animation:gcEq .7s ease-in-out infinite .1s; }
+.gc-music-on .gcp-eq i:nth-child(3){ animation:gcEq 1.1s ease-in-out infinite .2s; }
+.gc-music-on .gcp-eq i:nth-child(4){ animation:gcEq .8s ease-in-out infinite .05s; }
+@keyframes gcEq{ 0%,100%{ height:3px; } 50%{ height:14px; } }
+.scroll-top{ bottom:78px !important; }
+@media (max-width:640px){
+  .gc-player{ right:12px; bottom:12px; }
+  .gcp-meta{ display:none; }
+  .gc-player button{ padding:9px 12px; }
+  .scroll-top{ right:14px !important; bottom:64px !important; }
+}
+
+/* ---------- pixel runner ---------- */
+.gc-runner{ position:fixed; left:0; right:0; bottom:0; height:60px; z-index:150; pointer-events:none; }
+.gcr-track{ position:absolute; left:0; right:0; bottom:5px; height:1px; background:repeating-linear-gradient(90deg, var(--grey-300) 0 6px, transparent 6px 12px); opacity:.55; }
+.gcr-actor{ position:absolute; left:0; bottom:6px; width:42px; height:48px; pointer-events:auto; cursor:pointer; will-change:transform; }
+.gcr-body{ width:42px; height:48px; transform-origin:50% 100%; }
+.gcr-actor.flip .gcr-body{ transform:scaleX(-1); }
+.gcr-svg{ display:block; overflow:visible; }
+.gcr-run{ display:none; }
+.gcr-actor.is-running .gcr-idle{ display:none; }
+.gcr-actor.is-running .gcr-run{ display:block; }
+.gcr-run .gcr-f{ opacity:0; animation:gcF .48s steps(1) infinite; }
+.gcr-run .f1{ animation-delay:0s; } .gcr-run .f2{ animation-delay:.12s; } .gcr-run .f3{ animation-delay:.24s; } .gcr-run .f4{ animation-delay:.36s; }
+@keyframes gcF{ 0%{ opacity:1; } 25%,100%{ opacity:0; } }
+.gcr-actor.is-running .gcr-body{ animation:gcBob .24s steps(2) infinite; }
+@keyframes gcBob{ 0%{ transform:translateY(0); } 50%{ transform:translateY(-2px); } }
+.gcr-actor.flip.is-running .gcr-body{ animation:none; }
+.gcr-actor.jump{ animation:gcJump .55s cubic-bezier(.3,.7,.4,1); }
+@keyframes gcJump{ 0%,100%{ margin-bottom:0; } 45%{ margin-bottom:46px; } }
+.gcr-label{
+  position:absolute; left:50%; top:-16px; transform:translateX(-50%);
+  font-family:var(--ff-mono); font-size:.62rem; color:var(--grey-700); letter-spacing:.04em; white-space:nowrap;
+}
+.gcr-bubble{
+  position:absolute; left:50%; bottom:58px; transform:translate(-50%,6px); opacity:0; white-space:nowrap;
+  font-family:var(--ff-mono); font-size:.7rem; background:var(--ink); color:var(--off-white); padding:6px 10px; border-radius:8px;
+  transition:opacity .2s, transform .2s;
+}
+.gcr-bubble.show{ opacity:1; transform:translate(-50%,0); }
+body footer{ padding-bottom:84px !important; }
+@media (max-width:640px){ .gc-runner{ height:52px; } .gcr-body, .gcr-actor{ transform-origin:0 100%; } .gcr-svg{ width:34px; height:38px; } .gcr-actor{ width:34px; height:38px; } .gcr-body{ width:34px; height:38px; } }
+
+/* ---------- toast + key hints ---------- */
+.gc-toast{
+  position:fixed; left:50%; bottom:76px; transform:translate(-50%,10px); z-index:260; opacity:0; pointer-events:none;
+  font-family:var(--ff-mono); font-size:.78rem; letter-spacing:.02em; color:var(--off-white); background:var(--ink);
+  padding:10px 16px; border-radius:10px; transition:opacity .25s, transform .25s; white-space:nowrap; max-width:92vw;
+}
+.gc-toast.show{ opacity:1; transform:translate(-50%,0); }
+.gc-keys{
+  position:fixed; left:22px; bottom:76px; z-index:205; display:flex; gap:14px; opacity:0; transform:translateY(8px);
+  transition:opacity .5s, transform .5s; pointer-events:none;
+  font-family:var(--ff-mono); font-size:.68rem; color:var(--grey-700); background:var(--paper); border:1px solid var(--line);
+  padding:8px 14px; border-radius:100px;
+}
+.gc-keys.show{ opacity:1; transform:none; }
+.gc-keys kbd{ font:inherit; border:1px solid var(--grey-300); border-bottom-width:2px; border-radius:4px; padding:0 5px; color:var(--ink); background:var(--off-white); }
+@media (max-width:860px){ .gc-keys{ display:none; } }
+
+/* ---------- easter egg ---------- */
+.gc-matrix{ position:fixed; inset:0; width:100%; height:100%; z-index:9000; pointer-events:none; transition:opacity .6s; }
+.gc-matrix.out{ opacity:0; }
+body.gc-root{ animation:gcRootShake .4s steps(2) 3; }
+@keyframes gcRootShake{ 0%{ transform:translate(0,0); } 50%{ transform:translate(-2px,1px); } 100%{ transform:translate(2px,-1px); } }
+
+@media (prefers-reduced-motion: reduce){
+  .gcr-run .gcr-f, .gc-music-on .gcp-eq i, .gcr-actor.is-running .gcr-body{ animation:none !important; }
+  #siteHeader{ transition:none; }
+}

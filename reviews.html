@@ -5,15 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 (function(){
-  try{
-    var t = localStorage.getItem('gc-theme');
-    if(t === 'dark'){ document.documentElement.setAttribute('data-theme','dark'); }
-  }catch(e){}
+  var DEFAULT_THEME = 'dark'; /* first-time visitors see this; change to 'light' to flip the default */
+  var t = DEFAULT_THEME;
+  try{ var v = localStorage.getItem('gc-theme2'); if(v === 'light' || v === 'dark'){ t = v; } }catch(e){}
+  if(t === 'dark'){ document.documentElement.setAttribute('data-theme','dark'); }
 })();
 </script>
 <title>Reviews — Grey Creatives</title>
 <meta name="description" content="Read what clients say about working with Grey Creatives, and leave your own review of our web design, branding, or video editing work.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111111'/><circle cx='50' cy='50' r='19' fill='%23E8AA14'/></svg>">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#0B0C0F">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Reviews — Grey Creatives">
 <meta property="og:description" content="Read what clients say about working with Grey Creatives, and leave your own review.">
@@ -652,7 +656,9 @@
   ::-webkit-scrollbar-thumb:hover{background:var(--blue);}
   html{scrollbar-color:var(--grey-300) var(--off-white); scrollbar-width:thin;}
 
-</style></head>
+</style>
+<link rel="stylesheet" href="assets/gc.css">
+</head>
 <body>
 
 <div class="scroll-progress" id="scrollProgress"></div>
@@ -796,10 +802,6 @@
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
 </button>
 
-<button class="sound-toggle" id="soundToggle" aria-pressed="true">
-  <span class="bars"><i></i><i></i><i></i></span>
-  <span id="soundLabel">Sound on</span>
-</button>
 
 
 <script>
@@ -848,22 +850,19 @@
   /* ---------- theme toggle ---------- */
   var themeToggle = document.getElementById('themeToggle');
   if(themeToggle){
-    (function(){
-      function currentTheme(){
-        return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      }
-      function applyTheme(t){
-        if(t === 'dark'){ document.documentElement.setAttribute('data-theme', 'dark'); }
-        else{ document.documentElement.removeAttribute('data-theme'); }
-        themeToggle.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
-        themeToggle.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-        try{ localStorage.setItem('gc-theme', t); }catch(e){}
-      }
-      applyTheme(currentTheme());
-      themeToggle.addEventListener('click', function(){
-        applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
-      });
-    })();
+    var isDark = function(){ return document.documentElement.getAttribute('data-theme') === 'dark'; };
+    var syncToggle = function(){
+      themeToggle.setAttribute('aria-pressed', isDark() ? 'true' : 'false');
+      themeToggle.setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode');
+    };
+    syncToggle();
+    themeToggle.addEventListener('click', function(){
+      var next = isDark() ? 'light' : 'dark';
+      if(next === 'dark'){ document.documentElement.setAttribute('data-theme', 'dark'); }
+      else{ document.documentElement.removeAttribute('data-theme'); }
+      syncToggle();
+      try{ localStorage.setItem('gc-theme2', next); }catch(e){}
+    });
   }
 
   /* ---------- scrollspy ---------- */
@@ -891,13 +890,14 @@
     window.addEventListener('mousemove', function(e){
       mx = e.clientX; my = e.clientY;
       dot.style.transform = 'translate('+mx+'px,'+my+'px) translate(-50%,-50%)';
-    });
+    }, {passive:true});
+    var looping = false;
     function loop(){
       rx += (mx-rx)*0.16; ry += (my-ry)*0.16;
-      ring.style.transform = 'translate('+rx+'px,'+ry+'px) translate(-50%,-50%)';
-      requestAnimationFrame(loop);
+      ring.style.transform = 'translate('+rx.toFixed(1)+'px,'+ry.toFixed(1)+'px) translate(-50%,-50%)';
+      if(Math.abs(mx-rx) > 0.15 || Math.abs(my-ry) > 0.15){ requestAnimationFrame(loop); } else { looping = false; }
     }
-    loop();
+    window.addEventListener('mousemove', function(){ if(!looping){ looping = true; requestAnimationFrame(loop); } }, {passive:true});
     document.querySelectorAll('a, button, .browser-frame').forEach(function(el){
       el.addEventListener('mouseenter', function(){ ring.classList.add('big'); });
       el.addEventListener('mouseleave', function(){ ring.classList.remove('big'); });
@@ -928,11 +928,7 @@
       });
     } else {
       var t0 = Date.now();
-      (function autoSpot(){
-        var t = (Date.now()-t0)/1000;
-        setSpot(50+30*Math.cos(t*0.4), 35+18*Math.sin(t*0.5));
-        requestAnimationFrame(autoSpot);
-      })();
+      setSpot(50,35);
     }
   } else {
     setSpot(50,30);
@@ -958,74 +954,11 @@
     entries.forEach(function(entry){
       if(entry.isIntersecting){
         entry.target.classList.add('in-view');
-        if(entry.target.classList.contains('work-item')){ playChime(); }
+        if(entry.target.classList.contains('work-item') && window.GC){ GC.sfx('chime'); }
       }
     });
   }, {threshold:0.28});
   revealEls.forEach(function(el){ io.observe(el); });
-
-  /* ---------- sound engine ---------- */
-  var audioCtx = null;
-  var soundOn = true;
-  function ensureCtx(){
-    if(!audioCtx){
-      try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ soundOn = false; }
-    }
-    if(audioCtx && audioCtx.state === 'suspended'){ audioCtx.resume(); }
-  }
-  function tone(freq, delay, dur, type, peak){
-    if(!soundOn || !audioCtx) return;
-    var t0 = audioCtx.currentTime + (delay||0);
-    var osc = audioCtx.createOscillator();
-    var gain = audioCtx.createGain();
-    osc.type = type || 'sine';
-    osc.frequency.setValueAtTime(freq, t0);
-    gain.gain.setValueAtTime(0.0001, t0);
-    gain.gain.exponentialRampToValueAtTime(peak || 0.05, t0 + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + (dur || 0.14));
-    osc.connect(gain).connect(audioCtx.destination);
-    osc.start(t0);
-    osc.stop(t0 + (dur || 0.14) + 0.03);
-  }
-  function playHover(){ tone(760, 0, 0.07, 'sine', 0.028); }
-  function playClick(){ tone(520, 0, 0.09, 'triangle', 0.045); tone(780, 0.06, 0.12, 'triangle', 0.04); }
-  var chimed = {};
-  function playChime(){
-    // called from IO callback with `this` bound to entry target via closure below
-  }
-  var chimeNotes = [523.25, 659.25, 783.99];
-  function playChimeOnce(id){
-    if(chimed[id]) return;
-    chimed[id] = true;
-    chimeNotes.forEach(function(f, i){ tone(f, i*0.09, 0.5, 'sine', 0.035); });
-  }
-
-  // rebind work-item reveal to unique chime per item
-  io.disconnect ? null : null;
-  var io2 = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){ playChimeOnce(entry.target.id || Math.random()); }
-    });
-  }, {threshold:0.35});
-  document.querySelectorAll('.work-item').forEach(function(el){ io2.observe(el); });
-
-  document.addEventListener('pointerdown', ensureCtx, {once:true});
-
-  document.querySelectorAll('.sound-click').forEach(function(el){
-    el.addEventListener('mouseenter', function(){ ensureCtx(); playHover(); });
-    el.addEventListener('click', function(){ ensureCtx(); playClick(); });
-  });
-
-  var soundToggle = document.getElementById('soundToggle');
-  var soundLabel = document.getElementById('soundLabel');
-  soundToggle.addEventListener('click', function(){
-    ensureCtx();
-    soundOn = !soundOn;
-    document.body.classList.toggle('sound-off', !soundOn);
-    soundToggle.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
-    soundLabel.textContent = soundOn ? 'Sound on' : 'Sound off';
-    if(soundOn){ tone(880, 0, 0.1, 'sine', 0.04); }
-  });
 
   if(reduceMotion){
     document.querySelectorAll('.marquee-track').forEach(function(t){ t.style.animation='none'; });
@@ -1208,5 +1141,6 @@
 })();
 </script>
 
+<script defer src="assets/gc.js"></script>
 </body>
 </html>
