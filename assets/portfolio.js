@@ -21,22 +21,45 @@ function cardHTML(p){
 document.querySelectorAll('.pf-rail[data-kind]').forEach(function(r){
   r.innerHTML = D[r.getAttribute('data-kind')].map(cardHTML).join('');
 });
+var TOUCH = window.matchMedia('(hover:none)').matches;
 function wireRail(r){
-  var parent = r.parentNode, arrows = null;
-  if(!r.classList.contains('svc-rail')){
-    arrows = document.createElement('div'); arrows.className = 'pf-arrows';
-    arrows.innerHTML = '<button type="button" aria-label="Scroll left" data-d="-1">' + BACK + '</button><button type="button" aria-label="Scroll right" data-d="1">' + ARROW + '</button>';
-    parent.insertBefore(arrows, r.nextSibling);
-    arrows.addEventListener('click', function(e){
-      var b = e.target.closest('button'); if(!b) return;
-      r.scrollBy({ left: (+b.dataset.d) * Math.max(280, r.clientWidth * 0.6), behavior:'smooth' }); sfx('nav', b.dataset.d > 0 ? 6 : 3);
-    });
-  }
+  var parent = r.parentNode, isSvc = r.classList.contains('svc-rail');
+  var cards = r.children, total = cards.length;
+  var meta = document.createElement('div'); meta.className = 'pf-meta' + (isSvc ? ' pf-meta-svc' : '');
+  var hint = TOUCH ? 'Swipe for more' : 'Drag or use the arrows';
+  meta.innerHTML = '<span class="pf-count"><b>01</b> / ' + ('0' + total).slice(-2) + ' projects</span>' +
+    '<span class="pf-track2"><i></i></span>' +
+    '<span class="pf-hint"><span>' + hint + '</span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6l6 6-6 6"/><path d="M12 6l6 6-6 6"/></svg></span>' +
+    (isSvc ? '' : '<span class="pf-arrows"><button type="button" aria-label="Previous" data-d="-1">' + BACK + '</button><button type="button" aria-label="Next" data-d="1">' + ARROW + '</button></span>');
+  parent.insertBefore(meta, r.nextSibling);
+  var cnt = meta.querySelector('.pf-count b'), fill = meta.querySelector('.pf-track2 i'), btns = meta.querySelectorAll('.pf-arrows button');
+  meta.addEventListener('click', function(e){
+    var bt = e.target.closest('button'); if(!bt) return;
+    r.scrollBy({ left: (+bt.dataset.d) * Math.max(280, r.clientWidth * 0.6), behavior:'smooth' }); sfx('nav', bt.dataset.d > 0 ? 6 : 3);
+  });
+  var touched = false;
   function upd(){
-    if(!arrows) return; var b = arrows.children;
-    b[0].disabled = r.scrollLeft < 8; b[1].disabled = r.scrollLeft > r.scrollWidth - r.clientWidth - 8;
+    var max = r.scrollWidth - r.clientWidth, x = r.scrollLeft;
+    if(max <= 4){ meta.style.display = 'none'; r.classList.remove('more-r', 'more-l'); return; }
+    meta.style.display = '';
+    var step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : 1;
+    var idx = x >= max - 6 ? total : Math.min(total, Math.round(x / step) + 1);
+    cnt.textContent = ('0' + idx).slice(-2);
+    fill.style.transform = 'scaleX(' + Math.min(1, (x + r.clientWidth) / r.scrollWidth).toFixed(3) + ')';
+    r.classList.toggle('more-r', x < max - 8); r.classList.toggle('more-l', x > 8);
+    if(btns.length){ btns[0].disabled = x < 8; btns[1].disabled = x > max - 8; }
+    if(x > 24 && !touched){ touched = true; meta.classList.add('seen'); r.classList.remove('nudge'); }
   }
-  r.addEventListener('scroll', upd, { passive:true }); window.addEventListener('resize', upd, { passive:true }); setTimeout(upd, 300);
+  r.addEventListener('scroll', upd, { passive:true }); window.addEventListener('resize', upd, { passive:true }); setTimeout(upd, 250); setTimeout(upd, 1200);
+  // one-time nudge when the rail first comes into view: the cards slide left a little and settle back
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      if(!es[0].isIntersecting) return; io.disconnect();
+      if(r.scrollWidth - r.clientWidth < 12 || r.scrollLeft > 10) return;
+      setTimeout(function(){ if(!touched){ r.classList.add('nudge'); setTimeout(function(){ r.classList.remove('nudge'); }, 2600); } }, 500);
+    }, { threshold:0.55 });
+    io.observe(r);
+  }
   // mouse drag
   var down = false, sx = 0, sl = 0, moved = false;
   r.addEventListener('pointerdown', function(e){

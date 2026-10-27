@@ -62,7 +62,7 @@ h1,h2,h3{ font-weight:700; letter-spacing:-.01em; }
 :root:not([data-theme="dark"]) .pf-card .pf-body p{ color:#5b5348; }
 .pf-go{ position:absolute; right:20px; bottom:20px; width:40px; height:40px; border-radius:50%; border:1.5px solid currentColor; display:grid; place-items:center; transition:background .25s, color .25s, border-color .25s; }
 .pf-card:hover .pf-go{ background:var(--blue); border-color:var(--blue); color:var(--on-accent); }
-.pf-arrows{ display:flex; justify-content:flex-end; gap:10px; margin-top:-6px; }
+.pf-arrows{ display:flex; gap:10px; }
 .pf-arrows button{ width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:var(--off-white); color:var(--ink); cursor:pointer; display:grid; place-items:center; transition:background .25s, color .25s, transform .2s; }
 .pf-arrows button:hover{ background:var(--ink); color:var(--off-white); transform:scale(1.06); }
 .pf-arrows button:disabled{ opacity:.35; pointer-events:none; }
@@ -149,3 +149,36 @@ body.pf-lock{ overflow:hidden; }
 .pf-thumb img{ will-change:auto; }
 
 .svc-card[data-go]{ cursor:pointer; }
+
+/* ---------- "there is more to the side" cues ---------- */
+.pf-rail.more-r{ -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 72px),transparent); mask-image:linear-gradient(to right,#000 calc(100% - 72px),transparent); }
+.pf-rail.more-l.more-r{ -webkit-mask-image:linear-gradient(to right,transparent,#000 40px,#000 calc(100% - 72px),transparent); mask-image:linear-gradient(to right,transparent,#000 40px,#000 calc(100% - 72px),transparent); }
+.pf-rail.more-l:not(.more-r){ -webkit-mask-image:linear-gradient(to right,transparent,#000 40px); mask-image:linear-gradient(to right,transparent,#000 40px); }
+.pf-meta{ display:flex; align-items:center; gap:18px; margin-top:-4px; }
+.pf-count{ font:500 .8rem var(--ff-mono); color:var(--grey-700); white-space:nowrap; }
+.pf-count b{ font-weight:700; color:var(--ink); font-size:1rem; }
+.pf-track2{ flex:1; height:4px; border-radius:4px; background:var(--line); overflow:hidden; }
+.pf-track2 i{ display:block; height:100%; width:100%; background:var(--blue); border-radius:4px; transform-origin:left; transform:scaleX(.3); transition:transform .25s ease; }
+.pf-hint{ display:inline-flex; align-items:center; gap:6px; font:700 .74rem var(--ff-mono); letter-spacing:.04em; text-transform:uppercase; padding:8px 14px; border-radius:100px; background:var(--blue); color:var(--on-accent); white-space:nowrap; }
+.pf-hint svg{ animation:pfArrows 1.1s ease-in-out infinite; }
+.pf-meta.seen .pf-hint{ background:transparent; color:var(--grey-500); font-weight:500; }
+.pf-meta.seen .pf-hint svg{ animation:none; }
+.pf-arrows{ margin:0; }
+@keyframes pfArrows{ 0%,100%{ transform:translateX(-3px); } 50%{ transform:translateX(4px); } }
+.pf-rail.nudge .pf-card{ animation:pfNudge 1.5s cubic-bezier(.45,0,.2,1) 1; }
+.pf-rail.nudge .pf-card:nth-child(2){ animation-delay:.05s; } .pf-rail.nudge .pf-card:nth-child(3){ animation-delay:.1s; }
+@keyframes pfNudge{ 0%,100%{ transform:translateX(0); } 35%{ transform:translateX(-54px); } 60%{ transform:translateX(-54px); } }
+@media (min-width:861px){ .pf-meta-svc{ display:none !important; } }
+@media (max-width:860px){
+  .pf-card{ flex-basis:72vw; }
+  .svc-card{ flex-basis:76vw; }
+  .pf-meta{ gap:12px; }
+  .pf-count{ font-size:.72rem; } .pf-count b{ font-size:.9rem; }
+  .pf-hint{ padding:7px 12px; font-size:.68rem; }
+}
+@media (prefers-reduced-motion: reduce){ .pf-hint svg, .pf-rail.nudge .pf-card{ animation:none; } }
+@media (max-width:860px){
+  .pf-meta{ flex-wrap:wrap; justify-content:space-between; row-gap:12px; }
+  .pf-track2{ order:3; flex:1 1 100%; }
+  .pf-hint{ margin-left:auto; }
+}
