@@ -253,7 +253,7 @@ var lastHover = null;
 doc.addEventListener('pointerover', function(e){
   if(e.pointerType && e.pointerType !== 'mouse') return;
   var t = e.target.closest ? e.target.closest(HOVER_SEL) : null;
-  if(t && t !== lastHover){ lastHover = t; if(!t.closest('.gc-player') && !t.closest('.gc-rail') && !t.closest('.stack-chip')){ sfx('hover'); } }
+  if(t && t !== lastHover){ lastHover = t; if(!t.closest('.gc-player') && !t.closest('#siteHeader [data-tip]') && !t.closest('.stack-chip')){ sfx('hover'); } }
   else if(!t){ lastHover = null; }
 }, { passive:true });
 doc.addEventListener('pointerdown', function(e){
@@ -369,45 +369,70 @@ var TIPS = {
   work:['work','Selected builds'], services:['services','What we do'], branding:['branding','Identity archive'],
   about:['about','The studio'], reviews:['reviews','Client words']
 };
-function initRail(){
-  var header = $('siteHeader'), nav = $('navLinks');
-  if(!header || !nav || doc.querySelector('.gc-rail')) return;
-  var logo = header.querySelector('.logo'), cta = nav.querySelector('.nav-cta');
-  var rail = el('aside', 'gc-rail'); rail.setAttribute('aria-label', 'Site');
-  var h = '<a class="gcr-home" href="' + (logo ? logo.getAttribute('href') : '/') + '" aria-label="Grey Creatives home"><i class="gcr-mark"></i><span class="gcr-tip"><b>Grey Creatives</b><small>Design &amp; build studio</small></span></a><nav class="gcr-nav">';
-  var n = 0;
+function initTopNav(){
+  var header = $('siteHeader'), nav = $('navLinks'); if(!header || !nav || header.getAttribute('data-gcnav')) return;
+  header.setAttribute('data-gcnav', '1');
+  var links = [];
   nav.querySelectorAll('a').forEach(function(a){
-    if(a.classList.contains('nav-cta')) return;
-    var label = a.textContent.replace(/\s+/g, ' ').trim(), key = label.toLowerCase(), meta = TIPS[key] || ['work', ''];
-    h += '<a class="gcr-item' + (a.classList.contains('active-link') ? ' current' : '') + '" href="' + a.getAttribute('href') + '" data-i="' + (n++) + '">' + IC[meta[0]] + '<span class="gcr-tip"><b>' + label + '</b><small>' + meta[1] + '</small></span></a>';
+    var cta = a.classList.contains('nav-cta'), label = a.textContent.replace(/\s+/g, ' ').trim(), key = label.toLowerCase(), meta = TIPS[key] || ['work', ''];
+    a.setAttribute('data-tip', cta ? 'Start a project · say hello' : label + (meta[1] ? ' · ' + meta[1] : ''));
+    a.innerHTML = (cta ? IC.cta : IC[meta[0]]) + '<span class="nl">' + label + '</span>';
+    if(!cta){ links.push(a); }
   });
-  h += '</nav><div class="gcr-bottom"><button type="button" class="gcr-item gcr-theme" aria-label="Toggle light and dark mode">' + IC.moon + IC.sun + '<span class="gcr-tip"><b>Theme</b><small>Light / dark &middot; T</small></span></button>';
-  if(cta){ h += '<a class="gcr-item gcr-cta" href="' + cta.getAttribute('href') + '">' + IC.cta + '<span class="gcr-tip"><b>Start a project</b><small>Say hello</small></span></a>'; }
-  h += '</div>';
-  rail.innerHTML = h; doc.body.appendChild(rail);
-
-  rail.addEventListener('pointerover', function(e){
-    if(e.pointerType && e.pointerType !== 'mouse') return;
-    var t = e.target.closest('.gcr-item, .gcr-home'); if(!t || t === rail._last) return; rail._last = t;
-    sfx('nav', t.dataset.i ? +t.dataset.i : 0);
-  }, { passive:true });
-  rail.addEventListener('pointerleave', function(){ rail._last = null; }, { passive:true });
-  var tt = rail.querySelector('.gcr-theme');
-  tt.addEventListener('click', function(){ var b = $('themeToggle'); if(b){ b.click(); } });
-
-  // scroll-spy for same-page anchors
-  if('IntersectionObserver' in window){
-    var map = {}, items = rail.querySelectorAll('.gcr-item[href^="#"]');
-    items.forEach(function(a){ var id = a.getAttribute('href').slice(1), sec = $(id); if(sec){ map[id] = a; } });
-    var io = new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if(!e.isIntersecting) return;
-        items.forEach(function(a){ a.classList.remove('current'); });
-        var a = map[e.target.id]; if(a){ a.classList.add('current'); }
-      });
-    }, { rootMargin:'-45% 0px -50% 0px' });
-    Object.keys(map).forEach(function(id){ io.observe($(id)); });
+  var tt = $('themeToggle');
+  if(tt){
+    var setTip = function(){ tt.setAttribute('data-tip', 'Theme: ' + (root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light') + ' · T'); };
+    setTip(); new MutationObserver(setTip).observe(root, { attributes:true, attributeFilter:['data-theme'] });
   }
+  var hr = header.querySelector('.header-right');
+  if(hr){
+    var v = el('span', 'hd-visits'); v.hidden = true; v.setAttribute('data-tip', 'People who have visited this site');
+    v.innerHTML = '<i class="hd-dot"></i><span class="vl">Visitors :</span> <b id="gcVisits">0</b>';
+    hr.insertBefore(v, $('navToggle') || null);
+  }
+  // highlight the section you are in (same-page links only)
+  if('IntersectionObserver' in window){
+    var map = {};
+    links.forEach(function(a){ var h = a.getAttribute('href') || ''; var i = h.indexOf('#'); if(i > -1 && (i === 0 || /index/.test(h.slice(0, i)))){ var id = h.slice(i + 1); if($(id)){ map[id] = a; } } });
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; links.forEach(function(a){ a.classList.remove('is-cur'); }); if(map[e.target.id]){ map[e.target.id].classList.add('is-cur'); } }); }, { rootMargin:'-45% 0px -50% 0px' });
+    doc.querySelectorAll('section[id]').forEach(function(sec){ io.observe(sec); });
+  }
+  header.addEventListener('pointerover', function(e){
+    if(e.pointerType && e.pointerType !== 'mouse') return;
+    var t = e.target.closest('[data-tip]'); if(!t || t === header._last) return; header._last = t; sfx('nav', links.indexOf(t) > -1 ? links.indexOf(t) : 6);
+  }, { passive:true });
+  header.addEventListener('pointerleave', function(){ header._last = null; }, { passive:true });
+  initVisits();
+}
+
+/* =========================================================
+   4a. VISITOR COUNTER — one tiny document in the site's own Firebase project (stats/visitors).
+   Counts a browser once; never counts local previews. Hides itself if it can't read a real number.
+   ========================================================= */
+function initVisits(){
+  var pill = doc.querySelector('.hd-visits'), out = $('gcVisits'); if(!pill || !out) return;
+  var PID = 'grey-creatives', KEY = 'AIzaSyCzqjxinQF63hLuGplgVQ2NGFu1opvpD3I';
+  var base = 'https://firestore.googleapis.com/v1/projects/' + PID + '/databases/(default)/documents';
+  var host = location.hostname, preview = !host || /^(localhost|127\.|0\.0\.0\.0)/.test(host) || /claude|anthropic|usercontent|vscode|github\.dev/.test(host) || location.protocol === 'file:';
+  var counted = false; try{ counted = localStorage.getItem('gc-counted') === '1'; }catch(e){}
+  function show(n){
+    if(!isFinite(n) || n < 0) return; pill.hidden = false;
+    if(reduce || n < 20){ out.textContent = n.toLocaleString('en-US'); return; }
+    var t0 = performance.now(); (function tick(t){ var k = Math.min(1, (t - t0) / 900), e = 1 - Math.pow(1 - k, 3); out.textContent = Math.round(n * e).toLocaleString('en-US'); if(k < 1){ requestAnimationFrame(tick); } })(t0);
+  }
+  function read(){
+    fetch(base + '/stats/visitors?key=' + KEY).then(function(r){ return r.ok ? r.json() : Promise.reject(); })
+      .then(function(d){ show(parseInt(d.fields.count.integerValue, 10)); }).catch(function(){});
+  }
+  function hit(){
+    fetch(base + ':commit?key=' + KEY, { method:'POST', headers:{ 'Content-Type':'application/json' },
+      body:JSON.stringify({ writes:[{ transform:{ document:'projects/' + PID + '/databases/(default)/documents/stats/visitors', fieldTransforms:[{ fieldPath:'count', increment:{ integerValue:'1' } }] } }] }) })
+      .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
+      .then(function(d){ try{ localStorage.setItem('gc-counted', '1'); }catch(e){} show(parseInt(d.writeResults[0].transformResults[0].integerValue, 10)); })
+      .catch(read);
+  }
+  var go = function(){ if(counted || preview){ read(); } else { hit(); } };
+  if('requestIdleCallback' in window){ requestIdleCallback(go, { timeout:3000 }); } else { setTimeout(go, 1500); }
 }
 
 /* =========================================================
@@ -545,7 +570,7 @@ doc.addEventListener('keydown', function(e){
 GC.showKeys = function(){
   if(isTouch || doc.querySelector('.gc-keys')) return;
   var k = el('div', 'gc-keys');
-  k.innerHTML = (GC.sections ? '<span><kbd>1</kbd>–<kbd>7</kbd> jump</span>' : '') + '<span><kbd>M</kbd> music</span><span><kbd>T</kbd> theme</span>';
+  k.innerHTML = (GC.sections ? '<span><kbd>1</kbd>–<kbd>8</kbd> jump</span>' : '') + '<span><kbd>M</kbd> music</span><span><kbd>T</kbd> theme</span>';
   doc.body.appendChild(k);
   requestAnimationFrame(function(){ k.classList.add('show'); });
   setTimeout(function(){ k.classList.remove('show'); }, 9000);
@@ -555,7 +580,7 @@ GC.showKeys = function(){
 function boot(){
   buildPlayer();
   if(!reduce){ initRunner(); }
-  initRail(); initGlitter(); initScramble(); initWhoosh();
+  initTopNav(); initGlitter(); initScramble(); initWhoosh();
   if(!doc.getElementById('loader') || doc.documentElement.classList.contains('gc-seen')){ setTimeout(GC.showKeys, 1600); }
   doc.dispatchEvent(new Event('gc:ready'));
 }
