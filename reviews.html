@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 (function(){
-  var DEFAULT_THEME = 'dark'; /* first-time visitors see this; change to 'light' to flip the default */
+  var DEFAULT_THEME = 'light'; /* first-time visitors see this; change to 'light' to flip the default */
   var t = DEFAULT_THEME;
   try{ var v = localStorage.getItem('gc-theme2'); if(v === 'light' || v === 'dark'){ t = v; } }catch(e){}
   if(t === 'dark'){ document.documentElement.setAttribute('data-theme','dark'); }
@@ -17,7 +17,7 @@
 <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="theme-color" content="#0B0C0F">
+<meta name="theme-color" content="#FAFAF8">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Reviews — Grey Creatives">
 <meta property="og:description" content="Read what clients say about working with Grey Creatives, and leave your own review.">
@@ -29,7 +29,7 @@
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Caveat:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --off-white:#FAFAF8;
@@ -98,7 +98,7 @@
   img{max-width:100%;display:block;}
   button{font-family:inherit;}
 
-  ::selection{background:var(--blue); color:#171717;}
+  ::selection{background:var(--blue); color:var(--on-accent);}
 
   /* grain texture, subtle, over whole page */
   .grain{
@@ -153,7 +153,7 @@
   }
   nav.links a:not(.nav-cta):hover::after{right:0;}
   .nav-cta{
-    background:var(--blue); color:#171717; padding:10px 20px; border-radius:100px;
+    background:var(--blue); color:var(--on-accent); padding:10px 20px; border-radius:100px;
     font-size:0.92rem; font-weight:600; border:1px solid var(--blue);
     transition:background .25s, color .25s, transform .2s, border-color .25s;
   }
@@ -170,7 +170,7 @@
     cursor:pointer; transition:background .25s, border-color .25s, color .25s, transform .2s;
     flex-shrink:0;
   }
-  .theme-toggle:hover{background:var(--blue); color:#171717; border-color:var(--blue); transform:translateY(-1px);}
+  .theme-toggle:hover{background:var(--blue); color:var(--on-accent); border-color:var(--blue); transform:translateY(-1px);}
   .theme-toggle svg{display:block;}
   .theme-toggle .icon-moon{display:none;}
   :root[data-theme="dark"] .theme-toggle .icon-sun{display:none;}
@@ -250,8 +250,8 @@
     padding:15px 28px; border-radius:100px; font-size:0.98rem; font-weight:600;
     cursor:pointer; border:1px solid transparent; position:relative; overflow:hidden;
   }
-  .btn-primary{background:var(--blue); color:#171717; font-weight:700;}
-  .btn-primary:hover{background:var(--blue-bright); color:#171717;}
+  .btn-primary{background:var(--blue); color:var(--on-accent); font-weight:700;}
+  .btn-primary:hover{background:var(--blue-bright); color:var(--on-accent);}
   .btn-primary:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
   .btn-primary:disabled{background:var(--grey-300); color:var(--grey-700); cursor:not-allowed;}
   .btn-ghost{background:transparent; color:var(--ink); border-color:var(--line);}
@@ -558,8 +558,8 @@
     box-shadow:0 12px 30px -12px rgba(0,0,0,0.5);
     transition:background .25s, transform .2s, color .25s, border-color .25s;
   }
-  .sound-toggle:hover{background:var(--blue); color:#171717; border-color:var(--blue); transform:translateY(-2px);}
-  .sound-toggle:hover .bars i{background:#171717;}
+  .sound-toggle:hover{background:var(--blue); color:var(--on-accent); border-color:var(--blue); transform:translateY(-2px);}
+  .sound-toggle:hover .bars i{background:var(--on-accent);}
   .sound-toggle .bars{display:flex; align-items:flex-end; gap:2px; height:12px;}
   .sound-toggle .bars i{width:2.5px; background:var(--ink); display:block; border-radius:1px;}
   body.sound-off .sound-toggle .bars i{animation:none !important; height:3px !important;}
@@ -586,7 +586,7 @@
     transition:opacity .3s ease, transform .3s ease, visibility .3s, background .25s, color .25s, border-color .25s;
   }
   .scroll-top.visible{opacity:1; visibility:visible; transform:translateY(0);}
-  .scroll-top:hover{background:var(--blue); color:#171717; border-color:var(--blue);}
+  .scroll-top:hover{background:var(--blue); color:var(--on-accent); border-color:var(--blue);}
 
   /* ---------- nav active state ---------- */
   nav.links a.nav-link.active:not(.nav-cta){color:var(--ink); font-weight:600;}
@@ -658,6 +658,7 @@
 
 </style>
 <link rel="stylesheet" href="assets/gc.css">
+<link rel="stylesheet" href="assets/portfolio.css">
 </head>
 <body>
 

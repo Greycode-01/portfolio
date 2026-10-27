@@ -527,6 +527,7 @@ GC.root = function(){
   })(t0);
 };
 doc.addEventListener('keydown', function(e){
+  if(doc.body.classList.contains('pf-lock') && /^[1-9]$/.test(e.key)) return;
   if(typing(e) || e.ctrlKey || e.metaKey || e.altKey) return;
   var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
   if(k === KON[kpos]){ kpos++; if(kpos === KON.length){ kpos = 0; GC.root(); } } else { kpos = (k === KON[0]) ? 1 : 0; }

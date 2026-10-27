@@ -6,26 +6,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 (function(){
-  var DEFAULT_THEME = 'dark'; /* first-time visitors see this; change to 'light' to flip the default */
+  var DEFAULT_THEME = 'light'; /* first-time visitors see this; change to 'light' to flip the default */
   var t = DEFAULT_THEME;
   try{ var v = localStorage.getItem('gc-theme2'); if(v === 'light' || v === 'dark'){ t = v; } }catch(e){}
   if(t === 'dark'){ document.documentElement.setAttribute('data-theme','dark'); }
   try{ if(sessionStorage.getItem('gc-entered')){ document.documentElement.className += ' gc-seen'; } }catch(e){}
 })();
 </script>
-<title>Grey Creatives — Web Design & Development Studio</title>
+<title>Grey Creatives — Web Design &amp; Development Studio</title>
 <meta name="description" content="Grey Creatives designs and builds web experiences for brands that refuse to blend in.">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="theme-color" content="#0B0C0F">
+<meta name="theme-color" content="#FAFAF8">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Grey Creatives — Web Design & Development Studio">
+<meta property="og:title" content="Grey Creatives — Web Design &amp; Development Studio">
 <meta property="og:description" content="Grey Creatives designs and builds web experiences for brands that refuse to blend in.">
 <meta property="og:image" content="/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Grey Creatives — Web Design & Development Studio">
+<meta name="twitter:title" content="Grey Creatives — Web Design &amp; Development Studio">
 <meta name="twitter:description" content="Grey Creatives designs and builds web experiences for brands that refuse to blend in.">
 <meta name="twitter:image" content="/og-image.png">
 <link rel="canonical" href="https://greycreatives.vercel.app/">
@@ -43,7 +43,7 @@
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Caveat:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --off-white:#FAFAF8;
@@ -128,7 +128,7 @@
   img{max-width:100%;display:block;}
   button{font-family:inherit;}
 
-  ::selection{background:var(--blue); color:#171717;}
+  ::selection{background:var(--blue); color:var(--on-accent);}
 
   /* grain texture, subtle, over whole page */
   .grain{
@@ -183,7 +183,7 @@
   }
   nav.links a:not(.nav-cta):hover::after{right:0;}
   .nav-cta{
-    background:var(--blue); color:#171717; padding:10px 20px; border-radius:100px;
+    background:var(--blue); color:var(--on-accent); padding:10px 20px; border-radius:100px;
     font-size:0.92rem; font-weight:600; border:1px solid var(--blue);
     transition:background .25s, color .25s, transform .2s, border-color .25s;
   }
@@ -287,8 +287,8 @@
     padding:15px 28px; border-radius:100px; font-size:0.98rem; font-weight:600;
     cursor:pointer; border:1px solid transparent; position:relative; overflow:hidden;
   }
-  .btn-primary{background:var(--blue); color:#171717; font-weight:700;}
-  .btn-primary:hover{background:var(--blue-bright); color:#171717;}
+  .btn-primary{background:var(--blue); color:var(--on-accent); font-weight:700;}
+  .btn-primary:hover{background:var(--blue-bright); color:var(--on-accent);}
   .btn-primary:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
   .btn-primary:disabled{background:var(--grey-300); color:var(--grey-700); cursor:not-allowed;}
   .btn-ghost{background:transparent; color:var(--ink); border-color:var(--line);}
@@ -665,7 +665,7 @@
   }
   .seg-opt input:hover + span{border-color:var(--grey-300);}
   .seg-opt input:checked + span{
-    background:var(--blue); border-color:var(--blue); color:#171717;
+    background:var(--blue); border-color:var(--blue); color:var(--on-accent);
   }
   .seg-opt input:focus-visible + span{outline:2px solid var(--ink); outline-offset:2px;}
 
@@ -725,8 +725,8 @@
     box-shadow:0 12px 30px -12px rgba(0,0,0,0.6);
     transition:background .25s, transform .2s;
   }
-  .sound-toggle:hover{background:var(--blue); color:#171717; border-color:var(--blue); transform:translateY(-2px);}
-  .sound-toggle:hover .bars i{background:#171717;}
+  .sound-toggle:hover{background:var(--blue); color:var(--on-accent); border-color:var(--blue); transform:translateY(-2px);}
+  .sound-toggle:hover .bars i{background:var(--on-accent);}
   .sound-toggle .bars{display:flex; align-items:flex-end; gap:2px; height:12px;}
   .sound-toggle .bars i{width:2.5px; background:var(--ink); display:block; border-radius:1px;}
   body.sound-off .sound-toggle .bars i{animation:none !important; height:3px !important;}
@@ -753,7 +753,7 @@
     transition:opacity .3s ease, transform .3s ease, visibility .3s, background .25s, color .25s, border-color .25s;
   }
   .scroll-top.visible{opacity:1; visibility:visible; transform:translateY(0);}
-  .scroll-top:hover{background:var(--blue); color:#171717; border-color:var(--blue);}
+  .scroll-top:hover{background:var(--blue); color:var(--on-accent); border-color:var(--blue);}
 
   /* ---------- nav active state ---------- */
   nav.links a.nav-link.active:not(.nav-cta), nav.links a.nav-link.active-link:not(.nav-cta){color:var(--ink); font-weight:600;}
@@ -922,7 +922,7 @@
   .te-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
   .te-btn{ font:600 .86rem var(--ff-body); padding:12px 20px; border-radius:100px; border:1px solid rgba(255,255,255,0.28); background:transparent; color:#F3F2EC; cursor:pointer; transition:transform .2s, background .2s; }
   .te-btn:hover{ transform:translateY(-2px); background:rgba(255,255,255,0.08); }
-  .te-primary{ background:var(--blue); color:#171717; border-color:var(--blue); }
+  .te-primary{ background:var(--blue); color:var(--on-accent); border-color:var(--blue); }
   .te-primary:hover{ background:var(--blue-bright); }
   .te-btn:focus-visible{ outline:2px solid #F3F2EC; outline-offset:3px; }
   .ld-ruler{ position:relative; height:78px; margin:0 calc(-1 * clamp(20px,4vw,48px)); }
@@ -943,6 +943,7 @@
   .track-no::before{ content:''; width:0; height:0; border-left:8px solid var(--blue); border-top:5px solid transparent; border-bottom:5px solid transparent; }
 </style>
 <link rel="stylesheet" href="assets/gc.css">
+<link rel="stylesheet" href="assets/portfolio.css">
 </head>
 <body>
 
@@ -1127,151 +1128,42 @@
   </div>
 </div>
 
-<section class="section-pad" id="services" style="padding-bottom:0;">
+<section class="section-pad svc-section" id="services">
   <div class="wrap">
-    <div class="section-head reveal">
-      <span class="file-tag">services.jsx<span class="ft-cursor"></span></span>
-      <span class="kicker">What we do</span>
-      <h2>Three disciplines, <span style="color:var(--blue-text);">one studio.</span></h2>
-      <p>Web design and development is the core of the work — brand identity and video sit alongside it, built to work together rather than as separate add-ons.</p>
+    <div class="pf-head reveal">
+      <div><span class="kicker">What we do</span><h2 class="mark">Three disciplines, one studio.</h2>
+      <p>Web is the core of the work. Brand identity and video sit alongside it, built to work together.</p></div>
     </div>
-    <div class="capability-grid reveal">
-      <div class="capability-item">
+    <div class="pf-rail svc-rail reveal" data-rail>
+      <article class="svc-card">
         <h3>Website Design &amp; Development</h3>
-        <p>Professional digital experiences for businesses and organisations — designed and built end to end, from first sketch to shipped code.</p>
-        <ul class="service-list">
-          <li>Business &amp; corporate websites</li>
-          <li>Landing pages</li>
-          <li>Website redesigns</li>
-          <li>Custom web platforms</li>
-          <li>Responsive web development</li>
-        </ul>
-        <a href="#contact" class="cap-link sound-click" data-service="Website Design &amp; Development">Discuss Your Website</a>
-      </div>
-      <div class="capability-item">
+        <p>Professional sites designed and built end to end, from first sketch to shipped code.</p>
+        <div class="chips"><span>Business sites</span><span>Landing pages</span><span>Redesigns</span><span>Custom platforms</span></div>
+        <a href="#work" class="cap-link sound-click">See the web work <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card">
         <h3>Brand Identity &amp; Design</h3>
-        <p>Coherent identity systems — not just a logo — built to hold up across a website, a deck, and everything printed in between.</p>
-        <ul class="service-list">
-          <li>Logo design</li>
-          <li>Brand identity systems</li>
-          <li>Typography &amp; colour systems</li>
-          <li>Brand guidelines</li>
-          <li>Business stationery &amp; digital assets</li>
-        </ul>
-        <a href="#contact" class="cap-link sound-click" data-service="Brand Identity">Build Your Brand</a>
-      </div>
-      <div class="capability-item">
+        <p>Identity systems, not just a logo, that hold up across a website, a deck and everything printed.</p>
+        <div class="chips"><span>Logos</span><span>Identity systems</span><span>Guidelines</span><span>Stationery</span></div>
+        <a href="#brand" class="cap-link sound-click">See the brand work <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card">
         <h3>Video Editing</h3>
         <p>Promotional and social edits that turn raw footage into something a brand is proud to post.</p>
-        <a href="#video" class="cap-link sound-click">See the work</a>
-      </div>
+        <div class="chips"><span>Promos</span><span>Social edits</span><span>Motion</span></div>
+        <a href="#video" class="cap-link sound-click">See the video work <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
     </div>
   </div>
 </section>
 
-<section class="section-pad" id="work">
+<section class="section-pad pf-section" id="work">
   <div class="wrap">
-    <div class="section-head reveal">
-      <span class="file-tag">work.tsx<span class="ft-cursor"></span></span>
-      <span class="kicker">Selected work</span>
-      <h2>A few briefs, <span style="color:var(--blue-text);">a few very different worlds.</span></h2>
-      <p>A look at the thinking behind recent builds — from a live investment platform to a healthcare practice, a brand spanning three countries, and two cybersecurity organisations.</p>
+    <div class="pf-head reveal">
+      <div><span class="kicker">Selected work</span><h2 class="mark">Our Work</h2><p>From investment platforms to healthcare and cybersecurity, a few briefs and the thinking behind them.</p><a href="#contact" class="pf-btn sound-click">Start a project <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <div class="pf-note" aria-hidden="true"><span>More in the works...</span><svg class="pf-squig" viewBox="0 0 60 40" width="56" height="38" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M52 4C36 4 20 14 12 32M12 32l-1-12M12 32l12-4"/></svg></div>
     </div>
-
-    <div class="work-item reveal" id="workThreeStrands">
-      <div class="work-visual">
-        <div class="browser-frame">
-          <div class="browser-chrome">
-            <div class="dots"><i></i><i></i><i></i></div>
-            <div class="bar">3strandshealthnp.com</div>
-          </div>
-          <div class="shot-wrap"><img src="assets/img/home-01.webp" alt="Three Strands Health and Wellness homepage design" loading="lazy"></div>
-        </div>
-      </div>
-      <div class="work-copy">
-        <div class="track-no">TRACK 01 / 05</div>
-        <div class="tag-row"><span class="tag">Healthcare</span><span class="tag">Web Platform</span><span class="tag">Booking</span></div>
-        <h3>Three Strands Health &amp; Wellness</h3>
-        <p>A psychiatric and family nurse practice needed a site that felt as calm and credible as the care itself. We built a warm, editorial homepage around their "one practice, four ways to support you" model, with clear paths to book straight from the hero. We also handled their full brand identity — more on that below.</p>
-        <a href="https://3strandshealthnp.com/" target="_blank" rel="noopener" class="work-link sound-click">View live site <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-    </div>
-
-    <div class="work-item reverse reveal" id="workShayan">
-      <div class="work-visual">
-        <div class="browser-frame">
-          <div class="browser-chrome">
-            <div class="dots"><i></i><i></i><i></i></div>
-            <div class="bar">shayanequity.com</div>
-          </div>
-          <div class="shot-wrap"><img src="assets/img/home-02.webp" alt="Shayan Private Equity homepage design" loading="lazy"></div>
-        </div>
-      </div>
-      <div class="work-copy">
-        <div class="track-no">TRACK 02 / 05</div>
-        <div class="tag-row"><span class="tag">Fintech</span><span class="tag">Web Platform</span><span class="tag">Live Data</span></div>
-        <h3>Shayan Private Equity</h3>
-        <p>A fintech platform that had to feel as credible live as it looked in the pitch deck. We designed a dashboard-first homepage with streaming FX, gold, and crypto tickers, side-by-side plan comparisons, and a growth-forward system in navy and warm orange — built to earn trust before a single call happens.</p>
-        <a href="https://www.shayanequity.com/" target="_blank" rel="noopener" class="work-link sound-click">View live site <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-    </div>
-
-    <div class="work-item reveal" id="workZavron">
-      <div class="work-visual">
-        <div class="browser-frame">
-          <div class="browser-chrome">
-            <div class="dots"><i></i><i></i><i></i></div>
-            <div class="bar">zavrongroup.com</div>
-          </div>
-          <div class="shot-wrap"><img src="assets/img/home-03.webp" alt="Zavron Group homepage design" loading="lazy"></div>
-        </div>
-      </div>
-      <div class="work-copy">
-        <div class="track-no">TRACK 03 / 05</div>
-        <div class="tag-row"><span class="tag">Corporate</span><span class="tag">Brand Site</span><span class="tag">Multi-Region</span></div>
-        <h3>Zavron Group</h3>
-        <p>Zavron connects African-made brands to markets across Nigeria, Ghana, and Rwanda, and needed one site that felt like all three at once. We built an editorial, product-first layout that leads with photography and lets a multi-country operation read as a single confident story.</p>
-        <a href="https://zavrongroup.com/" target="_blank" rel="noopener" class="work-link sound-click">View live site <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-    </div>
-
-    <div class="work-item reverse reveal" id="workYA">
-      <div class="work-visual">
-        <div class="browser-frame">
-          <div class="browser-chrome">
-            <div class="dots"><i></i><i></i><i></i></div>
-            <div class="bar">yafoundationglobal.org</div>
-          </div>
-          <div class="shot-wrap"><img src="assets/img/work-ya.webp" alt="YA Foundation homepage design with the foundation logo and a live security event feed" loading="lazy" decoding="async"></div>
-        </div>
-      </div>
-      <div class="work-copy">
-        <div class="track-no">TRACK 04 / 05</div>
-        <div class="tag-row"><span class="tag">Non-profit</span><span class="tag">Cybersecurity</span><span class="tag">Multi-page</span></div>
-        <h3>YA Foundation</h3>
-        <p>A cybersecurity-awareness foundation needed a site as serious as the problem it tackles. We built a multi-page, dark-first experience in the foundation's own blue and red — programmes, a cyber-safety hub, a team page and a live security-event feed in the hero — with a light and dark toggle for every visitor.</p>
-        <a href="https://yafoundationglobal.org/" target="_blank" rel="noopener" class="work-link sound-click">View live site <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-    </div>
-
-    <div class="work-item reveal" id="workIntelPRO">
-      <div class="work-visual">
-        <div class="browser-frame">
-          <div class="browser-chrome">
-            <div class="dots"><i></i><i></i><i></i></div>
-            <div class="bar">intelproglobal.com</div>
-          </div>
-          <div class="shot-wrap"><img src="assets/img/work-intelpro.webp" alt="IntelPRO Solutions homepage design with the headline Secure your digital future" loading="lazy" decoding="async"></div>
-        </div>
-      </div>
-      <div class="work-copy">
-        <div class="track-no">TRACK 05 / 05</div>
-        <div class="tag-row"><span class="tag">Cybersecurity</span><span class="tag">Corporate</span><span class="tag">Multi-page</span></div>
-        <h3>IntelPRO Solutions</h3>
-        <p>An information and cybersecurity company needed authority, not stock imagery. We designed a multi-page platform on the brand's blue and red — services, leadership profiles, a curated cyber-news feed, threat briefs and free online tools — behind a hero that reads like live telemetry.</p>
-        <a href="https://intelproglobal.com/" target="_blank" rel="noopener" class="work-link sound-click">View live site <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-    </div>
+    <div class="pf-rail reveal" data-rail data-kind="web"></div>
   </div>
 </section>
 
@@ -1313,104 +1205,13 @@
   </div>
 </section>
 
-<section class="section-pad" id="brand" style="background:var(--paper);">
+<section class="section-pad pf-section pf-alt" id="brand">
   <div class="wrap">
-    <div class="section-head reveal">
-      <span class="file-tag">brand.css<span class="ft-cursor"></span></span>
-      <span class="kicker">Brand &amp; Graphic Design</span>
-      <h2>A brand people would <span style="color:var(--blue-text);">recognize with the logo covered.</span></h2>
-      <p>Identity systems, print, and social graphics built around one visual language — the same voice from the logo down to the layout of an invoice, not a font pack with a moodboard attached.</p>
+    <div class="pf-head reveal">
+      <div><span class="kicker">Brand &amp; Graphic Design</span><h2 class="mark">Brand Work</h2><p>Identity systems, print and packaging built around one visual language, from the logo to the layout of an invoice.</p><a href="/branding-work" class="pf-btn sound-click">View all branding work <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <div class="pf-note" aria-hidden="true"><span>New identities soon...</span><svg class="pf-squig" viewBox="0 0 60 40" width="56" height="38" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M52 4C36 4 20 14 12 32M12 32l-1-12M12 32l12-4"/></svg></div>
     </div>
-
-    <div class="brand-mosaic reveal">
-      <div class="tile tile-palette">
-        <div class="swatch-row">
-          <span style="background:#111111"></span>
-          <span style="background:#E8AA14"></span>
-          <span style="background:#FAFAF8;border:1px solid var(--line)"></span>
-          <span style="background:#C7511F"></span>
-          <span style="background:#7A8B69"></span>
-        </div>
-        <div class="tile-label">Color &amp; Palette Systems</div>
-      </div>
-      <div class="tile tile-type">
-        <div class="type-specimen">Aa</div>
-        <div class="tile-label">Typography Direction</div>
-      </div>
-      <div class="tile tile-mark">
-        <svg viewBox="0 0 56 56" width="56" height="56" fill="none">
-          <rect x="8" y="8" width="30" height="30" rx="8" transform="rotate(15 23 23)" fill="#111111"/>
-          <circle cx="40" cy="40" r="12" fill="#E8AA14"/>
-        </svg>
-        <div class="tile-label">Marks &amp; Monograms</div>
-      </div>
-      <div class="tile tile-pattern">
-        <div class="pattern-fill"></div>
-        <div class="tile-label">Pattern &amp; Texture</div>
-      </div>
-      <div class="tile tile-card">
-        <div class="card-mock"></div>
-        <div class="tile-label">Print &amp; Stationery</div>
-      </div>
-      <div class="tile tile-social">
-        <div class="social-mock">
-          <span class="dot"></span>
-          <div class="lines"><i></i><i></i></div>
-        </div>
-        <div class="tile-label">Social Templates</div>
-      </div>
-    </div>
-
-    <div class="motion-panel reveal">
-      <div class="blob"></div>
-      <svg class="motion-mark" viewBox="0 0 56 56" width="64" height="64" fill="none">
-        <rect x="8" y="8" width="30" height="30" rx="8" transform="rotate(15 23 23)" fill="#ffffff"/>
-        <circle cx="40" cy="40" r="12" fill="#111111"/>
-      </svg>
-      <div class="motion-label">Identity, animated — for reels, intros, and motion-first brands</div>
-    </div>
-
-    <div class="sticker-strip reveal">
-      <span class="sticker circle" style="background:#111111;"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="#fff"/></svg></span>
-      <span class="sticker squircle" style="background:#E8AA14;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M9 6l8 6-8 6V6z" fill="#fff"/></svg></span>
-      <span class="sticker circle" style="background:#C7511F;"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2" fill="#fff"/></svg></span>
-      <span class="sticker squircle" style="background:#7A8B69;"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="2"/></svg></span>
-      <span class="sticker circle" style="background:#E8AA14;"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>
-      <span class="sticker squircle" style="background:#111111;"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2" fill="#fff" transform="rotate(45 12 12)"/></svg></span>
-    </div>
-    <p class="sticker-caption reveal">Marks built to hold up anywhere a brand shows up — packaging, merch, social, motion.</p>
-
-    <div class="subhead-divider reveal"><span>Selected identity work</span></div>
-
-    <div class="identity-case reveal">
-      <div class="tag-row"><span class="tag">Healthcare</span><span class="tag">Logo &amp; Identity</span><span class="tag">Print &amp; Signage</span></div>
-      <h3>Three Strands Health &amp; Wellness</h3>
-      <p>The same client behind our web platform above — we built the identity first: a mark that reads as both a flowing strand and a face in profile, then carried it across office signage, print, and social so every touchpoint matches the site.</p>
-      <div class="identity-gallery">
-        <div class="g-feature"><img src="assets/img/home-04.webp" alt="Three Strands office reception signage featuring the brand mark" loading="lazy"></div>
-        <div class="g-item"><img src="assets/img/home-05.webp" alt="Three Strands promotional flyer design" loading="lazy"></div>
-        <div class="g-item"><img src="assets/img/home-06.webp" alt="Three Strands social media post design" loading="lazy"></div>
-        <div class="g-item"><img src="assets/img/home-07.webp" alt="Three Strands logo printed on stationery" loading="lazy"></div>
-      </div>
-    </div>
-
-    <div class="identity-case reveal" style="margin-top:64px; padding-top:40px; border-top:1px solid var(--line);">
-      <div class="tag-row"><span class="tag">Agriculture</span><span class="tag">Logo Design</span><span class="tag">Brand Identity</span></div>
-      <h3>Abiola Farms</h3>
-      <p>A full brand identity for an agricultural business — logo, mark, and visual system built to read as trustworthy and modern while staying rooted in the land. Carried across signage, business cards, stickers, and letterhead so the farm reads as one consistent operation everywhere it shows up.</p>
-      <div class="identity-gallery">
-        <div class="g-feature"><img src="assets/img/home-08.webp" alt="Abiola Farms entrance signage featuring the brand mark" loading="lazy"></div>
-        <div class="g-item"><img src="assets/img/home-09.webp" alt="Abiola Farms business card design" loading="lazy"></div>
-        <div class="g-item"><img src="assets/img/home-10.webp" alt="Abiola Farms sticker design" loading="lazy"></div>
-        <div class="g-item"><img src="assets/img/home-11.webp" alt="Abiola Farms letterhead design" loading="lazy"></div>
-      </div>
-      <a href="https://www.behance.net/gallery/234487671/ABIOLAS-FARM-Farm-Branding-Logo-Design" target="_blank" rel="noopener" class="work-link sound-click" style="margin-top:26px; display:inline-flex;">View full case study on Behance <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-    </div>
-
-    <p class="mosaic-note reveal">More identity and campaign work joins this section as new projects wrap.</p>
-    <div style="text-align:center; margin-top:20px;">
-      <a href="/branding-work" class="btn btn-ghost view-all-btn magnetic sound-click">View all branding work</a>
-    </div>
+    <div class="pf-rail reveal" data-rail data-kind="brand"></div>
   </div>
 </section>
 
@@ -1428,7 +1229,7 @@
         <div class="play-btn sound-click">
           <span class="ring r1"></span>
           <span class="ring r2"></span>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="#171717"><path d="M8 5v14l11-7z"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--on-accent)"><path d="M8 5v14l11-7z"/></svg>
         </div>
       </div>
       <div class="reel-timeline">
@@ -1448,12 +1249,10 @@
   </div>
 </section>
 
-<section class="about-strip" id="about">
+<section class="about-strip about-compact" id="about">
   <div class="wrap-inner reveal">
-    <span class="file-tag">about.md<span class="ft-cursor"></span></span>
     <span class="kicker">About Grey Creatives</span>
-    <p class="big">Most brands settle — a website that exists, a logo that's just a logo, edits nobody rewatches. <span class="accent">Grey Creatives builds the alternative</span>: web, brand, and video work that carries real weight in investor decks, sales calls, and boardrooms.</p>
-    <p class="signoff">Grey Creatives is a design and production studio — web, brand identity, and video working from the same brief, so every touchpoint feels like it came from the same place.</p>
+    <p class="big">Most brands settle for a website that merely exists and a logo that is just a logo. <span class="accent">Grey Creatives builds the alternative</span>: web, brand and video from one brief, so every touchpoint feels like it came from the same place.</p>
   </div>
 </section>
 
@@ -1561,6 +1360,7 @@
   </div>
 </section>
 
+<div class="pf-marquee" aria-hidden="true"><div class="pf-track"><span>Better Websites</span><i></i><span>Stronger Brands</span><i></i><span>Bigger Possibilities</span><i></i><span>Better Websites</span><i></i><span>Stronger Brands</span><i></i><span>Bigger Possibilities</span><i></i><span>Better Websites</span><i></i><span>Stronger Brands</span><i></i><span>Bigger Possibilities</span><i></i><span>Better Websites</span><i></i><span>Stronger Brands</span><i></i><span>Bigger Possibilities</span><i></i></div></div>
 <footer>
   <div class="wrap">
     <div class="footer-row">
@@ -1904,7 +1704,9 @@
   }
 })();
 </script>
+<script type="application/json" id="gcData">{"web": [{"type": "web", "slug": "three-strands", "title": "Three Strands Health & Wellness", "tagline": "A calm, credible home for a psychiatric & family practice", "focus": "Designing a site that feels as warm and trustworthy as the care itself, with clear paths to book.", "tags": ["Healthcare", "Web Platform", "Booking"], "desc": "A psychiatric and family nurse practice needed a site that felt as calm and credible as the care itself. We built a warm, editorial homepage around their \"one practice, four ways to support you\" model, with clear paths to book straight from the hero. We also handled their full brand identity — more on that below.", "img": "assets/img/home-01.webp", "alt": "Three Strands Health and Wellness homepage design", "domain": "3strandshealthnp.com", "url": "https://3strandshealthnp.com/"}, {"type": "web", "slug": "shayan", "title": "Shayan Private Equity", "tagline": "A dashboard-first fintech homepage with live market data", "focus": "Making a private equity platform feel as credible live as it looked in the pitch deck.", "tags": ["Fintech", "Web Platform", "Live Data"], "desc": "A fintech platform that had to feel as credible live as it looked in the pitch deck. We designed a dashboard-first homepage with streaming FX, gold, and crypto tickers, side-by-side plan comparisons, and a growth-forward system in navy and warm orange — built to earn trust before a single call happens.", "img": "assets/img/home-02.webp", "alt": "Shayan Private Equity homepage design", "domain": "shayanequity.com", "url": "https://www.shayanequity.com/"}, {"type": "web", "slug": "zavron", "title": "Zavron Group", "tagline": "One editorial site for brands spanning three countries", "focus": "Letting photography lead and giving every region its own space in a single system.", "tags": ["Corporate", "Brand Site", "Multi-Region"], "desc": "Zavron connects African-made brands to markets across Nigeria, Ghana, and Rwanda, and needed one site that felt like all three at once. We built an editorial, product-first layout that leads with photography and lets a multi-country operation read as a single confident story.", "img": "assets/img/home-03.webp", "alt": "Zavron Group homepage design", "domain": "zavrongroup.com", "url": "https://zavrongroup.com/"}, {"type": "web", "slug": "ya", "title": "YA Foundation", "tagline": "A serious, dark-first site for a cybersecurity foundation", "focus": "Turning a heavy subject into clear programmes, a safety hub and a team people can trust.", "tags": ["Non-profit", "Cybersecurity", "Multi-page"], "desc": "A cybersecurity-awareness foundation needed a site as serious as the problem it tackles. We built a multi-page, dark-first experience in the foundation's own blue and red — programmes, a cyber-safety hub, a team page and a live security-event feed in the hero — with a light and dark toggle for every visitor.", "img": "assets/img/work-ya.webp", "alt": "YA Foundation homepage design with the foundation logo and a live security event feed", "domain": "yafoundationglobal.org", "url": "https://yafoundationglobal.org/"}, {"type": "web", "slug": "intelpro", "title": "IntelPRO Solutions", "tagline": "Authority-first platform for a cybersecurity company", "focus": "Replacing stock imagery with telemetry, threat briefs and tools that prove expertise.", "tags": ["Cybersecurity", "Corporate", "Multi-page"], "desc": "An information and cybersecurity company needed authority, not stock imagery. We designed a multi-page platform on the brand's blue and red — services, leadership profiles, a curated cyber-news feed, threat briefs and free online tools — behind a hero that reads like live telemetry.", "img": "assets/img/work-intelpro.webp", "alt": "IntelPRO Solutions homepage design with the headline Secure your digital future", "domain": "intelproglobal.com", "url": "https://intelproglobal.com/"}], "brand": [{"type": "brand", "slug": "three-strands-brand", "title": "Three Strands Health & Wellness", "tagline": "A mark that reads as a flowing strand and a face in profile", "focus": "One mark carried from reception signage to print and social, so the practice looks like itself everywhere.", "tags": ["Healthcare", "Logo & Identity", "Print & Signage"], "desc": "The same client behind our web platform above — we built the identity first: a mark that reads as both a flowing strand and a face in profile, then carried it across office signage, print, and social so every touchpoint matches the site.", "imgs": [["assets/img/home-04.webp", "Three Strands office reception signage featuring the brand mark"], ["assets/img/home-05.webp", "Three Strands promotional flyer design"], ["assets/img/home-06.webp", "Three Strands social media post design"], ["assets/img/home-07.webp", "Three Strands logo printed on stationery"]], "url": ""}, {"type": "brand", "slug": "abiola-farms", "title": "Abiola Farms", "tagline": "Rooted in the land, built to read as modern and trustworthy", "focus": "A full visual system for an agricultural business: logo, signage, business cards, stickers and letterhead.", "tags": ["Agriculture", "Logo Design", "Brand Identity"], "desc": "A full brand identity for an agricultural business — logo, mark, and visual system built to read as trustworthy and modern while staying rooted in the land. Carried across signage, business cards, stickers, and letterhead so the farm reads as one consistent operation everywhere it shows up.", "imgs": [["assets/img/home-08.webp", "Abiola Farms entrance signage featuring the brand mark"], ["assets/img/home-09.webp", "Abiola Farms business card design"], ["assets/img/home-10.webp", "Abiola Farms sticker design"], ["assets/img/home-11.webp", "Abiola Farms letterhead design"]], "url": "https://www.behance.net/gallery/234487671/ABIOLAS-FARM-Farm-Branding-Logo-Design"}, {"type": "brand", "slug": "shayan-brand", "title": "Shayan Private Equity", "tagline": "A restrained identity for a private equity house", "focus": "Logo, letterhead and business cards that give a fintech brand the weight of an established firm.", "tags": ["Fintech", "Logo & Identity", "Print & Stationery"], "desc": "The same client behind our web platform — a full identity built around trust and growth: a mark that reads as both an \"S\" and a rising chart, carried across letterhead and business cards for a fund management brand that needed to look established from day one.", "imgs": [["assets/img/brand-01.webp", "Shayan Private Equity logo mockup"], ["assets/img/brand-02.webp", "Shayan Private Equity letterhead mockup"], ["assets/img/brand-03.webp", "Shayan Private Equity business card mockup"], ["assets/img/brand-04.webp", "Shayan Private Equity flat logo"]], "url": ""}, {"type": "brand", "slug": "zavron-brand", "title": "Zavron Group", "tagline": "Signage, stationery and packaging across the Zavron family", "focus": "A parent identity that holds together its sister brands across warehouse signage, glass walls and packaging.", "tags": ["Logistics", "Logo & Identity", "Signage & Packaging"], "desc": "The same client behind our web platform — the parent identity for a trade and distribution business operating across Nigeria and Ghana, carried onto warehouse signage, office branding, packaging, and business cards that also introduce their sister brands, Zavia and Zuria.", "imgs": [["assets/img/brand-05.webp", "Zavron warehouse signage"], ["assets/img/brand-06.webp", "Zavron glass office wall sign"], ["assets/img/brand-07.webp", "Zavron business card featuring Zavia and Zuria"], ["assets/img/brand-08.webp", "Zavron packaging boxes"]], "url": ""}, {"type": "brand", "slug": "zavia", "title": "Zavia Apparel", "tagline": "Monograms and metallics for a fashion label", "focus": "A monogram worked into leather, bags, hardware and garment tags.", "tags": ["Fashion", "Logo & Identity", "Packaging"], "desc": "A sister brand under the Zavron Group umbrella — a premium fashion identity built around a monogrammed \"ZA\" mark, carried onto leather goods hardware, shopping bags, and garment tags for a label positioned at the top end of the market.", "imgs": [["assets/img/brand-09.webp", "Zavia Apparel monogrammed leather bag"], ["assets/img/brand-10.webp", "Zavia Apparel black shopping bag"], ["assets/img/brand-11.webp", "Zavia Apparel metallic logo mockups on cufflinks and tie clip"], ["assets/img/brand-12.webp", "Zavia Apparel garment tags"]], "url": ""}, {"type": "brand", "slug": "zuria", "title": "Zuria Cosmetics", "tagline": "Soft packaging and a campaign look for a cosmetics line", "focus": "A cosmetics identity from hero banner to jars, bags and perfume bottle.", "tags": ["Cosmetics", "Logo & Identity", "Packaging"], "desc": "Another sister brand under the Zavron Group umbrella — a clean, botanical identity for a skincare and cosmetics line, built around a lotus mark and carried across product packaging, shopping bags, and campaign visuals.", "imgs": [["assets/img/brand-13.webp", "Zuria Cosmetics hero banner concept"], ["assets/img/brand-14.webp", "Zuria Cosmetics product jars"], ["assets/img/brand-15.webp", "Zuria Cosmetics shopping bag concept"], ["assets/img/brand-16.webp", "Zuria Cosmetics perfume bottle"]], "url": ""}]}</script>
 <script defer src="assets/gc.js"></script>
+<script defer src="assets/portfolio.js"></script>
 <script defer src="assets/home.js"></script>
 
 </body>
