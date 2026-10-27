@@ -3,7 +3,7 @@
 "use strict";
 var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 window.GC = window.GC || {};
-GC.sections = [['services','services.jsx'],['work','work.tsx'],['brand','brand.css'],['video','reel.mp4'],['about','about.md'],['contact','contact.json']];
+GC.sections = [['services','services.jsx'],['work','work.tsx'],['stack','stack.json'],['brand','brand.css'],['video','reel.mp4'],['about','about.md'],['contact','contact.json']];
 
 /* ---------- hero: a grid of squares you can play ---------- */
 var hero = document.getElementById('heroSection');

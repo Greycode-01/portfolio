@@ -902,91 +902,37 @@
   }
   @media (max-width:1180px){ .code-window{display:none;} }
 
-  /* ---------- loading screen (terminal boot) ---------- */
+  /* ---------- loading screen (ruler + counter) ---------- */
   body.loading{overflow:hidden;}
-  .loader{
-    position:fixed; inset:0; z-index:9999;
-    background:#111111;
-    display:flex; align-items:center; justify-content:center;
-    padding:24px;
-    transition:opacity .5s ease, visibility .5s ease;
-  }
-  .loader.hide{opacity:0; visibility:hidden; pointer-events:none;}
-  .loader-term{
-    width:100%; max-width:560px;
-    background:#17181c;
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:10px;
-    box-shadow:0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02);
-    overflow:hidden;
-    opacity:0; transform:translateY(8px) scale(0.985);
-    animation:termIn .5s ease forwards;
-  }
-  @keyframes termIn{to{opacity:1; transform:translateY(0) scale(1);}}
-  .term-bar{
-    display:flex; align-items:center; gap:7px;
-    padding:12px 14px;
-    background:rgba(255,255,255,0.03);
-    border-bottom:1px solid rgba(255,255,255,0.07);
-  }
-  .term-dot{width:10px; height:10px; border-radius:50%; display:inline-block;}
-  .term-dot.r{background:#ff5f57;}
-  .term-dot.y{background:#febc2e;}
-  .term-dot.g{background:#28c840;}
-  .term-title{
-    flex:1; text-align:center; margin-right:34px;
-    font-family:var(--ff-mono); font-size:0.72rem; color:rgba(255,255,255,0.34);
-    letter-spacing:0.02em;
-  }
-  .term-body{
-    padding:20px 22px 8px;
-    min-height:168px;
-    font-family:var(--ff-mono); font-size:0.84rem; line-height:1.8;
-  }
-  .term-line{
-    opacity:0; color:rgba(255,255,255,0.78);
-    white-space:pre-wrap; word-break:break-word;
-  }
-  .term-line.show{opacity:1;}
-  .term-line .term-prompt{color:var(--blue-bright); font-weight:600; margin-right:8px;}
-  .term-line.out{color:rgba(255,255,255,0.4); padding-left:20px; font-size:0.8rem;}
-  .term-line.out .ok{color:#28c840;}
-  .term-caret{
-    display:inline-block; width:7px; height:15px; margin-left:2px;
-    background:var(--blue-bright); vertical-align:-3px;
-    animation:caretBlink 0.9s step-end infinite;
-  }
-  .term-footer{
-    display:flex; align-items:center; gap:14px;
-    padding:14px 22px 18px;
-  }
-  .term-bar-track{flex:1; height:3px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden;}
-  .term-bar-fill{width:0%; height:100%; background:linear-gradient(90deg,var(--blue),var(--blue-bright)); transition:width .2s ease;}
-  .term-pct{
-    font-family:var(--ff-mono); font-size:0.76rem; color:rgba(255,255,255,0.45);
-    letter-spacing:0.03em; min-width:38px; text-align:right;
-  }
-
-  /* ---------- v2 loader: enter gate, runner lane, curtain open ---------- */
-  .loader{ background:transparent; }
+  .loader{ position:fixed; inset:0; z-index:9999; transition:opacity .4s ease, visibility .4s ease; }
+  .loader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
   .loader-half{ position:absolute; left:0; right:0; height:50.5%; background:#111111; transition:transform .85s cubic-bezier(.76,0,.24,1); z-index:0; }
   .lh-top{ top:0; } .lh-bot{ bottom:0; }
-  .loader-term{ position:relative; z-index:1; transition:opacity .35s ease, transform .35s ease; }
-  .loader.opening .loader-term{ opacity:0; transform:scale(.97); }
+  .ld-inner{ position:relative; z-index:1; height:100%; display:flex; flex-direction:column; justify-content:space-between; padding:26px clamp(20px,4vw,48px) 0; color:#F3F2EC; transition:opacity .35s ease; }
+  .loader.opening .ld-inner{ opacity:0; }
   .loader.opening .lh-top{ transform:translateY(-101%); transition-delay:.25s; }
   .loader.opening .lh-bot{ transform:translateY(101%); transition-delay:.25s; }
-  .loader-lane{ position:relative; height:50px; margin:0 22px; border-bottom:1px dashed rgba(255,255,255,0.18); }
-  .loader-runner{ left:0; bottom:-1px; cursor:default; }
-  .term-enter{ display:none; padding:4px 22px 24px; text-align:center; }
-  .loader.ready .term-enter{ display:block; animation:termIn .4s ease both; }
-  .te-title{ font-family:var(--ff-mono); font-size:.8rem; color:rgba(255,255,255,0.62); margin-bottom:16px; }
+  .ld-top{ display:flex; justify-content:space-between; font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:rgba(243,242,236,.55); }
+  .ld-mid{ text-align:center; }
+  .ld-num{ font-family:var(--ff-display, var(--ff-body)); font-weight:600; font-size:clamp(5rem,20vw,13rem); line-height:.9; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
+  .ld-num small{ font-size:.22em; letter-spacing:0; opacity:.5; margin-left:.15em; }
+  .ld-enter{ display:none; margin-top:26px; }
+  .loader.ready .ld-enter{ display:block; animation:ldIn .4s ease both; }
+  @keyframes ldIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
   .te-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-  .te-btn{ font:600 .86rem var(--ff-body); padding:12px 20px; border-radius:100px; border:1px solid rgba(255,255,255,0.28); background:transparent; color:#F3F2EC; cursor:pointer; transition:transform .2s, background .2s, color .2s; }
+  .te-btn{ font:600 .86rem var(--ff-body); padding:12px 20px; border-radius:100px; border:1px solid rgba(255,255,255,0.28); background:transparent; color:#F3F2EC; cursor:pointer; transition:transform .2s, background .2s; }
   .te-btn:hover{ transform:translateY(-2px); background:rgba(255,255,255,0.08); }
   .te-primary{ background:var(--blue); color:#171717; border-color:var(--blue); }
   .te-primary:hover{ background:var(--blue-bright); }
   .te-btn:focus-visible{ outline:2px solid #F3F2EC; outline-offset:3px; }
-  .te-hint{ font-family:var(--ff-mono); font-size:.68rem; color:rgba(255,255,255,0.36); margin-top:14px; }
+  .ld-ruler{ position:relative; height:78px; margin:0 calc(-1 * clamp(20px,4vw,48px)); }
+  .ld-ticks{ position:absolute; left:0; right:0; bottom:0; height:30px;
+    background:
+      repeating-linear-gradient(90deg, rgba(243,242,236,.75) 0 1px, transparent 1px 100px) bottom/100% 30px no-repeat,
+      repeating-linear-gradient(90deg, rgba(243,242,236,.4) 0 1px, transparent 1px 20px) bottom/100% 16px no-repeat; }
+  .ld-fill{ position:absolute; left:0; bottom:0; height:2px; width:0; background:var(--blue); }
+  .loader-lane{ position:absolute; left:0; right:0; bottom:30px; height:48px; }
+  .loader-runner{ left:0; bottom:0; cursor:default; }
   .gc-seen .loader{ display:none; }
 
   /* ---------- hero interactive grid ---------- */
@@ -1002,145 +948,72 @@
 
 <div class="loader" id="loader" role="dialog" aria-modal="true" aria-label="Loading Grey Creatives">
   <div class="loader-half lh-top"></div><div class="loader-half lh-bot"></div>
-  <div class="loader-term" id="loaderTerm">
-    <div class="term-bar">
-      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
-      <span class="term-title">zsh — grey-creatives</span>
-    </div>
-    <div class="term-body" id="termBody"></div>
-    <div class="loader-lane" id="loaderLane" aria-hidden="true"><div class="loader-runner gcr-actor is-running" id="loaderRunner"></div></div>
-    <div class="term-footer">
-      <div class="term-bar-track"><div class="term-bar-fill" id="loaderFill"></div></div>
-      <div class="term-pct" id="loaderPct">0%</div>
-    </div>
-    <div class="term-enter" id="termEnter">
-      <div class="te-title">&gt; build complete. enter the studio?</div>
-      <div class="te-actions">
-        <button type="button" class="te-btn te-primary" id="enterSound">&#9654; Enter with sound</button>
-        <button type="button" class="te-btn" id="enterMuted">Enter muted</button>
+  <div class="ld-inner">
+    <div class="ld-top"><span>Grey Creatives</span><span>Portfolio &middot; 2026</span></div>
+    <div class="ld-mid">
+      <div class="ld-num" aria-live="off"><span id="ldNum">000</span><small>%</small></div>
+      <div class="ld-enter" id="ldEnter">
+        <div class="te-actions">
+          <button type="button" class="te-btn te-primary" id="enterSound">&#9654; Enter with sound</button>
+          <button type="button" class="te-btn" id="enterMuted">Enter muted</button>
+        </div>
       </div>
-      <div class="te-hint">headphones recommended &middot; press Enter</div>
+    </div>
+    <div class="ld-ruler" aria-hidden="true">
+      <div class="loader-lane"><div class="loader-runner gcr-actor is-running" id="loaderRunner"></div></div>
+      <div class="ld-ticks"></div><div class="ld-fill" id="ldFill"></div>
     </div>
   </div>
 </div>
 <script>
 (function(){
   "use strict";
-  var loader = document.getElementById('loader');
-  if(!loader){ return; }
+  var loader = document.getElementById('loader'); if(!loader){ return; }
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function closeLoader(){
-    loader.classList.add('hide');
-    document.body.classList.remove('loading');
-  }
+  function closeLoader(){ loader.classList.add('hide'); document.body.classList.remove('loading'); }
   if(root.classList.contains('gc-seen') || reduceMotion){ closeLoader(); return; }
-
-  var termBody = document.getElementById('termBody');
-  var fill = document.getElementById('loaderFill');
-  var pct = document.getElementById('loaderPct');
-  var runner = document.getElementById('loaderRunner');
+  var num = document.getElementById('ldNum'), fill = document.getElementById('ldFill'), runner = document.getElementById('loaderRunner');
   document.body.classList.add('loading');
-
-  function mountRunner(tries){
+  (function mount(n){
     if(window.GC && GC.spriteSVG){ runner.innerHTML = '<div class="gcr-body">' + GC.spriteSVG() + '</div>'; }
-    else if(tries < 40){ setTimeout(function(){ mountRunner(tries + 1); }, 60); }
-  }
-  mountRunner(0);
-
-  var lines = [
-    {cmd:'whoami'},
-    {out:'grey-creatives \u2014 design &amp; build studio'},
-    {cmd:'./init --mode=advanced'},
-    {out:'loading design tokens<span class="ok">... ok</span>'},
-    {out:'compiling components<span class="ok">... ok</span>'},
-    {out:'tuning audio engine<span class="ok">... ok</span>'},
-    {cmd:'status --watch'}
-  ];
-  var li = 0, done = false, barStarted = false, p = 0, typed = false, loaded = false;
-
-  function typeLine(entry, onDone){
-    var row = document.createElement('div');
-    row.className = 'term-line' + (entry.out ? ' out' : '');
-    var text = entry.cmd || entry.out;
-    if(entry.cmd){
-      var promptEl = document.createElement('span');
-      promptEl.className = 'term-prompt'; promptEl.textContent = '$';
-      row.appendChild(promptEl);
-    }
-    var textSpan = document.createElement('span');
-    row.appendChild(textSpan);
-    var caret = document.createElement('span');
-    caret.className = 'term-caret';
-    row.appendChild(caret);
-    termBody.appendChild(row);
-    requestAnimationFrame(function(){ row.classList.add('show'); });
-    if(entry.out){
-      textSpan.innerHTML = text; caret.remove();
-      if(window.GC){ GC.sfx('key'); }
-      setTimeout(onDone, 120);
-      return;
-    }
-    var i = 0;
-    (function step(){
-      if(done) return;
-      i++;
-      textSpan.textContent = text.slice(0, i);
-      if(window.GC){ GC.sfx('key'); }
-      if(i < text.length){ setTimeout(step, 18); }
-      else{ caret.remove(); setTimeout(onDone, 160); }
-    })();
-  }
-  function nextLine(){
-    if(done) return;
-    if(li >= lines.length){ startBar(); typed = true; if(loaded){ setTimeout(ready, 250); } return; }
-    typeLine(lines[li], function(){ li++; nextLine(); });
-  }
-  nextLine();
-
+    else if(n < 40){ setTimeout(function(){ mount(n + 1); }, 60); }
+  })(0);
+  var t0 = performance.now(), p = 0, loaded = false, done = false, lastTick = 0;
   function paint(){
+    num.textContent = ('000' + Math.round(p)).slice(-3);
     fill.style.width = p + '%';
-    pct.textContent = Math.round(p) + '%';
     runner.style.left = 'calc(' + p + '% - ' + (p * 0.42).toFixed(1) + 'px)';
   }
-  function frame(){
-    if(done || !barStarted) return;
-    p += (85 - p) * 0.06 + 0.15;
-    if(p > 85) p = 85;
+  function frame(now){
+    if(done) return;
+    var el = now - t0, target = loaded && el > 1500 ? 100 : Math.min(90, el / 18);
+    p += (target - p) * 0.12; if(target === 100 && p > 99.4){ p = 100; }
+    var r = Math.floor(p / 10); if(r !== lastTick){ lastTick = r; if(window.GC){ GC.sfx('key'); } }
     paint();
+    if(p >= 100){ ready(); return; }
     requestAnimationFrame(frame);
   }
-  function startBar(){ if(barStarted) return; barStarted = true; frame(); }
-
+  requestAnimationFrame(frame);
   function ready(){
-    if(done) return;
-    done = true; startBar(); p = 100; paint();
+    if(done) return; done = true; p = 100; paint();
     runner.classList.remove('is-running');
-    setTimeout(function(){
-      loader.classList.add('ready');
-      var b = document.getElementById('enterSound'); if(b){ b.focus({preventScroll:true}); }
-    }, 380);
+    setTimeout(function(){ loader.classList.add('ready'); var b = document.getElementById('enterSound'); if(b){ b.focus({preventScroll:true}); } }, 250);
   }
   function enter(withSound){
     if(loader.classList.contains('opening')) return;
     try{ sessionStorage.setItem('gc-entered', '1'); }catch(e){}
     if(window.GC){ GC.enter(withSound); if(withSound){ setTimeout(function(){ GC.sfx('whoosh'); }, 350); } }
     loader.classList.add('opening');
-    setTimeout(function(){
-      closeLoader();
-      if(window.GC){ GC.showKeys(); }
-      document.dispatchEvent(new Event('gc:entered'));
-    }, 950);
+    setTimeout(function(){ closeLoader(); if(window.GC){ GC.showKeys(); } document.dispatchEvent(new Event('gc:entered')); }, 950);
   }
   document.getElementById('enterSound').addEventListener('click', function(){ enter(true); });
   document.getElementById('enterMuted').addEventListener('click', function(){ enter(false); });
   document.addEventListener('keydown', function(e){
     if(e.key === 'Enter' && loader.classList.contains('ready') && !loader.classList.contains('opening') && e.target.id !== 'enterMuted'){ e.preventDefault(); enter(true); }
   });
-
-  function onLoaded(){ loaded = true; if(typed){ setTimeout(ready, 250); } }
-  if(document.readyState === 'complete'){ onLoaded(); } else { window.addEventListener('load', onLoaded); }
-  setTimeout(ready, 7000); // safety fallback
+  if(document.readyState === 'complete'){ loaded = true; } else { window.addEventListener('load', function(){ loaded = true; }); }
+  setTimeout(function(){ loaded = true; t0 -= 3000; }, 6000);
 })();
 </script>
 <div class="scroll-progress" id="scrollProgress"></div>
@@ -1398,6 +1271,44 @@
         <p>An information and cybersecurity company needed authority, not stock imagery. We designed a multi-page platform on the brand's blue and red — services, leadership profiles, a curated cyber-news feed, threat briefs and free online tools — behind a hero that reads like live telemetry.</p>
         <a href="https://intelproglobal.com/" target="_blank" rel="noopener" class="work-link sound-click">View live site <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad stack-section" id="stack">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="file-tag">stack.json<span class="ft-cursor"></span></span>
+      <span class="kicker">Tools of the trade</span>
+      <h2>What I design, animate <span style="color:var(--blue-text);">and ship with.</span></h2>
+      <p>Pixels in Photoshop, vectors in Illustrator, motion in After Effects, then real code on the way out the door.</p>
+    </div>
+    <div class="stack-groups reveal">
+      <div class="stack-group"><div class="stack-label"><b>Design</b><span>design.psd</span></div><div class="stack-row">
+        <div class="stack-chip sc-round" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#ps"/></svg><span>Photoshop</span></div>
+        <div class="stack-chip sc-squircle" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#ai"/></svg><span>Illustrator</span></div>
+        <div class="stack-chip sc-pill" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#canva"/></svg><span>Canva</span></div>
+        <div class="stack-chip sc-hex" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#corel"/></svg><span>CorelDRAW</span></div>
+      </div></div>
+      <div class="stack-group"><div class="stack-label"><b>Motion</b><span>reel.mp4</span></div><div class="stack-row">
+        <div class="stack-chip sc-squircle" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#ae"/></svg><span>After Effects</span></div>
+        <div class="stack-chip sc-round" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#pr"/></svg><span>Premiere Pro</span></div>
+        <div class="stack-chip sc-tilt" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#capcut"/></svg><span>CapCut</span></div>
+      </div></div>
+      <div class="stack-group"><div class="stack-label"><b>Code</b><span>stack.ts</span></div><div class="stack-row">
+        <div class="stack-chip sc-hex" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#html"/></svg><span>HTML5</span></div>
+        <div class="stack-chip sc-pill" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#css"/></svg><span>CSS3</span></div>
+        <div class="stack-chip sc-round" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#js"/></svg><span>JavaScript</span></div>
+        <div class="stack-chip sc-squircle" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#ts"/></svg><span>TypeScript</span></div>
+        <div class="stack-chip sc-round" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#react"/></svg><span>React</span></div>
+        <div class="stack-chip sc-pill" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#tw"/></svg><span>Tailwind</span></div>
+        <div class="stack-chip sc-hex" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#py"/></svg><span>Python</span></div>
+      </div></div>
+      <div class="stack-group"><div class="stack-label"><b>Ship</b><span>deploy.sh</span></div><div class="stack-row">
+        <div class="stack-chip sc-squircle" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#vscode"/></svg><span>VS Code</span></div>
+        <div class="stack-chip sc-round" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#github"/></svg><span>GitHub</span></div>
+        <div class="stack-chip sc-tilt" tabindex="0"><svg class="sc-ic" viewBox="0 0 128 128" aria-hidden="true"><use href="assets/img/tools.svg#vercel"/></svg><span>Vercel</span></div>
+      </div></div>
     </div>
   </div>
 </section>
