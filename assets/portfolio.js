@@ -13,7 +13,7 @@ function sfx(n, a){ if(window.GC && GC.sfx){ GC.sfx(n, a); } }
 function cardHTML(p){
   var img = p.type === 'web' ? p.img : p.imgs[0][0], alt = p.type === 'web' ? p.alt : p.imgs[0][1];
   return '<a class="pf-card sound-click" href="#p/' + p.slug + '" data-slug="' + p.slug + '" draggable="false">' +
-    '<div class="pf-thumb"><img src="' + esc(img) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async" draggable="false"></div>' +
+    '<div class="pf-thumb"><img src="' + esc(img) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async" draggable="false">' + (p.domain ? '<span class="pf-dom">' + esc(p.domain) + '</span>' : '') + '</div>' +
     '<div class="pf-body"><h3>' + esc(p.title) + '</h3><p>' + esc(p.tagline) + '</p><span class="pf-go">' + ARROW + '</span></div></a>';
 }
 

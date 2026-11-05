@@ -1,0 +1,72 @@
+/* Grey Creatives — developer layer: command palette, terminal, profile card, card tilt */
+
+kbd{
+  font-family:var(--ff-mono); font-size:.72rem; font-weight:600; line-height:1;
+  padding:3px 6px; border-radius:5px; border:1px solid var(--line); border-bottom-width:2px;
+  background:var(--off-white); color:var(--grey-700);
+}
+
+/* ---------- hero: typed line ---------- */
+#heroType{ display:inline-block; min-width:1ch; }
+
+/* ---------- project cards: tilt, glare, domain chip ---------- */
+.pf-thumb{ position:relative; }
+.pf-thumb::after{
+  content:''; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .25s;
+  background:radial-gradient(circle at var(--gx,50%) var(--gy,0%), rgba(255,255,255,.42), transparent 55%);
+}
+.pf-card.tilting .pf-thumb::after{ opacity:1; }
+@media (hover:hover) and (pointer:fine){
+  .pf-card{ will-change:transform; }
+  .pf-card.tilting{
+    transform:perspective(900px) translateY(-6px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+    transition:transform .08s linear, box-shadow .3s;
+  }
+}
+.pf-dom{
+  position:absolute; left:12px; bottom:12px; z-index:2; display:inline-flex; align-items:center; gap:7px;
+  font:600 .68rem var(--ff-mono); letter-spacing:-.01em; color:#fff; padding:6px 10px; border-radius:100px;
+  background:rgba(17,17,17,.72); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  max-width:calc(100% - 24px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  transition:transform .3s, background .3s;
+}
+.pf-dom::before{ content:''; width:6px; height:6px; border-radius:50%; background:#3DDC84; }
+.pf-card:hover .pf-dom{ background:var(--blue); color:#171717; }
+.pf-card:hover .pf-dom::before{ background:#171717; }
+
+/* ---------- command palette ---------- */
+.cp{ position:fixed; inset:0; z-index:800; display:none; align-items:flex-start; justify-content:center; padding:12vh 16px 16px; }
+.cp.open{ display:flex; }
+.cp-scrim{ position:absolute; inset:0; background:rgba(10,10,12,.5); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); animation:cpFade .18s ease; }
+.cp-box{
+  position:relative; width:min(620px,100%); max-height:min(560px,72vh); display:flex; flex-direction:column; overflow:hidden;
+  background:var(--off-white); color:var(--ink); border:1px solid var(--line); border-radius:18px;
+  box-shadow:0 40px 100px -20px rgba(0,0,0,.55); animation:cpPop .22s cubic-bezier(.2,.9,.3,1.1);
+}
+@keyframes cpFade{ from{ opacity:0; } to{ opacity:1; } }
+@keyframes cpPop{ from{ opacity:0; transform:translateY(-10px) scale(.98); } to{ opacity:1; transform:none; } }
+.cp-top{ display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid var(--line); }
+.cp-top svg{ flex:none; color:var(--grey-500); }
+.cp-input{ flex:1; min-width:0; background:transparent; border:0; outline:0; font:500 1.05rem var(--ff-body); color:var(--ink); }
+.cp-input::placeholder{ color:var(--grey-500); }
+.cp-list{ overflow-y:auto; padding:8px; overscroll-behavior:contain; }
+.cp-group{ font:600 .66rem var(--ff-mono); letter-spacing:.06em; text-transform:uppercase; color:var(--grey-500); padding:12px 12px 6px; }
+.cp-item{
+  display:flex; align-items:center; gap:12px; width:100%; text-align:left; background:none; border:0; cursor:pointer;
+  padding:10px 12px; border-radius:11px; color:var(--ink); font:500 .95rem var(--ff-body);
+}
+.cp-item .ic{ flex:none; width:28px; height:28px; border-radius:8px; display:grid; place-items:center; background:var(--paper); color:var(--blue-text); font:700 .8rem var(--ff-mono); }
+.cp-item .lb{ flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cp-item .lb small{ color:var(--grey-500); font-size:.78rem; margin-left:8px; }
+.cp-item .hk{ flex:none; color:var(--grey-500); }
+.cp-item.on{ background:var(--blue-dim); }
+.cp-item.on .ic{ background:var(--blue); color:#171717; }
+.cp-empty{ padding:28px 16px; text-align:center; color:var(--grey-500); font:500 .9rem var(--ff-mono); }
+.cp-foot{ display:flex; gap:16px; flex-wrap:wrap; padding:10px 16px; border-top:1px solid var(--line); background:var(--paper); font:500 .72rem var(--ff-mono); color:var(--grey-500); }
+.cp-foot span{ display:inline-flex; align-items:center; gap:6px; }
+@media (max-width:640px){ .cp{ padding-top:8vh; } .cp-foot{ display:none; } }
+
+/* header trigger */
+#siteHeader .cp-open{ position:relative; }
+.cp-open kbd{ display:none; }
+

@@ -570,7 +570,7 @@ doc.addEventListener('keydown', function(e){
 GC.showKeys = function(){
   if(isTouch || doc.querySelector('.gc-keys')) return;
   var k = el('div', 'gc-keys');
-  k.innerHTML = (GC.sections ? '<span><kbd>1</kbd>–<kbd>8</kbd> jump</span>' : '') + '<span><kbd>M</kbd> music</span><span><kbd>T</kbd> theme</span>';
+  k.innerHTML = (GC.sections ? '<span><kbd>1</kbd>–<kbd>' + GC.sections.length + '</kbd> jump</span><span><kbd>Ctrl</kbd><kbd>K</kbd> search</span>' : '') + '<span><kbd>M</kbd> music</span><span><kbd>T</kbd> theme</span>';
   doc.body.appendChild(k);
   requestAnimationFrame(function(){ k.classList.add('show'); });
   setTimeout(function(){ k.classList.remove('show'); }, 9000);

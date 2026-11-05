@@ -1,0 +1,8 @@
+/* TEAM */
+Studio: Grey Creatives
+Contact: gr3ycreatives@gmail.com
+
+/* SITE */
+Built with: HTML, CSS, vanilla JavaScript, Web Audio
+Hosted on: Vercel
+Hint: press Ctrl/Cmd + K on the homepage.

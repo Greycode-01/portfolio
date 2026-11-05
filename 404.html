@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Page not found · Grey Creatives</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAF8;--ink:#111;--mut:#7A7A72;--line:#DEDDD3;--gold:#E8AA14;}
+@media (prefers-color-scheme:dark){:root{--bg:#0B0C0F;--ink:#F3F2EC;--mut:#9B9A90;--line:rgba(255,255,255,.12);}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--ink);font-family:'JetBrains Mono',monospace}
+.box{width:min(640px,100%);background:#15161A;color:#B9B8AF;border-radius:16px;border:1px solid rgba(255,255,255,.08);box-shadow:0 40px 80px -40px rgba(0,0,0,.5);overflow:hidden}
+.bar{display:flex;gap:6px;padding:11px 14px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07)}
+.bar i{width:10px;height:10px;border-radius:50%}.bar i:nth-child(1){background:#ff5f57}.bar i:nth-child(2){background:#febc2e}.bar i:nth-child(3){background:#28c840}
+.in{padding:26px 24px 30px;font-size:.9rem;line-height:1.8}
+h1{font:800 clamp(3.4rem,14vw,6rem)/1 'Bricolage Grotesque',sans-serif;margin:0 0 6px;color:var(--gold);letter-spacing:-.03em}
+.e{color:#FF8A7A}.g{color:#7CF0AE}.d{color:#7c7b73}
+a{color:#7AD1FF}a:hover{color:#fff}
+.c{display:inline-block;width:8px;height:1em;background:var(--gold);vertical-align:-2px;animation:b 1s step-end infinite}@keyframes b{50%{opacity:0}}
+.btn{display:inline-block;margin-top:18px;background:var(--gold);color:#171717;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:100px}.btn:hover{background:#F2C230;color:#171717}
+</style>
+</head>
+<body>
+<div class="box"><div class="bar"><i></i><i></i><i></i></div>
+<div class="in">
+<h1>404</h1>
+<div><span class="g">grey@creatives</span>:~$ open <span id="p">this-page</span></div>
+<div class="e">error: no such page. it moved, or it never existed.</div>
+<div class="d">did you mean one of these?</div>
+<div>&nbsp;&nbsp;<a href="/">/</a> <span class="d">home</span></div>
+<div>&nbsp;&nbsp;<a href="/#work">/#work</a> <span class="d">selected work</span></div>
+<div>&nbsp;&nbsp;<a href="/branding-work">/branding-work</a> <span class="d">brand archive</span></div>
+<div>&nbsp;&nbsp;<a href="/reviews">/reviews</a> <span class="d">client reviews</span></div>
+<a class="btn" href="/">Take me home</a> <span class="c"></span>
+</div></div>
+<script>try{document.getElementById('p').textContent=location.pathname.replace(/^\//,'')||'this-page'}catch(e){}</script>
+</body>
+</html>
