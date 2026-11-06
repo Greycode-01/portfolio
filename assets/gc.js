@@ -403,6 +403,28 @@ function initTopNav(){
   }, { passive:true });
   header.addEventListener('pointerleave', function(){ header._last = null; }, { passive:true });
   initVisits();
+  initMobileMenu(header, nav);
+}
+
+/* mobile menu: close button, tap-outside, Escape, scroll lock */
+function initMobileMenu(header, nav){
+  var toggle = $('navToggle'); if(!toggle) return;
+  var close = el('button', 'nav-close'); close.type = 'button'; close.setAttribute('aria-label', 'Close menu');
+  close.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>Close';
+  nav.insertBefore(close, nav.firstChild);
+  var scrim = el('div', 'nav-scrim'); scrim.setAttribute('aria-hidden', 'true'); header.insertBefore(scrim, header.firstChild);
+  toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-controls', 'navLinks');
+  function sync(){
+    var open = nav.classList.contains('open');
+    doc.body.classList.toggle('nav-open', open); toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if(open){ try{ close.focus({ preventScroll:true }); }catch(e){} }
+  }
+  function shut(){ if(nav.classList.contains('open')){ nav.classList.remove('open'); sync(); try{ toggle.focus({ preventScroll:true }); }catch(e){} } }
+  new MutationObserver(sync).observe(nav, { attributes:true, attributeFilter:['class'] });
+  close.addEventListener('click', function(){ sfx('click'); shut(); });
+  scrim.addEventListener('click', shut);
+  doc.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ shut(); } });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 860 && nav.classList.contains('open')){ nav.classList.remove('open'); sync(); } });
 }
 
 /* =========================================================
