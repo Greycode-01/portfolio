@@ -181,3 +181,44 @@ body.gc-root{ animation:gcRootShake .4s steps(2) 3; }
 @media (prefers-reduced-motion: reduce){
   .gcr-run .gcr-f, .gc-music-on .gcp-eq i, .gcr-actor.is-running .gcr-body{ animation:none !important; }
 }
+
+/* ---------- header v2: one calm bar — logo | pill capsule | tools (all 44px tall, never wraps) ---------- */
+#siteHeader .logo{ white-space:nowrap; flex:none; }
+#siteHeader .header-right{ margin-left:auto; flex:0 1 auto; min-width:0; }
+#siteHeader nav.links a, #siteHeader .hd-visits, #siteHeader .nl{ white-space:nowrap; }
+@media (min-width:861px){
+  #siteHeader{ gap:24px; padding-left:clamp(18px,3.2vw,48px); padding-right:clamp(18px,3.2vw,48px); }
+  #siteHeader .header-right{ gap:12px; }
+  #siteHeader nav.links{
+    gap:2px; padding:4px; height:44px; align-items:center; border-radius:100px;
+    border:1px solid var(--line); background:color-mix(in srgb, var(--off-white) 70%, transparent);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  }
+  #siteHeader nav.links a{
+    height:34px; padding:0 12px !important; gap:7px; font-size:.86rem; line-height:1; border-radius:100px;
+    background:transparent; color:var(--grey-700) !important; justify-content:center;
+  }
+  #siteHeader nav.links a:hover, #siteHeader nav.links a:focus-visible{ background:var(--ink); color:var(--off-white) !important; transform:none; }
+  #siteHeader nav.links a.is-cur, #siteHeader nav.links a.active-link{ background:var(--ink); color:var(--off-white) !important; }
+  #siteHeader nav.links a.nav-cta{ margin-left:4px; background:var(--blue); color:var(--on-accent) !important; }
+  #siteHeader nav.links a.nav-cta:hover{ background:var(--blue-bright); color:var(--on-accent) !important; }
+  #siteHeader .theme-toggle{
+    width:44px; height:44px; border:1px solid var(--line);
+    background:color-mix(in srgb, var(--off-white) 70%, transparent); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  }
+  #siteHeader .theme-toggle:hover{ background:var(--ink); color:var(--off-white); border-color:var(--ink); transform:none; }
+  #siteHeader .hd-visits{ height:44px; padding:0 16px; font-size:.84rem; }
+  #siteHeader .hd-visits .vl{ display:none; }
+}
+@media (min-width:861px) and (max-width:1359px){
+  #siteHeader .nl{ display:none; }
+  #siteHeader nav.links a{ width:34px; padding:0 !important; }
+  #siteHeader nav.links a.nav-cta{ width:auto; padding:0 12px !important; }
+  #siteHeader nav.links a.nav-cta .nl{ display:inline; }
+}
+@media (min-width:1360px){
+  #siteHeader .nl{ display:inline; }
+  #siteHeader nav.links a{ padding:0 14px 0 12px !important; }
+  #siteHeader nav.links a.nav-cta{ padding:0 16px 0 13px !important; }
+}
+@media (min-width:1560px){ #siteHeader .hd-visits .vl{ display:inline; } }
