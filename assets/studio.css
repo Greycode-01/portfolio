@@ -5,8 +5,12 @@
 
 /* ---------- header: everything on one side ---------- */
 #siteHeader{ justify-content:flex-end; }
-#siteHeader > nav.links{ margin-left:auto; }
-#siteHeader > nav.links + .header-right{ margin-left:0; }
+/* desktop: the nav sits in the middle of the bar; theme + search stay on the right */
+@media (min-width:1280px){
+  #siteHeader{ position:fixed; }
+  #siteHeader nav.links{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); margin:0; }
+  #siteHeader .header-right{ margin-left:auto; }
+}
 
 /* ---------- intro ---------- */
 .intro{
@@ -251,4 +255,43 @@
   .gl-wrap{ grid-template-columns:minmax(0,1fr); border-radius:26px; text-align:left; }
   .gl-stage{ width:min(100%,380px); }
   .gl-holder{ padding-bottom:30px; }
+}
+
+/* headline: two clear lines */
+.intro h1{ font-size:clamp(2.3rem,3.9vw,3.5rem); max-width:none; line-height:1.08; }
+
+/* =========================================================
+   MOBILE (portrait): clean, balanced, one column
+   ========================================================= */
+@media (max-width:760px){
+  .intro{ min-height:0; padding:92px 0 44px; }
+  .intro-grid{ display:flex; flex-direction:column; gap:30px; }
+  .intro-photo{ order:-1; width:min(74%,300px); margin:0 auto; }
+  .intro-copy{ text-align:center; display:flex; flex-direction:column; align-items:center; }
+  .intro h1{ font-size:clamp(2rem,9vw,2.5rem); line-height:1.08; margin-top:18px; }
+  .intro h1 em{ margin-inline:auto; }
+  .intro-lede{ font-size:1.02rem; line-height:1.65; margin-top:18px; }
+  .intro-sub{ display:none; }
+  .intro-skills{ justify-content:center; margin-top:18px; }
+  .intro-actions{ display:grid; grid-template-columns:1fr; gap:10px; width:100%; margin-top:24px; }
+  .intro-actions .btn{ width:100%; justify-content:center; }
+  .intro-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; width:100%; margin-top:28px; padding-top:22px; text-align:center; }
+  .intro-stats dt{ font-size:1.7rem; }
+  .intro-stats dd{ font-size:.66rem; letter-spacing:0; }
+  .intro-tag{ font-size:.74rem; }
+
+  .bk-hint{ display:none; }
+  .bk-ctrl{ flex-wrap:nowrap; gap:10px; margin-top:22px; justify-content:center; }
+  .bk-dots{ gap:6px; }
+  .bk-dots button{ width:34px; height:34px; font-size:.68rem; }
+  .bk-arrow{ flex:none; width:44px; height:44px; }
+
+  .section-pad{ padding-top:64px; padding-bottom:64px; }
+  .gl-section .gl-copy{ text-align:center; }
+  .gl-stats{ justify-content:center; }
+}
+@media (max-width:760px){
+  .intro h1 em{ display:inline; width:auto; }
+  .ip-chip.c3{ display:none; }
+  .ip-front figcaption span{ font-size:.66rem; }
 }

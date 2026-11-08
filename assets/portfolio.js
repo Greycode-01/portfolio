@@ -101,7 +101,7 @@ function build(p){
   return '<div class="pf-d-in"><button type="button" class="pf-back sound-click">' + BACK + ' Back</button>' +
     '<span class="pf-feat">Featured ' + (p.type === 'web' ? 'work' : 'identity') + '</span><h1>' + esc(p.title) + '</h1><p class="pf-sub">' + esc(p.tagline) + '</p>' + visual +
     '<div class="pf-cols"><div><div class="pf-tags">' + p.tags.map(function(t){ return '<span>' + esc(t) + '</span>'; }).join('') + '</div><p>' + esc(p.desc) + '</p></div>' +
-    '<div><div class="pf-focus"><b>Our focus</b><p>' + esc(p.focus) + '</p></div>' + link + '</div></div>' +
+    '<div>' + (p.focus ? '<div class="pf-focus"><b>Our focus</b><p>' + esc(p.focus) + '</p></div>' : '') + link + '</div></div>' +
     '<div class="pf-more"><h2>More from the notebook</h2><div class="pf-rail" data-rail>' + more(p).map(cardHTML).join('') + '</div></div></div>';
 }
 function show(slug, push){
