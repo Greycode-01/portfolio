@@ -15,7 +15,7 @@ var D = { web:[], brand:[] };
 try{ D = JSON.parse($('gcData').textContent); }catch(e){}
 var PROJECTS = D.web.concat(D.brand);
 var LOGOS = []; try{ LOGOS = JSON.parse($('gcLogos').textContent); }catch(e){}
-var SECTION_LABEL = { services:'Services', work:'Selected work', stack:'Tools & stack', brand:'Brand work', logos:'Logo globe', video:'Video reel', about:'About', contact:'Start a project' };
+var SECTION_LABEL = { home:'Home', services:'Services', work:'Selected work', stack:'Tools & stack', brand:'Brand work', logos:'Logo globe', video:'Video reel', about:'About', contact:'Start a project' };
 
 /* ---------- helpers ---------- */
 function copy(text, msg){

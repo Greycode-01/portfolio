@@ -14,263 +14,10 @@ var store = {
 function $(id){ return doc.getElementById(id); }
 function el(tag, cls, html){ var n = doc.createElement(tag); if(cls) n.className = cls; if(html != null) n.innerHTML = html; return n; }
 
-/* =========================================================
-   1. AUDIO ENGINE (all sounds are synthesised — zero audio files)
-   ========================================================= */
-var prefs = { sfx: store.get('gc-sfx') !== '0', music: store.get('gc-music') === '1' };
-var ctx = null, master, sfxBus, musicBus, noiseBuf, pluckSend;
-
-function ensure(){
-  if(!ctx){
-    var AC = window.AudioContext || window.webkitAudioContext;
-    if(!AC) return false;
-    try{ ctx = new AC({ latencyHint:'interactive' }); }catch(e){ try{ ctx = new AC(); }catch(e2){ return false; } }
-    var comp = ctx.createDynamicsCompressor();
-    comp.threshold.value = -16; comp.ratio.value = 4; comp.attack.value = 0.004; comp.release.value = 0.2;
-    master = ctx.createGain(); master.gain.value = 0.9;
-    master.connect(comp); comp.connect(ctx.destination);
-    sfxBus = ctx.createGain(); sfxBus.gain.value = prefs.sfx ? 1 : 0; sfxBus.connect(master);
-    musicBus = ctx.createGain(); musicBus.gain.value = 0; musicBus.connect(master);
-    // shared echo for plucks
-    var dl = ctx.createDelay(1.0); dl.delayTime.value = 0.34;
-    var fb = ctx.createGain(); fb.gain.value = 0.34;
-    var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2200;
-    pluckSend = ctx.createGain(); pluckSend.gain.value = 0.42;
-    pluckSend.connect(dl); dl.connect(lp); lp.connect(fb); fb.connect(dl); lp.connect(musicBus);
-    noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
-    var d = noiseBuf.getChannelData(0);
-    for(var i = 0; i < d.length; i++){ d[i] = Math.random() * 2 - 1; }
-  }
-  if(ctx.state === 'suspended'){ ctx.resume(); }
-  return true;
-}
-
-function osc(type, f0, f1, t, dur, peak, dest, attack){
-  var o = ctx.createOscillator(), g = ctx.createGain();
-  o.type = type; o.frequency.setValueAtTime(f0, t);
-  if(f1 && f1 !== f0){ o.frequency.exponentialRampToValueAtTime(f1, t + dur); }
-  var a = attack || 0.005;
-  g.gain.setValueAtTime(0.0001, t);
-  g.gain.exponentialRampToValueAtTime(peak, t + a);
-  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g); g.connect(dest || sfxBus);
-  o.start(t); o.stop(t + dur + 0.04);
-  return g;
-}
-function noise(t, dur, peak, type, f0, f1, q, dest, attack){
-  var s = ctx.createBufferSource(); s.buffer = noiseBuf;
-  var f = ctx.createBiquadFilter(); f.type = type || 'bandpass';
-  f.frequency.setValueAtTime(f0, t);
-  if(f1){ f.frequency.exponentialRampToValueAtTime(f1, t + dur); }
-  f.Q.value = q || 1;
-  var g = ctx.createGain(); var a = attack || 0.004;
-  g.gain.setValueAtTime(0.0001, t);
-  g.gain.exponentialRampToValueAtTime(peak, t + a);
-  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  s.connect(f); f.connect(g); g.connect(dest || sfxBus);
-  s.start(t, Math.random() * 0.8); s.stop(t + dur + 0.04);
-}
-function mtof(m){ return 440 * Math.pow(2, (m - 69) / 12); }
-
-var PENTA = [0, 2, 4, 7, 9];
-function pnote(i){ var k = Math.max(0, Math.min(19, i | 0)); return mtof(67 + PENTA[k % 5] + 12 * Math.floor(k / 5)); }
-
-/* soft, rounded, mostly-sine palette: tactile "UI instrument" rather than arcade bleeps */
-var SFX = {
-  hover: function(t){ osc('sine', 1560, 1260, t, 0.05, 0.06); },
-  click: function(t){ osc('sine', 470, 190, t, 0.13, 0.26); noise(t, 0.03, 0.045, 'bandpass', 1400, 0, 1.2); },
-  nav: function(t, i){
-    var f = pnote(i);
-    osc('sine', f, f, t, 0.95, 0.15); osc('sine', f * 2.01, f * 2.01, t, 0.35, 0.035); osc('triangle', f * 3, f * 3, t, 0.1, 0.02);
-  },
-  whoosh: function(t){ noise(t, 0.75, 0.07, 'bandpass', 500, 1500, 0.6, null, 0.3); },
-  boot: function(t){
-    [392, 587.33, 783.99].forEach(function(f, i){
-      osc('sine', f, f, t + i * 0.11, 1.0, 0.16); osc('sine', f * 2, f * 2, t + i * 0.11, 0.5, 0.04);
-    });
-    noise(t, 0.9, 0.05, 'bandpass', 600, 1800, 0.5, null, 0.35);
-  },
-  key: function(t){ osc('sine', 1250 + Math.random() * 250, 950, t, 0.025, 0.05); },
-  step: function(t){ osc('sine', 130, 75, t, 0.06, 0.05); },
-  chime: function(t){
-    [523.25, 659.25, 783.99].forEach(function(f, i){ osc('sine', f, f, t + i * 0.09, 0.9, 0.11); osc('sine', f * 2, f * 2, t + i * 0.09, 0.3, 0.025); });
-  },
-  'switch': function(t, dark){
-    var a = dark ? 659.25 : 392, b = dark ? 392 : 659.25;
-    osc('sine', a, a, t, 0.2, 0.12); osc('sine', b, b, t + 0.09, 0.34, 0.12);
-  },
-  glitch: function(t){
-    for(var i = 0; i < 6; i++){ osc('sine', 120 + Math.random() * 900, 120 + Math.random() * 900, t + i * 0.05, 0.06, 0.06); }
-  },
-  unlock: function(t){
-    [262, 330, 392, 523, 659, 784, 1047].forEach(function(f, i){ osc('sine', f, f, t + i * 0.08, 0.5, 0.1); });
-    [523, 659, 784].forEach(function(f){ osc('sine', f, f, t + 0.65, 1.4, 0.1); });
-  },
-  jump: function(t){ osc('sine', 300, 640, t, 0.17, 0.15); },
-  error: function(t){ osc('sine', 240, 150, t, 0.22, 0.1); },
-  note: function(t, i){
-    var f = pnote(i);   // kalimba-style pluck
-    osc('sine', f, f, t, 1.3, 0.2); osc('sine', f * 4, f * 4, t, 0.12, 0.045); osc('triangle', f * 2, f * 2, t, 0.35, 0.035);
-  }
-};
-var lastSfx = {};
-function sfx(name, arg){
-  if(!prefs.sfx || !ctx || !SFX[name]) return;
-  var now = performance.now();
-  var gap = name === 'hover' ? 80 : (name === 'step' ? 150 : (name === 'key' ? 28 : 0));
-  if(gap && lastSfx[name] && now - lastSfx[name] < gap) return;
-  lastSfx[name] = now;
-  try{ SFX[name](ctx.currentTime + 0.005, arg); }catch(e){}
-}
-GC.sfx = sfx;
-
-/* ---------- generative music: slow ambient room tone (64 BPM), no drums ---------- */
-var M = { on:false, step:0, next:0, timer:null, bpm:64 };
-var CH = [
-  [45, [57, 60, 64, 67, 71]],   // Am9
-  [41, [53, 57, 60, 64, 67]],   // Fmaj9
-  [48, [55, 59, 62, 64, 67]],   // Cmaj9 (add)
-  [43, [55, 59, 62, 66, 69]]    // G6/9
-];
-function pad(t, tones, dur){
-  var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 520; lp.Q.value = 0.3;
-  var g = ctx.createGain();
-  g.gain.setValueAtTime(0.0001, t);
-  g.gain.exponentialRampToValueAtTime(0.13, t + 2.2);
-  g.gain.setValueAtTime(0.13, t + dur - 2.4);
-  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  lp.connect(g); g.connect(musicBus);
-  tones.forEach(function(m){
-    [-6, 6].forEach(function(det){
-      var o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.value = mtof(m); o.detune.value = det;
-      var og = ctx.createGain(); og.gain.value = 0.22; o.connect(og); og.connect(lp);
-      o.start(t); o.stop(t + dur + 0.05);
-    });
-  });
-}
-function sub(t, m, dur){ osc('sine', mtof(m), mtof(m), t, dur, 0.34, musicBus, 1.2); }
-function kal(t, m){
-  var f = mtof(m);
-  var g = osc('sine', f, f, t, 1.6, 0.2, musicBus, 0.004); g.connect(pluckSend);
-  osc('sine', f * 4, f * 4, t, 0.1, 0.04, musicBus, 0.003);
-}
-function musicStep(step, t){
-  var bar = Math.floor(step / 16) % 4, s = step % 16, ch = CH[bar], spb = 60 / M.bpm / 2;
-  if(s === 0){ pad(t, ch[1], spb * 16 + 0.6); sub(t, ch[0] - 12 + 12, spb * 15); }
-  if(s % 2 === 0 && s !== 0 && Math.random() < 0.32){
-    var tone = ch[1][(Math.random() * ch[1].length) | 0] + (Math.random() < 0.5 ? 12 : 24);
-    kal(t, tone);
-  }
-}
-function musicTick(){
-  if(!ctx || !M.on) return;
-  var spb = 60 / M.bpm / 2;
-  while(M.next < ctx.currentTime + 0.3){ musicStep(M.step % 64, M.next); M.next += spb; M.step++; }
-}
-function startMusic(){
-  if(!ensure()) return;
-  if(M.on){ return; }
-  M.on = true; M.step = 0; M.next = ctx.currentTime + 0.1;
-  musicBus.gain.cancelScheduledValues(ctx.currentTime);
-  musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime);
-  musicBus.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 3);
-  M.timer = setInterval(musicTick, 80);
-  musicTick();
-}
-function stopMusic(){
-  if(!M.on) return;
-  M.on = false; clearInterval(M.timer);
-  if(ctx){
-    musicBus.gain.cancelScheduledValues(ctx.currentTime);
-    musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime);
-    musicBus.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.8);
-  }
-}
-
-/* ---------- preferences + player UI ---------- */
-var ui = {};
-function paintPlayer(){
-  doc.body.classList.toggle('gc-music-on', prefs.music);
-  doc.body.classList.toggle('gc-sfx-off', !prefs.sfx);
-  if(ui.music){
-    ui.music.setAttribute('aria-pressed', prefs.music ? 'true' : 'false');
-    ui.state.textContent = prefs.music ? 'playing' : 'paused';
-  }
-  if(ui.sfx){ ui.sfx.setAttribute('aria-pressed', prefs.sfx ? 'true' : 'false'); }
-}
-function setMusic(on, quiet){
-  prefs.music = !!on; store.set('gc-music', on ? '1' : '0');
-  if(on){ if(ensure()){ startMusic(); } } else { stopMusic(); }
-  paintPlayer();
-}
-function setSfx(on){
-  prefs.sfx = !!on; store.set('gc-sfx', on ? '1' : '0');
-  if(ctx){ sfxBus.gain.setTargetAtTime(on ? 1 : 0, ctx.currentTime, 0.02); }
-  paintPlayer();
-}
-GC.setMusic = setMusic; GC.setSfx = setSfx; GC.prefs = prefs;
-GC.enter = function(withSound){
-  prefs.sfx = !!withSound; store.set('gc-sfx', withSound ? '1' : '0');
-  prefs.music = !!withSound; store.set('gc-music', withSound ? '1' : '0');
-  if(withSound && ensure()){
-    sfxBus.gain.value = 1;
-    sfx('boot');
-    startMusic();
-  }
-  paintPlayer();
-};
-
-function buildPlayer(){
-  var p = el('div', 'gc-player');
-  p.setAttribute('role', 'group'); p.setAttribute('aria-label', 'Sound controls');
-  p.innerHTML =
-    '<button type="button" class="gcp-music" id="gcMusic" aria-pressed="false" aria-label="Toggle background music">' +
-      '<span class="gcp-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>' +
-      '<span class="gcp-meta"><b>grey_room.ambient</b><small>ambient · <span id="gcState">paused</span></small></span>' +
-    '</button>' +
-    '<button type="button" class="gcp-sfx" id="gcSfx" aria-pressed="true" aria-label="Toggle sound effects"><span>SFX</span><i class="gcp-dot" aria-hidden="true"></i></button>';
-  doc.body.appendChild(p);
-  ui.music = $('gcMusic'); ui.sfx = $('gcSfx'); ui.state = $('gcState');
-  ui.music.addEventListener('click', function(){ ensure(); setMusic(!prefs.music); sfx('click'); });
-  ui.sfx.addEventListener('click', function(){ ensure(); if(!prefs.sfx){ setSfx(true); sfx('click'); } else { sfx('click'); setSfx(false); } });
-  paintPlayer();
-}
-
-/* unlock audio on the first gesture (browser autoplay policy) */
-function unlock(){
-  ensure();
-  if(prefs.music && !M.on){ startMusic(); }
-}
-['pointerdown', 'keydown', 'touchstart'].forEach(function(ev){ doc.addEventListener(ev, unlock, { capture:true, once:true, passive:true }); });
-doc.addEventListener('visibilitychange', function(){
-  if(!ctx) return;
-  if(doc.hidden){ ctx.suspend(); } else if(prefs.sfx || prefs.music){ ctx.resume(); }
-});
-
-/* delegated hover / click sounds (one listener each — cheap) */
-var HOVER_SEL = 'a[href], button, .browser-frame, .sound-click, .capability-item, .g-item, summary, label.seg-opt';
-var lastHover = null;
-doc.addEventListener('pointerover', function(e){
-  if(e.pointerType && e.pointerType !== 'mouse') return;
-  var t = e.target.closest ? e.target.closest(HOVER_SEL) : null;
-  if(t && t !== lastHover){ lastHover = t; if(!t.closest('.gc-player') && !t.closest('#siteHeader [data-tip]') && !t.closest('.stack-chip')){ sfx('hover'); } }
-  else if(!t){ lastHover = null; }
-}, { passive:true });
-doc.addEventListener('pointerdown', function(e){
-  var t = e.target.closest ? e.target.closest('a[href], button, .sound-click, label.seg-opt') : null;
-  if(!t || t.closest('.gc-player') || t.id === 'themeToggle' || t.id === 'scrollTopBtn' && false){ return; }
-  if(t.id === 'themeToggle'){ return; }
-  ensure(); sfx('click');
-}, { passive:true });
-// typing clicks inside forms
-doc.addEventListener('input', function(e){
-  var t = e.target; if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') && t.type !== 'radio' && t.type !== 'checkbox'){ sfx('key'); }
-}, { passive:true });
-// theme toggle gets its own sound
-doc.addEventListener('click', function(e){
-  var t = e.target.closest ? e.target.closest('#themeToggle') : null;
-  if(t){ setTimeout(function(){ sfx('switch', root.getAttribute('data-theme') === 'dark'); }, 0); }
-}, { passive:true });
+/* sound removed on purpose: these no-ops keep older call sites harmless */
+function ensure(){ return false; }
+function sfx(){}
+GC.sfx = sfx; GC.enter = function(){}; GC.setMusic = function(){}; GC.setSfx = function(){}; GC.prefs = { sfx:false, music:false };
 
 /* =========================================================
    2. TOAST
@@ -356,6 +103,7 @@ function initRunner(){
    4. SIDE RAIL (desktop) — built from the header links, so every page shares it
    ========================================================= */
 var IC = {
+  home:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.2L12 4l8.5 7.2"/><path d="M5.8 9.8V20h4.4v-5.4h3.6V20h4.4V9.8"/></svg>',
   work:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="4" width="7.5" height="7.5" rx="2"/><rect x="3" y="14.5" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="14.5" width="7.5" height="5.5" rx="2"/></svg>',
   services:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg>',
   branding:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20l-1.5-4.5L4 13l16-9-5 16-3-6"/></svg>',
@@ -366,6 +114,7 @@ var IC = {
   sun:'<svg class="i-sun" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 1.8v2.4M12 19.8v2.4M4.4 4.4l1.7 1.7M17.9 17.9l1.7 1.7M1.8 12h2.4M19.8 12h2.4M4.4 19.6l1.7-1.7M17.9 6.1l1.7-1.7"/></svg>'
 };
 var TIPS = {
+  home:['home','Back to the top'],
   work:['work','Selected builds'], services:['services','What we do'], branding:['branding','Identity archive'],
   about:['about','The studio'], reviews:['reviews','Client words']
 };
@@ -578,8 +327,7 @@ doc.addEventListener('keydown', function(e){
   if(typing(e) || e.ctrlKey || e.metaKey || e.altKey) return;
   var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
   if(k === KON[kpos]){ kpos++; if(kpos === KON.length){ kpos = 0; GC.root(); } } else { kpos = (k === KON[0]) ? 1 : 0; }
-  if(k === 'm'){ ensure(); setMusic(!prefs.music); GC.toast('music ' + (prefs.music ? 'on' : 'off')); }
-  else if(k === 't'){ var tb = $('themeToggle'); if(tb){ tb.click(); GC.toast(root.getAttribute('data-theme') === 'dark' ? 'dark mode' : 'light mode'); } }
+  if(k === 't'){ var tb = $('themeToggle'); if(tb){ tb.click(); GC.toast(root.getAttribute('data-theme') === 'dark' ? 'dark mode' : 'light mode'); } }
   else if(GC.sections && /^[0-9]$/.test(k)){
     var i = parseInt(k, 10);
     if(i === 0){ window.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); ensure(); sfx('whoosh'); GC.toast('→ 00 top'); return; }
@@ -592,7 +340,7 @@ doc.addEventListener('keydown', function(e){
 GC.showKeys = function(){
   if(isTouch || doc.querySelector('.gc-keys')) return;
   var k = el('div', 'gc-keys');
-  k.innerHTML = (GC.sections ? '<span><kbd>1</kbd>–<kbd>' + GC.sections.length + '</kbd> jump</span><span><kbd>Ctrl</kbd><kbd>K</kbd> search</span>' : '') + '<span><kbd>M</kbd> music</span><span><kbd>T</kbd> theme</span>';
+  k.innerHTML = (GC.sections ? '<span><kbd>1</kbd>–<kbd>' + GC.sections.length + '</kbd> jump</span><span><kbd>Ctrl</kbd><kbd>K</kbd> search</span>' : '') + '<span><kbd>T</kbd> theme</span>';
   doc.body.appendChild(k);
   requestAnimationFrame(function(){ k.classList.add('show'); });
   setTimeout(function(){ k.classList.remove('show'); }, 9000);
@@ -600,10 +348,7 @@ GC.showKeys = function(){
 
 /* ---------- boot ---------- */
 function boot(){
-  buildPlayer();
-  if(!reduce){ initRunner(); }
   initTopNav(); initGlitter(); initScramble(); initWhoosh();
-  if(!doc.getElementById('loader') || doc.documentElement.classList.contains('gc-seen')){ setTimeout(GC.showKeys, 1600); }
   doc.dispatchEvent(new Event('gc:ready'));
 }
 GC.ready = true;

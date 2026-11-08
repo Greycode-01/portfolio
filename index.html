@@ -945,79 +945,10 @@
 <link rel="stylesheet" href="assets/gc.css">
 <link rel="stylesheet" href="assets/portfolio.css">
 <link rel="stylesheet" href="assets/dev.css">
+<link rel="stylesheet" href="assets/studio.css">
 </head>
 <body>
 
-<div class="loader" id="loader" role="dialog" aria-modal="true" aria-label="Loading Grey Creatives">
-  <div class="loader-half lh-top"></div><div class="loader-half lh-bot"></div>
-  <div class="ld-inner">
-    <div class="ld-top"><span>Grey Creatives</span><span>Portfolio &middot; 2026</span></div>
-    <div class="ld-mid">
-      <div class="ld-num" aria-live="off"><span id="ldNum">000</span><small>%</small></div>
-      <div class="ld-enter" id="ldEnter">
-        <div class="te-actions">
-          <button type="button" class="te-btn te-primary" id="enterSound">&#9654; Enter with sound</button>
-          <button type="button" class="te-btn" id="enterMuted">Enter muted</button>
-        </div>
-      </div>
-    </div>
-    <div class="ld-ruler" aria-hidden="true">
-      <div class="loader-lane"><div class="loader-runner gcr-actor is-running" id="loaderRunner"></div></div>
-      <div class="ld-ticks"></div><div class="ld-fill" id="ldFill"></div>
-    </div>
-  </div>
-</div>
-<script>
-(function(){
-  "use strict";
-  var loader = document.getElementById('loader'); if(!loader){ return; }
-  var root = document.documentElement;
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function closeLoader(){ loader.classList.add('hide'); document.body.classList.remove('loading'); }
-  if(root.classList.contains('gc-seen') || reduceMotion){ closeLoader(); return; }
-  var num = document.getElementById('ldNum'), fill = document.getElementById('ldFill'), runner = document.getElementById('loaderRunner');
-  document.body.classList.add('loading');
-  (function mount(n){
-    if(window.GC && GC.spriteSVG){ runner.innerHTML = '<div class="gcr-body">' + GC.spriteSVG() + '</div>'; }
-    else if(n < 40){ setTimeout(function(){ mount(n + 1); }, 60); }
-  })(0);
-  var t0 = performance.now(), p = 0, loaded = false, done = false, lastTick = 0;
-  function paint(){
-    num.textContent = ('000' + Math.round(p)).slice(-3);
-    fill.style.width = p + '%';
-    runner.style.left = 'calc(' + p + '% - ' + (p * 0.42).toFixed(1) + 'px)';
-  }
-  function frame(now){
-    if(done) return;
-    var el = now - t0, target = loaded && el > 1500 ? 100 : Math.min(90, el / 18);
-    p += (target - p) * 0.12; if(target === 100 && p > 99.4){ p = 100; }
-    var r = Math.floor(p / 10); if(r !== lastTick){ lastTick = r; if(window.GC){ GC.sfx('key'); } }
-    paint();
-    if(p >= 100){ ready(); return; }
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-  function ready(){
-    if(done) return; done = true; p = 100; paint();
-    runner.classList.remove('is-running');
-    setTimeout(function(){ loader.classList.add('ready'); var b = document.getElementById('enterSound'); if(b){ b.focus({preventScroll:true}); } }, 250);
-  }
-  function enter(withSound){
-    if(loader.classList.contains('opening')) return;
-    try{ sessionStorage.setItem('gc-entered', '1'); }catch(e){}
-    if(window.GC){ GC.enter(withSound); if(withSound){ setTimeout(function(){ GC.sfx('whoosh'); }, 350); } }
-    loader.classList.add('opening');
-    setTimeout(function(){ closeLoader(); if(window.GC){ GC.showKeys(); } document.dispatchEvent(new Event('gc:entered')); }, 950);
-  }
-  document.getElementById('enterSound').addEventListener('click', function(){ enter(true); });
-  document.getElementById('enterMuted').addEventListener('click', function(){ enter(false); });
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Enter' && loader.classList.contains('ready') && !loader.classList.contains('opening') && e.target.id !== 'enterMuted'){ e.preventDefault(); enter(true); }
-  });
-  if(document.readyState === 'complete'){ loaded = true; } else { window.addEventListener('load', function(){ loaded = true; }); }
-  setTimeout(function(){ loaded = true; t0 -= 3000; }, 6000);
-})();
-</script>
 <div class="scroll-progress" id="scrollProgress"></div>
 <div class="grain"></div>
 <div class="scanlines"></div>
@@ -1025,13 +956,12 @@
 <div class="cursor-ring" id="cursorRing"></div>
 
 <header id="siteHeader">
-  <a href="/" class="logo"><span class="dot"></span>Grey Creatives</a>
   <div class="header-right">
     <nav class="links" id="navLinks">
+      <a href="#home" class="nav-link">Home</a>
       <a href="#work" class="nav-link">Work</a>
       <a href="#services" class="nav-link">Services</a>
       <a href="/branding-work" class="nav-link">Branding</a>
-      <a href="#about" class="nav-link">About</a>
       <a href="/reviews" class="nav-link">Reviews</a>
       <a href="#contact" class="nav-cta nav-link">Start a project</a>
     </nav>
@@ -1043,72 +973,40 @@
   </div>
 </header>
 
-<section class="hero" id="heroSection">
-  <div class="hero-field">
-    <div class="hero-aurora"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-grid-color" id="heroGridColor"></div>
-    <div class="hero-glow" id="heroGlow"></div>
-  </div>
-  <div class="hero-inner">
-    <div class="hero-eyebrow"><span class="pulse"></span><span class="prompt">$</span> <span id="heroType">currently accepting projects</span><span class="caret"></span></div>
-    <h1 class="glitch" id="heroHeadline">We build. <span class="soft">We brand.</span> We create.</h1>
-    <p class="lede">We design and develop high-quality websites and distinctive brand identities for businesses ready to stand out, earn trust, and grow.</p>
-    <div class="hero-services">
-      <span class="hero-service-chip">Website Design &amp; Development</span>
-      <span class="hero-service-chip">Brand Identity &amp; Design</span>
+<section class="intro" id="home">
+  <div class="wrap intro-grid">
+    <div class="intro-copy">
+      <span class="intro-tag reveal"><i></i>Open for new projects</span>
+      <h1 class="reveal">Websites and brands <em>people remember.</em></h1>
+      <p class="intro-lede reveal">I&rsquo;m the designer and developer behind Grey Creatives. I design and build websites, craft brand identities and edit video for businesses that want to stand out, earn trust and grow.</p>
+      <p class="intro-sub reveal">Recent work spans healthcare, investment, cybersecurity and non-profit teams, designed and coded end to end, so the site, the brand and the story all feel like they came from the same hand.</p>
+      <ul class="intro-skills reveal" aria-label="What I do">
+        <li>Website design &amp; development</li><li>Brand identity</li><li>Video editing</li>
+      </ul>
+      <div class="intro-actions reveal">
+        <a href="#work" class="btn btn-primary">See selected work</a>
+        <a href="#contact" class="btn btn-ghost">Start a project</a>
+      </div>
+      <dl class="intro-stats reveal" id="introStats">
+        <div><dt data-stat="web">0</dt><dd>websites shipped</dd></div>
+        <div><dt data-stat="brand">0</dt><dd>brand identities</dd></div>
+        <div><dt data-stat="logos">0</dt><dd>logos designed</dd></div>
+      </dl>
     </div>
-    <div class="hero-actions">
-      <a href="#contact" class="btn btn-primary magnetic sound-click">Start a Project</a>
-      <a href="#work" class="btn btn-ghost magnetic sound-click">Explore Our Work</a>
+    <div class="intro-photo reveal" id="introPhoto">
+      <span class="ip-card ip-back" aria-hidden="true"></span>
+      <figure class="ip-card ip-front">
+        <img src="assets/img/portrait.webp" srcset="assets/img/portrait-sm.webp 480w, assets/img/portrait.webp 800w" sizes="(max-width:900px) 70vw, 420px" width="800" height="800" alt="Portrait of the designer behind Grey Creatives" decoding="async" fetchpriority="high">
+        <figcaption><b>Grey Creatives</b><span>Designer &amp; developer</span></figcaption>
+      </figure>
+      <span class="ip-chip c1" aria-hidden="true">Design</span>
+      <span class="ip-chip c2" aria-hidden="true">Code</span>
+      <span class="ip-chip c3" aria-hidden="true">Motion</span>
+      <span class="ip-hi" aria-hidden="true">hello!<svg viewBox="0 0 60 40" width="52" height="34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8c18 2 34 10 44 26"/><path d="M38 32l10 3 2-11"/></svg></span>
     </div>
-    <div class="hero-status" id="heroStatus">
-      <span class="hs-dot"></span>
-      <span id="hsUptime">session 00:00:00</span>
-      <span class="hs-sep">·</span>
-      <span id="hsClock">--:--:--</span>
-      <span class="hs-sep">·</span>
-      <span class="hs-flag">status: shipping</span>
-    </div>
-    <div class="hero-hint"><b>&#9618;</b> click or tap the grid &mdash; it plays</div>
-  </div>
-  <div class="code-window" aria-hidden="true">
-    <div class="cw-bar"><i></i><i></i><i></i><span class="cw-title">studio.js</span></div>
-    <pre><span class="c-com">// grey creatives, build loop</span>
-<span class="c-kw">while</span> (idea.<span class="c-fn">isGood</span>()) {
-  design();
-  code();
-  obsess(<span class="c-str">'2px'</span>);
-  ship();
-}
-<span class="c-kw">export default</span> <span class="c-fn">refuseToBlendIn</span>()<span class="c-cursor"></span></pre>
   </div>
 </section>
 
-<div class="devlog-band" aria-hidden="true">
-  <div class="devlog-track" id="devlogTrack">
-    <span><span class="hash">c0de26</span> <span class="kind">feat:</span> shipped yafoundationglobal.org</span>
-    <span><span class="hash">5ec1ab</span> <span class="kind">feat:</span> shipped intelproglobal.com</span>
-    <span><span class="hash">a11ce5</span> <span class="kind">perf:</span> images lazy-loaded, nothing lags</span>
-    <span><span class="hash">a3f9c2</span> <span class="kind">feat:</span> shipped the hero section</span>
-    <span><span class="hash">e71b0d</span> <span class="kind">fix:</span> obsessed over 2px alignment again</span>
-    <span><span class="hash">9c44aa</span> <span class="kind">chore:</span> three coffees deep, no regrets</span>
-    <span><span class="hash">b812e4</span> <span class="kind">perf:</span> shaved 40kb off the hero</span>
-    <span><span class="hash">f0091c</span> <span class="kind">style:</span> swapped blue for amber</span>
-    <span><span class="hash">7d2a19</span> <span class="kind">fix:</span> centered a div (finally)</span>
-    <span><span class="hash">1cd7aa</span> <span class="kind">docs:</span> wrote this commit at 1am</span>
-    <span><span class="hash">c0de26</span> <span class="kind">feat:</span> shipped yafoundationglobal.org</span>
-    <span><span class="hash">5ec1ab</span> <span class="kind">feat:</span> shipped intelproglobal.com</span>
-    <span><span class="hash">a11ce5</span> <span class="kind">perf:</span> images lazy-loaded, nothing lags</span>
-    <span><span class="hash">a3f9c2</span> <span class="kind">feat:</span> shipped the hero section</span>
-    <span><span class="hash">e71b0d</span> <span class="kind">fix:</span> obsessed over 2px alignment again</span>
-    <span><span class="hash">9c44aa</span> <span class="kind">chore:</span> three coffees deep, no regrets</span>
-    <span><span class="hash">b812e4</span> <span class="kind">perf:</span> shaved 40kb off the hero</span>
-    <span><span class="hash">f0091c</span> <span class="kind">style:</span> swapped blue for amber</span>
-    <span><span class="hash">7d2a19</span> <span class="kind">fix:</span> centered a div (finally)</span>
-    <span><span class="hash">1cd7aa</span> <span class="kind">docs:</span> wrote this commit at 1am</span>
-  </div>
-</div>
 
 <div class="marquee-band">
   <div class="marquee-track" id="marqueeTrack">
@@ -1128,6 +1026,16 @@
     <span>E-Commerce <svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#E8AA14"/></svg></span>
   </div>
 </div>
+
+<section class="section-pad pf-section" id="work">
+  <div class="wrap">
+    <div class="pf-head reveal">
+      <div><span class="kicker">Selected work</span><h2 class="mark">Our Work</h2><p>From investment platforms to healthcare and cybersecurity, a few briefs and the thinking behind them.</p><a href="#contact" class="pf-btn sound-click">Start a project <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <div class="pf-note" aria-hidden="true"><span>More in the works...</span><svg class="pf-squig" viewBox="0 0 60 40" width="56" height="38" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M52 4C36 4 20 14 12 32M12 32l-1-12M12 32l12-4"/></svg></div>
+    </div>
+    <div class="bk reveal" id="book" aria-label="Selected websites, shown as an open book"></div>
+  </div>
+</section>
 
 <section class="section-pad svc-section" id="services">
   <div class="wrap">
@@ -1155,16 +1063,6 @@
         <a href="#video" class="cap-link sound-click">See the video work <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </article>
     </div>
-  </div>
-</section>
-
-<section class="section-pad pf-section" id="work">
-  <div class="wrap">
-    <div class="pf-head reveal">
-      <div><span class="kicker">Selected work</span><h2 class="mark">Our Work</h2><p>From investment platforms to healthcare and cybersecurity, a few briefs and the thinking behind them.</p><a href="#contact" class="pf-btn sound-click">Start a project <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-      <div class="pf-note" aria-hidden="true"><span>More in the works...</span><svg class="pf-squig" viewBox="0 0 60 40" width="56" height="38" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M52 4C36 4 20 14 12 32M12 32l-1-12M12 32l12-4"/></svg></div>
-    </div>
-    <div class="pf-rail reveal" data-rail data-kind="web"></div>
   </div>
 </section>
 
@@ -1221,8 +1119,8 @@
     <div class="gl-copy reveal">
       <span class="kicker">Logo archive</span>
       <h2 class="mark">A little world of logos.</h2>
-      <p>Every mark we have drawn, on one globe. Drag to spin it, hover a logo to look closer, tap one to open it full size.</p>
-      <div class="gl-stats"><span><b>23</b> logos</span><span><b>1</b> globe</span><span class="gl-drag">Drag to spin</span></div>
+      <p>Every mark drawn for a client, on one little globe. Drag to spin it, hover to look closer, tap to open a logo full size.</p>
+      <div class="gl-stats"><span><b>23</b> logos</span><span class="gl-drag">Drag to spin</span></div>
       <a href="/branding-work" class="pf-btn sound-click">See full brand projects <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
     <div class="gl-holder reveal">
@@ -1270,12 +1168,7 @@
   </div>
 </section>
 
-<section class="about-strip about-compact" id="about">
-  <div class="wrap-inner reveal">
-    <span class="kicker">About Grey Creatives</span>
-    <p class="big">Most brands settle for a website that merely exists and a logo that is just a logo. <span class="accent">Grey Creatives builds the alternative</span>: web, brand and video from one brief, so every touchpoint feels like it came from the same place.</p>
-  </div>
-</section>
+
 
 <section class="section-pad" id="testimonials" style="background:var(--paper);">
   <div class="wrap">
@@ -1390,7 +1283,6 @@
         <a href="#work" class="nav-link">Work</a>
         <a href="#services" class="nav-link">Services</a>
         <a href="/branding-work" class="nav-link">Branding</a>
-        <a href="#about" class="nav-link">About</a>
         <a href="/reviews" class="nav-link">Reviews</a>
         <a href="mailto:gr3ycreatives@gmail.com" class="nav-link">Contact</a>
       </div>
@@ -1731,6 +1623,7 @@
 <script defer src="assets/globe.js"></script>
 <script defer src="assets/home.js"></script>
 <script defer src="assets/dev.js"></script>
+<script defer src="assets/studio.js"></script>
 
 </body>
 </html>

@@ -20,7 +20,7 @@ var els = L.map(function(l, i){
 });
 
 var W = 0, H = 0, R = 0, T = 64;
-function size(){ var r = stage.getBoundingClientRect(); W = r.width; H = r.height; R = Math.min(W, H) / 2 * 0.80; T = Math.max(50, Math.min(96, R * 0.30)); els.forEach(function(o){ o.el.style.width = o.el.style.height = T + 'px'; o.el.style.marginLeft = o.el.style.marginTop = (-T / 2) + 'px'; }); }
+function size(){ var r = stage.getBoundingClientRect(); W = r.width; H = r.height; R = Math.min(W, H) / 2 * 0.80; T = Math.max(38, Math.min(80, R * 0.26)); els.forEach(function(o){ o.el.style.width = o.el.style.height = T + 'px'; o.el.style.marginLeft = o.el.style.marginTop = (-T / 2) + 'px'; }); }
 size(); window.addEventListener('resize', size, { passive:true });
 
 var yaw = 0.6, pitch = -0.28, vy = 0.0035, vp = 0, speed = 0.0035, hot = -1, drag = false, moved = 0, lx = 0, ly = 0, raf = 0, visible = false, lastT = 0;
