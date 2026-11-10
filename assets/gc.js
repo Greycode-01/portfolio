@@ -109,6 +109,7 @@ var IC = {
   branding:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20l-1.5-4.5L4 13l16-9-5 16-3-6"/></svg>',
   logos:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.6 2.4 3.8 5.2 3.8 8.5s-1.2 6.1-3.8 8.5c-2.6-2.4-3.8-5.2-3.8-8.5S9.4 5.9 12 3.5z"/></svg>',
   about:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.9-4 4-6 7.5-6s6.6 2 7.5 6"/></svg>',
+  team:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M2.8 20c.4-3.6 3-5.6 6.2-5.6s5.8 2 6.2 5.6"/><path d="M16 4.8a3.2 3.2 0 0 1 0 6.1"/><path d="M18.4 14.6c1.7.7 2.9 2.4 3.2 5.4"/></svg>',
   reviews:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9L3.5 9.7l5.9-.8L12 3.5z"/></svg>',
   cta:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg>',
   moon:'<svg class="i-moon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
@@ -116,8 +117,8 @@ var IC = {
 };
 var TIPS = {
   home:['home','Back to the top'],
-  work:['work','Selected builds'], services:['services','What we do'], branding:['branding','Identity archive'], logos:['logos','Every logo I designed'],
-  about:['about','The studio'], reviews:['reviews','Client words']
+  work:['work','Selected builds'], services:['services','What we do'], branding:['branding','Identity archive'], logos:['logos','Every logo we have designed'],
+  about:['about','The studio'], reviews:['reviews','Client words'], team:['team','The people behind it']
 };
 function initTopNav(){
   var header = $('siteHeader'), nav = $('navLinks'); if(!header || !nav || header.getAttribute('data-gcnav')) return;

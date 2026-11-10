@@ -37,8 +37,7 @@
   "url": "https://greycreatives.vercel.app/",
   "email": "gr3ycreatives@gmail.com",
   "description": "Grey Creatives designs and builds web experiences and brand identities for businesses ready to stand out, earn trust, and grow.",
-  "sameAs": [],
-  "founder": {"@type": "Person", "name": "Israel Timilehin", "jobTitle": "Designer and developer"}
+  "sameAs": []
 }
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -965,6 +964,7 @@
       <a href="/branding-work" class="nav-link">Branding</a>
       <a href="#logos" class="nav-link">Logos</a>
       <a href="/reviews" class="nav-link">Reviews</a>
+    <a href="/team" class="nav-link">Team</a>
       <a href="#contact" class="nav-cta nav-link">Start a project</a>
     </nav>
     <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" aria-pressed="false">
@@ -975,37 +975,45 @@
   </div>
 </header>
 
-<section class="intro" id="home">
-  <div class="wrap intro-grid">
-    <div class="intro-copy">
-      <span class="intro-tag reveal"><i></i>Open for new projects</span>
-      <h1 class="reveal">Building identities. <em>Creating digital experiences.</em></h1>
-      <p class="intro-lede reveal">I&rsquo;m Israel Timilehin, the designer and developer behind Grey Creatives. I design and build websites, craft brand identities and edit video for businesses that want to stand out, earn trust and grow.</p>
-      <p class="intro-sub reveal">Recent work spans healthcare, investment, cybersecurity and non-profit teams, designed and coded end to end, so the site, the brand and the story all feel like they came from the same hand.</p>
-      <ul class="intro-skills reveal" aria-label="What I do">
-        <li>Website design &amp; development</li><li>Brand identity</li><li>Video editing</li>
-      </ul>
-      <div class="intro-actions reveal">
-        <a href="#work" class="btn btn-primary">See selected work</a>
-        <a href="#contact" class="btn btn-ghost">Start a project</a>
-      </div>
-      <dl class="intro-stats reveal" id="introStats">
-        <div><dt data-stat="web">0</dt><dd>websites shipped</dd></div>
-        <div><dt data-stat="brand">0</dt><dd>brand identities</dd></div>
-        <div><dt data-stat="logos">0</dt><dd>logos designed</dd></div>
-      </dl>
+<section class="hero" id="home">
+  <div class="hero-field">
+    <div class="hero-aurora"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-grid-color" id="heroGridColor"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><span class="pulse"></span><span class="prompt">$</span> <span id="heroType">currently accepting projects</span><span class="caret"></span></div>
+    <h1 class="glitch" id="heroHeadline">Building identities. <span class="soft">Creating digital experiences.</span></h1>
+    <p class="lede">We design and develop high-quality websites and distinctive brand identities for businesses ready to stand out, earn trust, and grow.</p>
+    <div class="hero-services">
+      <span class="hero-service-chip">Website Design &amp; Development</span>
+      <span class="hero-service-chip">Brand Identity &amp; Design</span>
     </div>
-    <div class="intro-photo reveal" id="introPhoto">
-      <span class="ip-card ip-back" aria-hidden="true"></span>
-      <figure class="ip-card ip-front">
-        <img src="assets/img/portrait.webp" srcset="assets/img/portrait-sm.webp 480w, assets/img/portrait.webp 800w" sizes="(max-width:900px) 70vw, 420px" width="800" height="800" alt="Portrait of Israel Timilehin, designer and developer behind Grey Creatives" decoding="async" fetchpriority="high">
-        <figcaption><b>Israel Timilehin</b><span>Designer &amp; developer &middot; Grey Creatives</span></figcaption>
-      </figure>
-      <span class="ip-chip c1" aria-hidden="true">Design</span>
-      <span class="ip-chip c2" aria-hidden="true">Code</span>
-      <span class="ip-chip c3" aria-hidden="true">Motion</span>
-      <span class="ip-hi" aria-hidden="true">hello!<svg viewBox="0 0 60 40" width="52" height="34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8c18 2 34 10 44 26"/><path d="M38 32l10 3 2-11"/></svg></span>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary magnetic sound-click">Start a Project</a>
+      <a href="#work" class="btn btn-ghost magnetic sound-click">Explore Our Work</a>
     </div>
+    <div class="hero-status" id="heroStatus">
+      <span class="hs-dot"></span>
+      <span id="hsUptime">session 00:00:00</span>
+      <span class="hs-sep">·</span>
+      <span id="hsClock">--:--:--</span>
+      <span class="hs-sep">·</span>
+      <span class="hs-flag">status: shipping</span>
+    </div>
+    <div class="hero-hint"><b>&#9618;</b> click or tap the grid &mdash; it plays</div>
+  </div>
+  <div class="code-window" aria-hidden="true">
+    <div class="cw-bar"><i></i><i></i><i></i><span class="cw-title">studio.js</span></div>
+    <pre><span class="c-com">// grey creatives, build loop</span>
+<span class="c-kw">while</span> (idea.<span class="c-fn">isGood</span>()) {
+  design();
+  code();
+  obsess(<span class="c-str">'2px'</span>);
+  ship();
+}
+<span class="c-kw">export default</span> <span class="c-fn">refuseToBlendIn</span>()<span class="c-cursor"></span></pre>
   </div>
 </section>
 
@@ -1287,12 +1295,13 @@
         <a href="/branding-work" class="nav-link">Branding</a>
         <a href="#logos" class="nav-link">Logos</a>
         <a href="/reviews" class="nav-link">Reviews</a>
+    <a href="/team" class="nav-link">Team</a>
         <a href="mailto:gr3ycreatives@gmail.com" class="nav-link">Contact</a>
       </div>
     </div>
     <div class="footer-meta">
       <span>© 2026 Grey Creatives. All rights reserved.</span>
-      <span>Designed and built by Israel Timilehin.</span>
+      <span>Designed and built by Grey Creatives.</span>
     </div>
   </div>
 </footer>
@@ -1405,7 +1414,7 @@
   }
 
   /* ---------- hero spotlight (rAF-throttled; static on touch) ---------- */
-  var heroSection = document.getElementById('heroSection');
+  var heroSection = document.getElementById('home');
   var gridColor = document.getElementById('heroGridColor');
   var glow = document.getElementById('heroGlow');
   if(heroSection && gridColor && glow){
