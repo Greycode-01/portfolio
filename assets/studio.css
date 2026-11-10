@@ -319,3 +319,17 @@
   .team-lead .intro-actions{ display:grid; grid-template-columns:1fr; }
   .team-lead .intro-actions .btn{ justify-content:center; }
 }
+
+/* team: secondary member, same polaroid treatment at a smaller size */
+.team-member{ display:grid; grid-template-columns:minmax(0,250px) minmax(0,1fr); gap:clamp(32px,5vw,64px); align-items:center; margin-top:clamp(56px,8vw,96px); padding-top:clamp(40px,5vw,64px); border-top:1px solid var(--line); }
+.team-member .intro-photo{ width:min(100%,250px); }
+.team-member .ip-front{ padding:10px 10px 0; }
+.team-member .ip-front::before{ width:64px; height:20px; top:-10px; }
+.team-member .ip-front figcaption{ padding:12px 4px 14px; }
+.team-member .ip-front figcaption b{ font-size:.95rem; }
+.team-member .ip-front figcaption span{ font-size:.68rem; }
+.team-member p{ margin:16px 0 0; max-width:36em; font-size:1.04rem; line-height:1.7; color:var(--grey-700); }
+@media (max-width:640px){
+  .team-member{ grid-template-columns:minmax(0,1fr); gap:34px; }
+  .team-member .intro-photo{ order:-1; width:min(62%,240px); margin:8px auto 0; }
+}
