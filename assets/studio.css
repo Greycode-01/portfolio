@@ -321,8 +321,8 @@
 }
 
 /* team: secondary member, same polaroid treatment at a smaller size */
-.team-member{ display:grid; grid-template-columns:minmax(0,250px) minmax(0,1fr); gap:clamp(32px,5vw,64px); align-items:center; margin-top:clamp(56px,8vw,96px); padding-top:clamp(40px,5vw,64px); border-top:1px solid var(--line); }
-.team-member .intro-photo{ width:min(100%,250px); }
+.team-member{ display:grid; grid-template-columns:minmax(0,300px) minmax(0,1fr); gap:clamp(32px,5vw,64px); align-items:center; margin-top:clamp(56px,8vw,96px); padding-top:clamp(40px,5vw,64px); border-top:1px solid var(--line); }
+.team-member .intro-photo{ width:min(100%,300px); }
 .team-member .ip-front{ padding:10px 10px 0; }
 .team-member .ip-front::before{ width:64px; height:20px; top:-10px; }
 .team-member .ip-front figcaption{ padding:12px 4px 14px; }
@@ -333,3 +333,6 @@
   .team-member{ grid-template-columns:minmax(0,1fr); gap:34px; }
   .team-member .intro-photo{ order:-1; width:min(62%,240px); margin:8px auto 0; }
 }
+.team-member h3{ margin:14px 0 0; font:700 clamp(1.6rem,3vw,2.2rem)/1.08 var(--ff-display); letter-spacing:-.02em; color:var(--ink); }
+.team-member .team-member-copy p{ margin-top:14px; }
+@media (max-width:640px){ .team-member .intro-photo{ width:min(70%,270px); } }
