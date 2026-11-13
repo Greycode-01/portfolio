@@ -336,3 +336,10 @@
 .team-member h3{ margin:14px 0 0; font:700 clamp(1.6rem,3vw,2.2rem)/1.08 var(--ff-display); letter-spacing:-.02em; color:var(--ink); }
 .team-member .team-member-copy p{ margin-top:14px; }
 @media (max-width:640px){ .team-member .intro-photo{ width:min(70%,270px); } }
+
+/* resume actions (team page) */
+.resume-actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 18px}
+.btn-resume{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1.5px solid var(--line);color:var(--ink);font:600 13.5px/1 'Inter',sans-serif;text-decoration:none;transition:transform .2s,background .2s,border-color .2s}
+.btn-resume:hover{transform:translateY(-2px);border-color:var(--blue)}
+.btn-resume.solid{background:var(--blue);border-color:var(--blue);color:#1a1405}
+@media(max-width:640px){.btn-resume{flex:1 1 auto;justify-content:center}}
