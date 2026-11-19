@@ -701,19 +701,7 @@
 
 <section class="section-pad" style="padding-top:0;">
   <div class="wrap">
-    <div class="testimonial-grid reveal" id="reviewGrid">
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p class="quote">"I want to thank you for this job. You have impressed me a lot. I had actually given up on my people doing good work for me. In less than a week, you delivered perfect results."</p>
-        <div class="testimonial-author">
-          <div class="author-name">Alex</div>
-          <div class="author-role">Three Strands Health &amp; Wellness</div>
-        </div>
-      </div>
-      <div class="review-empty" id="reviewEmpty">
-        More reviews are on their way. Be one of the first voices here.
-      </div>
-    </div>
+    <div class="testimonial-grid reveal in-view" id="reviewGrid" data-reviews="grid"></div>
   </div>
 </section>
 
@@ -722,7 +710,7 @@
     <div class="reveal">
       <span class="kicker">Leave a review</span>
       <h2 style="font-size:clamp(1.8rem,3.4vw,2.4rem); font-weight:700; margin-bottom:18px; line-height:1.15;">Worked with us? <span style="color:var(--blue-text);">Tell us how it went.</span></h2>
-      <p style="color:var(--grey-700); font-size:1.02rem; max-width:420px;">Your review helps the next business know what to expect from Grey Creatives. It posts straight to this page the moment you submit it — no waiting on us.</p>
+      <p style="color:var(--grey-700); font-size:1.02rem; max-width:420px;">Your review helps the next business know what to expect from Grey Creatives. We read every review before it goes on this page.</p>
     </div>
 
     <form class="review-form reveal" id="reviewForm" data-notify-action="https://formspree.io/f/mrpbndwj" method="POST">
@@ -975,16 +963,10 @@
   ============================================================
   LIVE REVIEWS — powered by Firebase Firestore (free tier)
   ============================================================
-  Reviews publish instantly, with no approval step. That is a
-  deliberate tradeoff: there is no human in the loop, so anyone
-  can post anything (Firestore's rules only check the shape of
-  the data, not what it says). See the setup notes delivered
-  alongside this file for the exact steps and the security-rules
-  snippet to paste into your Firebase project.
+  Reviews sent through the form are only STORED here (and emailed
+  to you). Nothing is shown on the site until you add it by hand to
+  assets/reviews-data.js.
 
-  Replace the placeholder values below with your own project's
-  config from the Firebase console (Project settings → General →
-  Your apps → SDK setup and configuration).
 -->
 <script>
   window.FIREBASE_CONFIG = {
@@ -1000,43 +982,10 @@
 (async function(){
   "use strict";
   var reviewForm = document.getElementById('reviewForm');
-  var reviewGrid = document.getElementById('reviewGrid');
-  var reviewEmpty = document.getElementById('reviewEmpty');
   var status = document.getElementById('formStatus');
   var btn = document.getElementById('reviewSubmit');
 
   var notConfigured = !window.FIREBASE_CONFIG || window.FIREBASE_CONFIG.apiKey === "YOUR_API_KEY";
-
-  function starString(n){
-    n = Math.max(1, Math.min(5, Number(n) || 5));
-    return '★★★★★'.slice(0, n) + '☆☆☆☆☆'.slice(0, 5 - n);
-  }
-
-  function buildCard(data){
-    var card = document.createElement('div');
-    card.className = 'testimonial-card';
-    var stars = document.createElement('div');
-    stars.className = 'stars';
-    stars.textContent = starString(data.rating);
-    var quote = document.createElement('p');
-    quote.className = 'quote';
-    quote.textContent = '"' + (data.message || '') + '"';
-    var author = document.createElement('div');
-    author.className = 'testimonial-author';
-    var name = document.createElement('div');
-    name.className = 'author-name';
-    name.textContent = data.name || 'Anonymous';
-    var role = document.createElement('div');
-    role.className = 'author-role';
-    role.textContent = data.company || '';
-    author.appendChild(name);
-    if(data.company){ author.appendChild(role); }
-    card.appendChild(stars);
-    card.appendChild(quote);
-    card.appendChild(author);
-    card.classList.add('reveal', 'in-view');
-    return card;
-  }
 
   function disableFormWithMessage(msg){
     if(!reviewForm) return;
@@ -1084,21 +1033,8 @@
     var app = initializeApp(window.FIREBASE_CONFIG);
     var db = getFirestore(app);
     var reviewsRef = collection(db, 'reviews');
-    var liveIds = new Set();
-
-    // Live-render every review as it's added, newest first, no reload needed.
-    onSnapshot(query(reviewsRef, orderBy('createdAt', 'desc'), limit(50)), function(snapshot){
-      snapshot.docChanges().forEach(function(change){
-        if(change.type === 'added' && !liveIds.has(change.doc.id)){
-          liveIds.add(change.doc.id);
-          var card = buildCard(change.doc.data());
-          reviewGrid.insertBefore(card, reviewGrid.firstChild);
-        }
-      });
-      if(reviewEmpty){ reviewEmpty.style.display = snapshot.empty ? '' : 'none'; }
-    }, function(err){
-      console.error('Could not load live reviews:', err);
-    });
+    // Submitted reviews are only stored (and emailed to you). They are never shown on the site automatically.
+    // To publish one, add it by hand to assets/reviews-data.js.
 
     if(reviewForm){
       var originalLabel = btn ? btn.textContent : '';
@@ -1118,11 +1054,11 @@
           message: reviewForm.querySelector('#revMessage').value.trim(),
           createdAt: serverTimestamp()
         };
-        if(btn){ btn.disabled = true; btn.textContent = 'Posting…'; }
+        if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
         status.className = 'form-status';
 
         addDoc(reviewsRef, data).then(function(){
-          status.textContent = "Thanks — your review is live on this page now.";
+          status.textContent = "Thank you. Your review has been received. We read every review before it goes on this page.";
           status.className = 'form-status show success';
           reviewForm.reset();
           // best-effort email notification; the review is already live either way
@@ -1136,7 +1072,7 @@
           }
         }).catch(function(err){
           console.error(err);
-          status.textContent = 'Something went wrong posting that. Please try again in a moment.';
+          status.textContent = 'Something went wrong sending that. Please try again in a moment.';
           status.className = 'form-status show error';
         }).finally(function(){
           if(btn){ btn.disabled = false; btn.textContent = originalLabel; }
@@ -1147,6 +1083,8 @@
 })();
 </script>
 
+<script defer src="assets/reviews-data.js"></script>
+<script defer src="assets/reviews.js"></script>
 <script defer src="assets/gc.js"></script>
 </body>
 </html>

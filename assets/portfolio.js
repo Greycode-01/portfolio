@@ -120,7 +120,7 @@ function hide(fromPop){
   if(opener && opener.focus){ opener.focus({ preventScroll:true }); } opener = null;
 }
 document.addEventListener('click', function(e){
-  var a = e.target.closest('a.pf-card'); if(a){ e.preventDefault(); opener = a; show(a.dataset.slug, !detail.classList.contains('open') || true); return; }
+  var a = e.target.closest('a.pf-card[data-slug]'); if(a){ e.preventDefault(); opener = a; show(a.dataset.slug, !detail.classList.contains('open') || true); return; }
   if(e.target.closest('.pf-back')){ hide(false); }
 });
 document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && detail.classList.contains('open')){ hide(false); } });

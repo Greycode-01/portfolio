@@ -343,3 +343,96 @@
 .btn-resume:hover{transform:translateY(-2px);border-color:var(--blue)}
 .btn-resume.solid{background:var(--blue);border-color:var(--blue);color:#1a1405}
 @media(max-width:640px){.btn-resume{flex:1 1 auto;justify-content:center}}
+
+/* ---------- client reviews (data-driven) ---------- */
+.testimonial-card{margin:0}
+.testimonial-card .quote{margin:0}
+.testimonial-card figcaption{display:flex;flex-direction:column;gap:14px;margin-top:auto}
+.rv-link{display:inline-flex;align-items:center;gap:7px;font:600 .88rem var(--ff-body,'Inter',sans-serif);color:var(--ink);text-decoration:none;border-bottom:1.5px solid var(--blue);padding-bottom:2px;align-self:flex-start;transition:gap .2s}
+.rv-link:hover{gap:11px}
+.rv-feature{margin-top:16px}
+.rv-feature .rv-big{padding:clamp(28px,5vw,56px);max-width:860px;gap:28px}
+.rv-feature .rv-big .stars{font-size:1.15rem}
+.rv-feature .rv-big .quote{font-size:clamp(1.3rem,2.6vw,2rem);line-height:1.4;letter-spacing:-.01em}
+.rv-row{display:grid;gap:24px;margin-top:16px;grid-template-columns:repeat(var(--n,2),minmax(0,1fr))}
+.rv-row.rv-n2{--n:2}.rv-row.rv-n3{--n:3}
+@media(max-width:820px){.rv-row{grid-template-columns:1fr}}
+.rv-slider{margin-top:16px}
+.rv-track{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
+.rv-track::-webkit-scrollbar{display:none}
+.rv-track .testimonial-card{flex:0 0 min(420px,86%);scroll-snap-align:start}
+.rv-nav{display:flex;align-items:center;gap:16px;margin-top:22px}
+.rv-nav button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:1.1rem;cursor:pointer;transition:border-color .2s,transform .2s}
+.rv-nav button:hover:not(:disabled){border-color:var(--blue);transform:translateY(-2px)}
+.rv-nav button:disabled{opacity:.35;cursor:default}
+.rv-count{font:500 .8rem 'JetBrains Mono',monospace;color:var(--grey-500)}
+
+/* ---------- case studies ---------- */
+.cs-cards{margin:8px 0 56px}
+.cs-card{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;color:var(--ink);text-decoration:none;transition:transform .3s,box-shadow .3s}
+.cs-card:hover{transform:translateY(-4px);box-shadow:0 30px 50px -36px rgba(60,35,10,.5)}
+.cs-thumb{background:#F3EEE5;overflow:hidden;aspect-ratio:16/10}
+.cs-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s}
+.cs-card:hover .cs-thumb img{transform:scale(1.03)}
+.cs-body{padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:10px}
+.cs-label{font:500 .72rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-text)}
+.cs-body h3{margin:0;font-size:clamp(1.3rem,2.2vw,1.8rem);letter-spacing:-.01em}
+.cs-ind{color:var(--grey-700);font-size:.95rem;margin:0}
+.cs-sum{color:var(--grey-700);font-size:.95rem;margin:0}
+.cs-tags{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.cs-tags span{font:500 .76rem var(--ff-body);padding:6px 13px;border-radius:100px;border:1px solid var(--line);background:var(--off-white);color:var(--grey-700)}
+.cs-go{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font:600 .92rem var(--ff-body);color:var(--ink)}
+.cs-card:hover .cs-go{color:var(--blue-text)}
+.cs-solo .cs-card{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:stretch}
+.cs-solo .cs-thumb{aspect-ratio:auto;min-height:340px}
+.cs-solo .cs-body{justify-content:center}
+.cs-multi{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+@media(max-width:820px){.cs-solo .cs-card{grid-template-columns:1fr}.cs-solo .cs-thumb{min-height:0;aspect-ratio:16/10}}
+.cs-head{padding-bottom:36px}
+.cs-crumb{display:inline-block;margin-bottom:18px;font:500 .9rem var(--ff-body);color:var(--grey-700);text-decoration:none}
+.cs-crumb:hover{color:var(--ink)}
+.cs-head h1{font-size:clamp(2rem,5vw,3.6rem);letter-spacing:-.02em;line-height:1.05;margin:0 0 26px;max-width:18ch}
+.cs-meta{display:flex;flex-wrap:wrap;gap:22px 48px;margin-bottom:8px}
+.cs-meta>div{display:flex;flex-direction:column;gap:6px;max-width:420px}
+.cs-meta b{font:500 .72rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--grey-500);font-weight:500}
+.cs-meta span{font-size:1rem;color:var(--ink)}
+.cs-meta .cs-tags{margin:0}
+.cs-hero{padding:0 0 clamp(36px,6vw,72px)}
+.cs-block{padding:clamp(28px,5vw,56px) 0;border-top:1px solid var(--line)}
+.cs-two{display:grid;grid-template-columns:minmax(0,.35fr) minmax(0,1fr);gap:clamp(20px,5vw,72px);align-items:start}
+.cs-two h2{font-size:clamp(1.3rem,2.2vw,1.7rem);margin:0;letter-spacing:-.01em}
+.cs-copy p{font-size:1.1rem;line-height:1.65;color:var(--grey-700);max-width:640px;margin:0}
+.cs-list{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:14px;max-width:680px}
+.cs-list li{position:relative;padding-left:30px;font-size:1.08rem;line-height:1.55;color:var(--ink)}
+.cs-list li::before{content:"";position:absolute;left:0;top:.5em;width:12px;height:12px;border-radius:50%;background:var(--blue)}
+.cs-gallery{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.cs-gallery figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--paper)}
+.cs-gallery img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover}
+.cs-copy .testimonial-card{max-width:680px}
+.cs-copy .rv-big{padding:clamp(24px,4vw,40px);gap:22px}
+.cs-copy .rv-big .quote{font-size:clamp(1.15rem,2vw,1.5rem)}
+.cs-next{padding:clamp(40px,6vw,72px) 0 clamp(56px,8vw,100px);border-top:1px solid var(--line)}
+.cs-next-in{display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:space-between}
+.cs-next h2{font-size:clamp(1.6rem,3.4vw,2.6rem);margin:0;letter-spacing:-.02em}
+.cs-next-actions{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+.cs-next .pf-visit{margin-top:0}
+.cs-nextlink{display:inline-flex;flex-direction:column;gap:2px;color:var(--ink);text-decoration:none;font:600 1rem var(--ff-body)}
+.cs-nextlink small{font:500 .72rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--grey-500);font-weight:500}
+.cs-nextlink svg{display:inline;vertical-align:-3px}
+@media(max-width:760px){.cs-two{grid-template-columns:1fr;gap:14px}.cs-gallery{grid-template-columns:1fr 1fr;gap:10px}.cs-head h1{max-width:none}}
+.cs-brand{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cs-brand .cs-thumb{aspect-ratio:4/3}
+@media(max-width:1000px){.cs-brand{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.cs-brand{grid-template-columns:1fr}}
+
+.cs-more{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:-30px 0 56px}
+.cs-morelink{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:100px;background:var(--ink);color:var(--off-white);font:600 .95rem var(--ff-body);text-decoration:none;transition:background .2s,color .2s,transform .2s}
+.cs-morelink:hover{background:var(--blue);color:#171717;transform:translateY(-2px)}
+.cs-more span{font:500 .8rem 'JetBrains Mono',monospace;color:var(--grey-500)}
+.cs-all{margin-top:8px}
+
+/* heading that separates case studies from the websites book */
+.ws-head{margin:12px 0 4px;padding-top:44px;border-top:1px solid var(--line);text-align:center}
+.ws-head .kicker{display:block;font:500 .78rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-text);margin-bottom:12px}
+.ws-head h3{margin:0;font-size:clamp(1.7rem,3.4vw,2.6rem);letter-spacing:-.02em}
+.ws-head p{margin:12px auto 0;max-width:34em;color:var(--grey-700)}
