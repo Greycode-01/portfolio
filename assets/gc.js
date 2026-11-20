@@ -357,3 +357,35 @@ function boot(){
 GC.ready = true;
 if(doc.readyState === 'loading'){ doc.addEventListener('DOMContentLoaded', boot); } else { boot(); }
 })();
+
+/* ---- header fit: keep the centred nav from ever overlapping the right-hand tools, whatever the font widths / zoom ---- */
+(function(){
+  var h, nav, busy = false, queued = false;
+  function tools(){ return Array.prototype.filter.call(h.querySelectorAll('.header-right > *'), function(e){ return e !== nav && e.offsetParent !== null; }); }
+  function overlaps(){
+    var n = nav.getBoundingClientRect(), t = tools(), left = Infinity;
+    t.forEach(function(e){ left = Math.min(left, e.getBoundingClientRect().left); });
+    return n.right > left - 14 || n.left < 8;
+  }
+  function fits(){ var r = h.querySelector('.header-right').getBoundingClientRect(); return r.left >= 8 && r.right <= window.innerWidth - 8; }
+  function fit(){
+    if(busy) return; busy = true;
+    h = h || document.getElementById('siteHeader'); nav = nav || (h && h.querySelector('nav.links'));
+    if(!h || !nav){ busy = false; return; }
+    h.classList.remove('nav-flow', 'nav-icons');
+    if(window.innerWidth > 860 && overlaps()){
+      h.classList.add('nav-flow');
+      if(!fits()){ h.classList.add('nav-icons'); }
+    }
+    busy = false;
+  }
+  function schedule(){ if(queued) return; queued = true; requestAnimationFrame(function(){ queued = false; fit(); }); }
+  function start(){
+    fit(); window.addEventListener('resize', schedule, { passive:true }); window.addEventListener('load', schedule);
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(schedule); }
+    var hr = document.querySelector('#siteHeader .header-right');
+    if(hr && window.ResizeObserver){ new ResizeObserver(schedule).observe(hr); }
+    setTimeout(schedule, 600); setTimeout(schedule, 2000);
+  }
+  if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', start); } else { start(); }
+})();

@@ -436,3 +436,10 @@
 .ws-head .kicker{display:block;font:500 .78rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-text);margin-bottom:12px}
 .ws-head h3{margin:0;font-size:clamp(1.7rem,3.4vw,2.6rem);letter-spacing:-.02em}
 .ws-head p{margin:12px auto 0;max-width:34em;color:var(--grey-700)}
+
+/* header fit states (set by assets/gc.js) */
+@media (min-width:861px){
+  #siteHeader.nav-flow nav.links{ position:static !important; transform:none !important; margin:0 !important; }
+  #siteHeader.nav-icons .nl{ display:none !important; }
+  #siteHeader.nav-icons nav.links a{ padding:11px !important; }
+}
