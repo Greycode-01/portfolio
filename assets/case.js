@@ -23,11 +23,41 @@ if(home){
   if(!CASES.length){ home.hidden = true; }
   else {
     home.className = 'cs-cards cs-solo reveal in-view';
-    home.innerHTML = cardHTML(CASES[0]);   // the first entry in assets/case-studies.js is the featured one
-    if(CASES.length > 1){
-      var more = document.createElement('div'); more.className = 'cs-more reveal in-view';
-      more.innerHTML = '<a class="cs-morelink sound-click" href="/case-studies">Read other case studies ' + ARROW + '</a><span>' + (CASES.length - 1) + ' more</span>';
-      home.parentNode.insertBefore(more, home.nextSibling);
+    var cur = 0;   // the first entry in assets/case-studies.js is the one shown first
+    home.innerHTML = cardHTML(CASES[0]);
+    var more = document.createElement('div'); more.className = 'cs-more reveal in-view';
+    var PREV = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
+    var multi = CASES.length > 1;
+    more.innerHTML = (multi ? '<div class="cs-pager" role="group" aria-label="Browse case studies">' +
+        '<button type="button" class="cs-nav cs-prev" aria-label="Previous case study">' + PREV + '<span>Previous</span></button>' +
+        '<span class="cs-count" aria-live="polite"></span>' +
+        '<button type="button" class="cs-nav cs-next" aria-label="Next case study"><span>Next</span>' + ARROW + '</button></div>' : '') +
+      '<a class="cs-morelink sound-click" href="/case-studies">Read other case studies ' + ARROW + '</a>';
+    home.parentNode.insertBefore(more, home.nextSibling);
+    var countEl = more.querySelector('.cs-count');
+    function paint(){ if(countEl) countEl.textContent = (cur + 1) + ' / ' + CASES.length; }
+    paint();
+    var swapping = false;
+    function go(step){
+      if(!multi || swapping) return;
+      swapping = true; cur = (cur + step + CASES.length) % CASES.length;
+      var dir = step > 0 ? 'cs-out-l' : 'cs-out-r';
+      home.classList.add(dir);
+      setTimeout(function(){
+        home.innerHTML = cardHTML(CASES[cur]); paint();
+        home.classList.remove(dir); home.classList.add(step > 0 ? 'cs-in-r' : 'cs-in-l');
+        setTimeout(function(){ home.classList.remove('cs-in-r', 'cs-in-l'); swapping = false; }, 260);
+      }, 180);
+    }
+    if(multi){
+      more.querySelector('.cs-prev').addEventListener('click', function(){ go(-1); });
+      more.querySelector('.cs-next').addEventListener('click', function(){ go(1); });
+      var x0 = null, y0 = 0;
+      home.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive:true });
+      home.addEventListener('touchend', function(e){
+        if(x0 == null) return; var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+        if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5){ go(dx < 0 ? 1 : -1); }
+      }, { passive:true });
     }
   }
 }
@@ -82,8 +112,11 @@ if(revs.length){
   }).join('') + '</div></div></section>';
 }
 var nxt = CASES.length > 1 ? CASES[(idx + 1) % CASES.length] : null;
+var prv = CASES.length > 2 ? CASES[(idx - 1 + CASES.length) % CASES.length] : null;
+var ARROWL = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
 out += '<section class="cs-next"><div class="wrap reveal in-view"><div class="cs-next-in"><div><span class="kicker">Next step</span><h2>Have a project in mind?</h2></div>' +
   '<div class="cs-next-actions"><a class="pf-visit sound-click" href="/#contact">Start a project ' + ARROW + '</a>' +
-  (nxt ? '<a class="cs-nextlink" href="/work/' + esc(nxt.slug) + '"><small>Next case study</small>' + esc(nxt.name) + ' ' + ARROW + '</a>' : '') + '</div></div></div></section>';
+  (prv ? '<a class="cs-nextlink cs-prevlink" href="/work/' + esc(prv.slug) + '"><small>Previous case study</small><span class="cs-row">' + ARROWL + esc(prv.name) + '</span></a>' : '') +
+  (nxt ? '<a class="cs-nextlink" href="/work/' + esc(nxt.slug) + '"><small>Next case study</small><span class="cs-row">' + esc(nxt.name) + ARROW + '</span></a>' : '') + '</div></div></div></section>';
 root.innerHTML = out;
 })();
