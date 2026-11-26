@@ -65,6 +65,29 @@ window.GC_CASES = [
     metaDescription: ''
   },
   {
+    slug: 'brontiq',
+    name: 'BRONTIQ MEDIA',
+    industry: 'Media & entertainment — Lagos media house',
+    location: 'Lagos, Nigeria',
+    services: ['Website design & development'],
+    url: 'https://brontiqmedia.com/',
+    cover: 'assets/img/work-brontiq.webp',
+    coverAlt: 'BRONTIQ MEDIA homepage with the headline Your stories. Your entertainment. Your platform., a studio camera photo and a Now on YouTube card',
+    client: 'A Lagos media house with five brands (podcasts, interviews, entertainment news and a talent stage) that needed one website to hold them all.',
+    problem: '',           // TODO (optional)
+    did: [
+      'Designed a multi-page site with room for more brands to be added later',
+      'Led the homepage with a serif headline, real studio photography and a "Live from Lagos" tag, so it reads as a media house at first glance',
+      'Added a Watch & Listen route and a live "Now on YouTube" link to the channel',
+      'Built a clear path for new talent to get on the Spotlight stage',
+      'Used the brand\'s navy, orange and ash with rounded cards and buttons, and included a light and dark toggle'
+    ],
+    gallery: [],
+    result: '',            // TODO (optional): real results only
+    summary: 'A bold, editorial multi-page site for a Lagos media house and its five brands.',
+    metaDescription: ''
+  },
+  {
     slug: 'shayan',
     name: 'Shayan Private Equity',
     industry: 'Fintech — private equity platform',
